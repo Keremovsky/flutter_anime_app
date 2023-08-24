@@ -39,6 +39,24 @@ class AuthController extends StateNotifier<bool> {
     );
   }
 
+  void signInWithEmail(
+      BuildContext context, String email, String password) async {
+    final control = await _authRepository.signInWithEmail(email, password);
+
+    control.fold(
+      (left) {
+        if (left == "firebase_error") {
+          _giveFeedback(context, "Server-side error occurred.");
+        } else {
+          _giveFeedback(context, "Unknown error occurred.");
+        }
+      },
+      (right) {
+        _ref.read(userProvider.notifier).update((state) => right);
+      },
+    );
+  }
+
   void _giveFeedback(BuildContext context, String text) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
