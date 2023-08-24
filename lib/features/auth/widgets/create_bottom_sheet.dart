@@ -1,16 +1,18 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_anime_app/features/auth/controller/auth_controller.dart';
 import 'package:flutter_anime_app/features/auth/widgets/login_bottom_sheet.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CreateBottomSheet extends StatefulWidget {
+class CreateBottomSheet extends ConsumerStatefulWidget {
   const CreateBottomSheet({super.key});
 
   @override
-  State<CreateBottomSheet> createState() => _CreateBottomSheetState();
+  ConsumerState<CreateBottomSheet> createState() => _CreateBottomSheetState();
 }
 
-class _CreateBottomSheetState extends State<CreateBottomSheet> {
+class _CreateBottomSheetState extends ConsumerState<CreateBottomSheet> {
   late String username;
   late String email;
   late String password;
@@ -118,6 +120,13 @@ class _CreateBottomSheetState extends State<CreateBottomSheet> {
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
                     formKey.currentState!.save();
+
+                    ref.read(authControllerProvider.notifier).registerWithEmail(
+                          context,
+                          username,
+                          email,
+                          password,
+                        );
                   }
                 },
                 style: const ButtonStyle(

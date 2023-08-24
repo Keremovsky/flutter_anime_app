@@ -95,6 +95,36 @@ class AuthRepository {
     }
   }
 
+  Future<String> registerWithEmail(
+      String username, String email, String password) async {
+    try {
+      // get user credential with email and password
+      final userCredential = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      // create user model
+      final userModel = UserModel(
+        uid: userCredential.user!.uid,
+        username: username,
+        email: email,
+        registerType: "email",
+      );
+
+      // save user model to database
+      await _usersRef.doc(userCredential.user!.uid).set(userModel.toMap());
+
+      return "success";
+    } on FirebaseAuthException catch (e) {
+      // if a firebase error occurred
+      return "firebase_error";
+    } catch (e) {
+      // if an unknown error occurred
+      return "error";
+    }
+  }
+
   // get user model form database
   Stream<UserModel> _getUserModel(String uid) {
     return _usersRef.doc(uid).snapshots().map(
