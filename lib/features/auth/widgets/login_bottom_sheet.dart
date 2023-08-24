@@ -3,8 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/features/auth/widgets/create_bottom_sheet.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
 
-class LoginBottomSheet extends StatelessWidget {
+class LoginBottomSheet extends StatefulWidget {
   const LoginBottomSheet({super.key});
+
+  @override
+  State<LoginBottomSheet> createState() => _LoginBottomSheetState();
+}
+
+class _LoginBottomSheetState extends State<LoginBottomSheet> {
+  late String email;
+  late String password;
+
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +49,16 @@ class LoginBottomSheet extends StatelessWidget {
                 child: Column(
                   children: [
                     TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Please fill the field";
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        email = value!;
+                        setState(() {});
+                      },
                       decoration: InputDecoration(
                         hintStyle: Theme.of(context)
                             .textTheme
@@ -49,6 +69,16 @@ class LoginBottomSheet extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Please fill the field";
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        password = value!;
+                        setState(() {});
+                      },
                       decoration: InputDecoration(
                         hintStyle: Theme.of(context)
                             .textTheme
@@ -73,7 +103,11 @@ class LoginBottomSheet extends StatelessWidget {
             ),
             const SizedBox(height: 40),
             ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    formKey.currentState!.save();
+                  }
+                },
                 style: const ButtonStyle(
                   minimumSize: MaterialStatePropertyAll<Size>(Size(320, 45)),
                 ),

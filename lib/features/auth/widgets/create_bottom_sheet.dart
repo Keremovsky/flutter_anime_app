@@ -3,8 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/features/auth/widgets/login_bottom_sheet.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
 
-class CreateBottomSheet extends StatelessWidget {
+class CreateBottomSheet extends StatefulWidget {
   const CreateBottomSheet({super.key});
+
+  @override
+  State<CreateBottomSheet> createState() => _CreateBottomSheetState();
+}
+
+class _CreateBottomSheetState extends State<CreateBottomSheet> {
+  late String username;
+  late String email;
+  late String password;
+
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +45,22 @@ class CreateBottomSheet extends StatelessWidget {
             ),
             const SizedBox(height: 30),
             Form(
+              key: formKey,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 40),
                 child: Column(
                   children: [
                     TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Please fill the field";
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        username = value!;
+                        setState(() {});
+                      },
                       decoration: InputDecoration(
                         hintStyle: Theme.of(context)
                             .textTheme
@@ -49,6 +71,16 @@ class CreateBottomSheet extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Please fill the field";
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        email = value!;
+                        setState(() {});
+                      },
                       decoration: InputDecoration(
                         hintStyle: Theme.of(context)
                             .textTheme
@@ -59,6 +91,16 @@ class CreateBottomSheet extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Please fill the field";
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        password = value!;
+                        setState(() {});
+                      },
                       decoration: InputDecoration(
                         hintStyle: Theme.of(context)
                             .textTheme
@@ -73,7 +115,11 @@ class CreateBottomSheet extends StatelessWidget {
             ),
             const SizedBox(height: 40),
             ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    formKey.currentState!.save();
+                  }
+                },
                 style: const ButtonStyle(
                   minimumSize: MaterialStatePropertyAll<Size>(Size(320, 45)),
                 ),
