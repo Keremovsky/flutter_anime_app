@@ -70,6 +70,7 @@ class _CreateBottomSheetState extends ConsumerState<CreateBottomSheet> {
                             .copyWith(color: Palette.grey),
                         hintText: "Username",
                       ),
+                      style: Theme.of(context).textTheme.displayLarge,
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
@@ -90,6 +91,7 @@ class _CreateBottomSheetState extends ConsumerState<CreateBottomSheet> {
                             .copyWith(color: Palette.grey),
                         hintText: "Email",
                       ),
+                      style: Theme.of(context).textTheme.displayLarge,
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
@@ -110,6 +112,7 @@ class _CreateBottomSheetState extends ConsumerState<CreateBottomSheet> {
                             .copyWith(color: Palette.grey),
                         hintText: "Password",
                       ),
+                      style: Theme.of(context).textTheme.displayLarge,
                     ),
                   ],
                 ),

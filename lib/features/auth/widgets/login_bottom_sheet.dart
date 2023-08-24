@@ -46,6 +46,7 @@ class _LoginBottomSheetState extends ConsumerState<LoginBottomSheet> {
             ),
             const SizedBox(height: 30),
             Form(
+              key: formKey,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 40),
                 child: Column(
@@ -68,6 +69,7 @@ class _LoginBottomSheetState extends ConsumerState<LoginBottomSheet> {
                             .copyWith(color: Palette.grey),
                         hintText: "Email",
                       ),
+                      style: Theme.of(context).textTheme.displayLarge,
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
@@ -88,6 +90,7 @@ class _LoginBottomSheetState extends ConsumerState<LoginBottomSheet> {
                             .copyWith(color: Palette.grey),
                         hintText: "Password",
                       ),
+                      style: Theme.of(context).textTheme.displayLarge,
                     ),
                     const SizedBox(height: 10),
                     Row(
