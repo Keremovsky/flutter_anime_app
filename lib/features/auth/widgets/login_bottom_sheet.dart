@@ -45,7 +45,7 @@ class LoginBottomSheet extends StatelessWidget {
                       hintText: "Email",
                     ),
                   ),
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 20),
                   TextFormField(
                     decoration: InputDecoration(
                       hintStyle: Theme.of(context)
@@ -93,8 +93,10 @@ class LoginBottomSheet extends StatelessWidget {
                   recognizer: TapGestureRecognizer()
                     ..onTap = () async {
                       Navigator.pop(context);
+
                       showModalBottomSheet(
                         context: context,
+                        isScrollControlled: true,
                         builder: (context) {
                           return const CreateBottomSheet();
                         },

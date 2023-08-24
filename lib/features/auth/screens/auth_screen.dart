@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/core/constants/constants.dart';
+import 'package:flutter_anime_app/features/auth/controller/auth_controller.dart';
 import 'package:flutter_anime_app/features/auth/widgets/create_bottom_sheet.dart';
 import 'package:flutter_anime_app/features/auth/widgets/login_bottom_sheet.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AuthScreen extends StatelessWidget {
+class AuthScreen extends ConsumerWidget {
   const AuthScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -116,7 +118,9 @@ class AuthScreen extends StatelessWidget {
                   const SizedBox(width: 10),
                   InkWell(
                     onTap: () {
-                      debugPrint("google");
+                      ref
+                          .read(authControllerProvider.notifier)
+                          .signInGoogle(context);
                     },
                     child: SizedBox(
                       height: 30,

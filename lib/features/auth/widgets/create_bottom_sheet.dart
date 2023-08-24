@@ -45,7 +45,7 @@ class CreateBottomSheet extends StatelessWidget {
                       hintText: "Username",
                     ),
                   ),
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 20),
                   TextFormField(
                     decoration: InputDecoration(
                       hintStyle: Theme.of(context)
@@ -55,7 +55,7 @@ class CreateBottomSheet extends StatelessWidget {
                       hintText: "Email",
                     ),
                   ),
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 20),
                   TextFormField(
                     decoration: InputDecoration(
                       hintStyle: Theme.of(context)
@@ -95,6 +95,7 @@ class CreateBottomSheet extends StatelessWidget {
                       Navigator.pop(context);
                       showModalBottomSheet(
                         context: context,
+                        isScrollControlled: true,
                         builder: (context) {
                           return const LoginBottomSheet();
                         },

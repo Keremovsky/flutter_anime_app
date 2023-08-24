@@ -35,25 +35,25 @@ class MyApp extends StatelessWidget {
         textTheme: const TextTheme(
           titleLarge: TextStyle(
             color: Palette.white,
-            fontSize: 30,
+            fontSize: 28,
             fontWeight: FontWeight.w500,
           ),
           titleMedium: TextStyle(
             color: Palette.white,
-            fontSize: 26,
+            fontSize: 24,
             fontWeight: FontWeight.w500,
           ),
           displayLarge: TextStyle(
             color: Palette.white,
-            fontSize: 20,
+            fontSize: 18,
           ),
           displayMedium: TextStyle(
             color: Palette.white,
-            fontSize: 16,
+            fontSize: 14,
           ),
           displaySmall: TextStyle(
             color: Palette.grey,
-            fontSize: 14,
+            fontSize: 12,
           ),
         ),
 
@@ -64,11 +64,17 @@ class MyApp extends StatelessWidget {
           ),
         ),
 
+        // bottom sheet
         bottomSheetTheme: const BottomSheetThemeData(
           backgroundColor: Palette.background,
           dragHandleColor: Palette.mainColor,
           showDragHandle: true,
           dragHandleSize: Size(50, 5),
+        ),
+
+        // snackbar
+        snackBarTheme: const SnackBarThemeData(
+          backgroundColor: Palette.background,
         ),
 
         useMaterial3: true,
