@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: Palette.mainColor,
@@ -27,25 +28,39 @@ class MyApp extends StatelessWidget {
           titleLarge: TextStyle(
             color: Palette.white,
             fontSize: 30,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w500,
           ),
           titleMedium: TextStyle(
             color: Palette.white,
             fontSize: 26,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w500,
           ),
           displayLarge: TextStyle(
             color: Palette.white,
-            fontSize: 18,
+            fontSize: 20,
           ),
           displayMedium: TextStyle(
             color: Palette.white,
-            fontSize: 14,
+            fontSize: 16,
           ),
           displaySmall: TextStyle(
             color: Palette.grey,
-            fontSize: 12,
+            fontSize: 14,
           ),
+        ),
+
+        // elevated button
+        elevatedButtonTheme: const ElevatedButtonThemeData(
+          style: ButtonStyle(
+            backgroundColor: MaterialStatePropertyAll<Color>(Palette.mainColor),
+          ),
+        ),
+
+        bottomSheetTheme: const BottomSheetThemeData(
+          backgroundColor: Palette.background,
+          dragHandleColor: Palette.mainColor,
+          showDragHandle: true,
+          dragHandleSize: Size(50, 5),
         ),
 
         useMaterial3: true,
