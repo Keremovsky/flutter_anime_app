@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "140754749739",
+    "project_id": "flutter-anime-app",
+    "storage_bucket": "flutter-anime-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:140754749739:android:85854541fad01f66c45d6e",
+        "android_client_info": {
+          "package_name": "com.example.flutter_anime_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "140754749739-5apfhi2922rou9h05ajvdvfbh6akrc0m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flutter_anime_app",
+            "certificate_hash": "72896602c3cfe46940ac5272f4a96d3bf4bad45a"
+          }
+        },
+        {
+          "client_id": "140754749739-1n5u4j0r733unj17s96qnn2su5j3jor8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-5aaZd_JILyDPKYD5hBPpCZrCCnqkmqs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "140754749739-1n5u4j0r733unj17s96qnn2su5j3jor8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "140754749739-nvl1337na2hqe0ict87dcv272hvlq0n4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.flutterAnimeApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
