@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:either_dart/either.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/core/providers/firebase_providers.dart';
 import 'package:flutter_anime_app/models/user_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,7 +25,7 @@ class AuthRepository {
         _google = google,
         _firestore = firestore;
 
-  Future<Either<String, UserModel>> signInGoogle() async {
+  Future<Either<String, UserModel>> signInWithGoogle() async {
     try {
       final GoogleSignInAccount? googleUser = await _google.signIn();
 
@@ -63,6 +64,8 @@ class AuthRepository {
         userModel = await _getUserModel(userCredential.user!.uid).first;
       }
 
+      debugPrint(userModel.toString());
+
       return Right(userModel);
     } on FirebaseAuthException catch (e) {
       // if a firebase error occurred
@@ -84,6 +87,8 @@ class AuthRepository {
 
       // get user model
       final userModel = await _getUserModel(userCredential.user!.uid).first;
+
+      debugPrint(userModel.toString());
 
       return Right(userModel);
     } on FirebaseAuthException catch (e) {
@@ -114,6 +119,21 @@ class AuthRepository {
 
       // save user model to database
       await _usersRef.doc(userCredential.user!.uid).set(userModel.toMap());
+
+      return "success";
+    } on FirebaseAuthException catch (e) {
+      // if a firebase error occurred
+      return "firebase_error";
+    } catch (e) {
+      // if an unknown error occurred
+      return "error";
+    }
+  }
+
+  Future<String> resetPassword(String email) async {
+    try {
+      // send mail to reset password
+      await _auth.sendPasswordResetEmail(email: email);
 
       return "success";
     } on FirebaseAuthException catch (e) {

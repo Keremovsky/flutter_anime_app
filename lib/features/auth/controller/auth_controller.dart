@@ -21,7 +21,7 @@ class AuthController extends StateNotifier<bool> {
         super(false);
 
   void signInGoogle(BuildContext context) async {
-    final control = await _authRepository.signInGoogle();
+    final control = await _authRepository.signInWithGoogle();
 
     control.fold(
       (left) {
@@ -73,10 +73,25 @@ class AuthController extends StateNotifier<bool> {
     }
   }
 
+  void resetPassword(BuildContext context, String email) async {
+    final control = await _authRepository.resetPassword(email);
+
+    if (mounted) {
+      if (control == "success") {
+        _giveFeedback(context, "An email sent to your mail address.");
+      } else if (control == "firebase_error") {
+        _giveFeedback(context, "Server-side error occurred.");
+      } else {
+        _giveFeedback(context, "Unknown error occurred.");
+      }
+    }
+  }
+
   void _giveFeedback(BuildContext context, String text) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(text),
+        behavior: SnackBarBehavior.floating,
         duration: const Duration(seconds: 1),
       ),
     );

@@ -2,18 +2,18 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/features/auth/controller/auth_controller.dart';
 import 'package:flutter_anime_app/features/auth/widgets/create_bottom_sheet.dart';
-import 'package:flutter_anime_app/features/auth/widgets/reset_password_bottom_sheet.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginBottomSheet extends ConsumerStatefulWidget {
-  const LoginBottomSheet({super.key});
+class ResetPasswordBottomSheet extends ConsumerStatefulWidget {
+  const ResetPasswordBottomSheet({super.key});
 
   @override
-  ConsumerState<LoginBottomSheet> createState() => _LoginBottomSheetState();
+  ConsumerState<ResetPasswordBottomSheet> createState() =>
+      _LoginBottomSheetState();
 }
 
-class _LoginBottomSheetState extends ConsumerState<LoginBottomSheet> {
+class _LoginBottomSheetState extends ConsumerState<ResetPasswordBottomSheet> {
   late String email;
   late String password;
 
@@ -33,9 +33,9 @@ class _LoginBottomSheetState extends ConsumerState<LoginBottomSheet> {
             RichText(
               text: TextSpan(
                 children: [
-                  const TextSpan(text: "Welcome to "),
+                  const TextSpan(text: "Reset Your "),
                   TextSpan(
-                    text: "AnimeApp",
+                    text: "Password",
                     style: Theme.of(context)
                         .textTheme
                         .titleLarge!
@@ -72,48 +72,6 @@ class _LoginBottomSheetState extends ConsumerState<LoginBottomSheet> {
                       ),
                       style: Theme.of(context).textTheme.displayLarge,
                     ),
-                    const SizedBox(height: 20),
-                    TextFormField(
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Please fill the field";
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        password = value!;
-                        setState(() {});
-                      },
-                      decoration: InputDecoration(
-                        hintStyle: Theme.of(context)
-                            .textTheme
-                            .displayLarge!
-                            .copyWith(color: Palette.grey),
-                        hintText: "Password",
-                      ),
-                      style: Theme.of(context).textTheme.displayLarge,
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            showModalBottomSheet(
-                              context: context,
-                              isScrollControlled: true,
-                              builder: (context) {
-                                return const ResetPasswordBottomSheet();
-                              },
-                            );
-                          },
-                          child: Text(
-                            "Forgot Password?",
-                            style: Theme.of(context).textTheme.displaySmall,
-                          ),
-                        )
-                      ],
-                    )
                   ],
                 ),
               ),
@@ -126,14 +84,14 @@ class _LoginBottomSheetState extends ConsumerState<LoginBottomSheet> {
 
                     ref
                         .read(authControllerProvider.notifier)
-                        .signInWithEmail(context, email, password);
+                        .resetPassword(context, email);
                   }
                 },
                 style: const ButtonStyle(
                   minimumSize: MaterialStatePropertyAll<Size>(Size(320, 45)),
                 ),
                 child: Text(
-                  "LOGIN",
+                  "RESET PASSWORD",
                   style: Theme.of(context).textTheme.displayLarge,
                 )),
             const Spacer(),
