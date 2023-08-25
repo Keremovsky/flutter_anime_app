@@ -20,13 +20,32 @@ class AuthController extends StateNotifier<bool> {
         _ref = ref,
         super(false);
 
-  void signInGoogle(BuildContext context) async {
+  void signInWithGoogle(BuildContext context) async {
     final control = await _authRepository.signInWithGoogle();
 
     control.fold(
       (left) {
         if (left == "no_selection") {
           _giveFeedback(context, "Google account is not selected.");
+        } else if (left == "firebase_error") {
+          _giveFeedback(context, "Server-side error occurred.");
+        } else {
+          _giveFeedback(context, "Unknown error occurred.");
+        }
+      },
+      (right) {
+        _ref.read(userProvider.notifier).update((state) => right);
+      },
+    );
+  }
+
+  void signInWithTwitter(BuildContext context) async {
+    final control = await _authRepository.signInWithTwitter();
+
+    control.fold(
+      (left) {
+        if (left == "cancel") {
+          _giveFeedback(context, "Twitter account is not selected.");
         } else if (left == "firebase_error") {
           _giveFeedback(context, "Server-side error occurred.");
         } else {
@@ -92,7 +111,7 @@ class AuthController extends StateNotifier<bool> {
       SnackBar(
         content: Text(text),
         behavior: SnackBarBehavior.floating,
-        duration: const Duration(seconds: 1),
+        duration: const Duration(seconds: 2),
       ),
     );
   }

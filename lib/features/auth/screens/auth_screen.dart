@@ -101,7 +101,9 @@ class AuthScreen extends ConsumerWidget {
                   const SizedBox(width: 10),
                   InkWell(
                     onTap: () {
-                      debugPrint("twitter");
+                      ref
+                          .read(authControllerProvider.notifier)
+                          .signInWithTwitter(context);
                     },
                     child: SizedBox(
                       height: 30,
@@ -120,7 +122,7 @@ class AuthScreen extends ConsumerWidget {
                     onTap: () {
                       ref
                           .read(authControllerProvider.notifier)
-                          .signInGoogle(context);
+                          .signInWithGoogle(context);
                     },
                     child: SizedBox(
                       height: 30,
