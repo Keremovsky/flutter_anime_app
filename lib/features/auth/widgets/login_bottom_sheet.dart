@@ -17,6 +17,8 @@ class _LoginBottomSheetState extends ConsumerState<LoginBottomSheet> {
   late String email;
   late String password;
 
+  bool hidePassword = true;
+
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -54,6 +56,7 @@ class _LoginBottomSheetState extends ConsumerState<LoginBottomSheet> {
                   child: Column(
                     children: [
                       TextFormField(
+                        keyboardType: TextInputType.emailAddress,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "Please fill the field";
@@ -75,6 +78,7 @@ class _LoginBottomSheetState extends ConsumerState<LoginBottomSheet> {
                       ),
                       const SizedBox(height: 20),
                       TextFormField(
+                        obscureText: hidePassword,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "Please fill the field";
@@ -91,6 +95,21 @@ class _LoginBottomSheetState extends ConsumerState<LoginBottomSheet> {
                               .displayLarge!
                               .copyWith(color: Palette.grey),
                           hintText: "Password",
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              hidePassword = !hidePassword;
+                              setState(() {});
+                            },
+                            icon: hidePassword
+                                ? const Icon(
+                                    Icons.remove_red_eye_outlined,
+                                    color: Palette.mainColor,
+                                  )
+                                : const Icon(
+                                    Icons.remove_red_eye,
+                                    color: Palette.mainColor,
+                                  ),
+                          ),
                         ),
                         style: Theme.of(context).textTheme.displayLarge,
                       ),
