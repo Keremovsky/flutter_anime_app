@@ -75,7 +75,7 @@ class _CreateBottomSheetState extends ConsumerState<CreateBottomSheet> {
                         ),
                         style: Theme.of(context).textTheme.displayLarge,
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 15),
                       TextFormField(
                         keyboardType: TextInputType.emailAddress,
                         validator: (value) {
@@ -97,7 +97,7 @@ class _CreateBottomSheetState extends ConsumerState<CreateBottomSheet> {
                         ),
                         style: Theme.of(context).textTheme.displayLarge,
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 15),
                       TextFormField(
                         obscureText: hidePassword,
                         validator: (value) {
@@ -165,7 +165,7 @@ class _CreateBottomSheetState extends ConsumerState<CreateBottomSheet> {
                   ),
                 ),
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 25),
               ElevatedButton(
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
