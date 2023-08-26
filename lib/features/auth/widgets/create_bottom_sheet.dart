@@ -29,7 +29,6 @@ class _CreateBottomSheetState extends ConsumerState<CreateBottomSheet> {
         height: height * 0.55,
         width: double.infinity,
         child: Scaffold(
-          backgroundColor: Colors.transparent,
           body: Column(
             children: [
               RichText(

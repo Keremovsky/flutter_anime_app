@@ -24,12 +24,16 @@ class AuthController extends StateNotifier<bool> {
 
     control.fold(
       (left) {
-        if (left == "no_selection") {
+        if (left == "cancel") {
           _giveFeedback(context, "Google account is not selected.");
-        } else if (left == "firebase_error") {
-          _giveFeedback(context, "Server-side error occurred.");
-        } else {
+        } else if (left == "account-exists-with-different-credential") {
+          _giveFeedback(context, "Account exist with another provider.");
+        } else if (left == "user-disabled") {
+          _giveFeedback(context, "Account is disabled.");
+        } else if (left == "error") {
           _giveFeedback(context, "Unknown error occurred.");
+        } else {
+          _giveFeedback(context, "Unknown server-side error occurred.");
         }
       },
       (right) {
@@ -45,10 +49,14 @@ class AuthController extends StateNotifier<bool> {
       (left) {
         if (left == "cancel") {
           _giveFeedback(context, "Twitter account is not selected.");
-        } else if (left == "firebase_error") {
-          _giveFeedback(context, "Server-side error occurred.");
-        } else {
+        } else if (left == "account-exists-with-different-credential") {
+          _giveFeedback(context, "Account exist with another provider.");
+        } else if (left == "user-disabled") {
+          _giveFeedback(context, "Account is disabled.");
+        } else if (left == "error") {
           _giveFeedback(context, "Unknown error occurred.");
+        } else {
+          _giveFeedback(context, "Unknown server-side error occurred.");
         }
       },
       (right) {
@@ -63,8 +71,14 @@ class AuthController extends StateNotifier<bool> {
 
     control.fold(
       (left) {
-        if (left == "firebase_error") {
-          _giveFeedback(context, "Server-side error occurred.");
+        if (left == "wrong-password") {
+          _giveFeedback(context, "Password is not correct.");
+        } else if (left == "invalid-email") {
+          _giveFeedback(context, "Email address is not valid.");
+        } else if (left == "user-disabled") {
+          _giveFeedback(context, "Account is disabled.");
+        } else if (left == "user-not-found") {
+          _giveFeedback(context, "There is no user with given email.");
         } else {
           _giveFeedback(context, "Unknown error occurred.");
         }
@@ -83,8 +97,13 @@ class AuthController extends StateNotifier<bool> {
     if (mounted) {
       if (control == "success") {
         _giveFeedback(context, "Registration is successful.");
-      } else if (control == "firebase_error") {
-        _giveFeedback(context, "Server-side error occurred.");
+      } else if (control == "email-already-in-use") {
+        _giveFeedback(
+            context, "There already exist an account with given email.");
+      } else if (control == "invalid-email") {
+        _giveFeedback(context, "Email address is not valid.");
+      } else if (control == "weak-password") {
+        _giveFeedback(context, "Given password is weak.");
       } else {
         _giveFeedback(context, "Unknown error occurred.");
       }

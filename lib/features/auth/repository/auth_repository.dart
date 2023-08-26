@@ -33,7 +33,7 @@ class AuthRepository {
 
       // if user didn't select any google profile
       if (googleUser == null) {
-        return const Left("no_selection");
+        return const Left("cancel");
       }
 
       // create credential with tokens
@@ -71,7 +71,7 @@ class AuthRepository {
       return Right(userModel);
     } on FirebaseAuthException catch (e) {
       // if a firebase error occurred
-      return const Left("firebase_error");
+      return Left(e.toString());
     } catch (e) {
       // if an unknown error occurred
       return const Left("error");
@@ -120,8 +120,6 @@ class AuthRepository {
           userModel = await _getUserModel(userCredential.user!.uid);
         }
 
-        debugPrint(userModel.toString());
-
         return Right(userModel);
       } else if (twitterStatus == TwitterLoginStatus.cancelledByUser) {
         return const Left("cancel");
@@ -130,7 +128,7 @@ class AuthRepository {
       }
     } on FirebaseAuthException catch (e) {
       // if a firebase error occurred
-      return const Left("firebase_error");
+      return Left(e.code);
     } catch (e) {
       // if an unknown error occurred
       return const Left("error");
@@ -154,7 +152,7 @@ class AuthRepository {
       return Right(userModel);
     } on FirebaseAuthException catch (e) {
       // if a firebase error occurred
-      return const Left("firebase_error");
+      return Left(e.code);
     } catch (e) {
       // if an unknown error occurred
       return const Left("error");
@@ -186,7 +184,7 @@ class AuthRepository {
       return "success";
     } on FirebaseAuthException catch (e) {
       // if a firebase error occurred
-      return "firebase_error";
+      return e.code;
     } catch (e) {
       // if an unknown error occurred
       return "error";
@@ -201,7 +199,7 @@ class AuthRepository {
       return "success";
     } on FirebaseAuthException catch (e) {
       // if a firebase error occurred
-      return "firebase_error";
+      return e.code;
     } catch (e) {
       // if an unknown error occurred
       return "error";
