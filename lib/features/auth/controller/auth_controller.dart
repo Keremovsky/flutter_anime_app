@@ -116,8 +116,10 @@ class AuthController extends StateNotifier<bool> {
     if (mounted) {
       if (control == "success") {
         _giveFeedback(context, "An email sent to your mail address.");
-      } else if (control == "firebase_error") {
-        _giveFeedback(context, "Server-side error occurred.");
+      } else if (control == "invalid-email") {
+        _giveFeedback(context, "Email address is not valid.");
+      } else if (control == "user-not-found") {
+        _giveFeedback(context, "There is no user with given email.");
       } else {
         _giveFeedback(context, "Unknown error occurred.");
       }
