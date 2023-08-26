@@ -42,6 +42,7 @@ dependencies:
   flutter_riverpod: ^2.3.7
   either_dart: ^1.0.0
   twitter_login: ^4.4.2
+  smooth_page_indicator: ^1.1.0
 
 dev_dependencies:
   flutter_test:

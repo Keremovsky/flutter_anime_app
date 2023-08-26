@@ -84,11 +84,15 @@ class MyApp extends StatelessWidget {
             backgroundColor: Palette.background,
           ),
 
+          drawerTheme: const DrawerThemeData(
+            backgroundColor: Palette.background,
+          ),
+
           useMaterial3: true,
         ),
         routes: {
           "/": (context) => const AuthScreen(),
-          HomeScreen.routeName: (context) => HomeScreen(),
+          HomeScreen.routeName: (context) => const HomeScreen(),
         });
   }
 }
