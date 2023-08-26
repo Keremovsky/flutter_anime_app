@@ -30,194 +30,190 @@ class _CreateBottomSheetState extends ConsumerState<CreateBottomSheet> {
       child: SizedBox(
         height: height * 0.55,
         width: double.infinity,
-        child: Scaffold(
-          body: Column(
-            children: [
-              RichText(
-                text: TextSpan(
-                  children: [
-                    const TextSpan(text: "Register and Watch "),
-                    TextSpan(
-                      text: "Anime",
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge!
-                          .copyWith(color: Palette.mainColor),
-                    ),
-                  ],
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
+        child: Column(
+          children: [
+            RichText(
+              text: TextSpan(
+                children: [
+                  const TextSpan(text: "Register and Watch "),
+                  TextSpan(
+                    text: "Anime",
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge!
+                        .copyWith(color: Palette.mainColor),
+                  ),
+                ],
+                style: Theme.of(context).textTheme.titleLarge,
               ),
-              const SizedBox(height: 30),
-              Form(
-                key: formKey,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 40),
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Please fill the field";
-                          }
-                          return null;
-                        },
-                        onSaved: (value) {
-                          username = value!;
-                          setState(() {});
-                        },
-                        decoration: InputDecoration(
-                          hintStyle: Theme.of(context)
-                              .textTheme
-                              .displayLarge!
-                              .copyWith(color: Palette.grey),
-                          hintText: "Username",
-                        ),
-                        style: Theme.of(context).textTheme.displayLarge,
+            ),
+            const SizedBox(height: 30),
+            Form(
+              key: formKey,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 40),
+                child: Column(
+                  children: [
+                    TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Please fill the field";
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        username = value!;
+                        setState(() {});
+                      },
+                      decoration: InputDecoration(
+                        hintStyle: Theme.of(context)
+                            .textTheme
+                            .displayLarge!
+                            .copyWith(color: Palette.grey),
+                        hintText: "Username",
                       ),
-                      const SizedBox(height: 15),
-                      TextFormField(
-                        keyboardType: TextInputType.emailAddress,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Please fill the field";
-                          }
-                          return null;
-                        },
-                        onSaved: (value) {
-                          email = value!;
-                          setState(() {});
-                        },
-                        decoration: InputDecoration(
-                          hintStyle: Theme.of(context)
-                              .textTheme
-                              .displayLarge!
-                              .copyWith(color: Palette.grey),
-                          hintText: "Email",
-                        ),
-                        style: Theme.of(context).textTheme.displayLarge,
+                      style: Theme.of(context).textTheme.displayLarge,
+                    ),
+                    const SizedBox(height: 15),
+                    TextFormField(
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Please fill the field";
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        email = value!;
+                        setState(() {});
+                      },
+                      decoration: InputDecoration(
+                        hintStyle: Theme.of(context)
+                            .textTheme
+                            .displayLarge!
+                            .copyWith(color: Palette.grey),
+                        hintText: "Email",
                       ),
-                      const SizedBox(height: 15),
-                      TextFormField(
-                        obscureText: hidePassword,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Please fill the field";
-                          }
-                          return null;
-                        },
-                        onSaved: (value) {
-                          password = value!;
-                          setState(() {});
-                        },
-                        decoration: InputDecoration(
-                          hintStyle: Theme.of(context)
-                              .textTheme
-                              .displayLarge!
-                              .copyWith(color: Palette.grey),
-                          hintText: "Password",
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              hidePassword = !hidePassword;
-                              setState(() {});
-                            },
-                            icon: hidePassword
-                                ? const Icon(
-                                    Icons.remove_red_eye_outlined,
-                                    color: Palette.mainColor,
-                                  )
-                                : const Icon(
-                                    Icons.remove_red_eye,
-                                    color: Palette.mainColor,
-                                  ),
-                          ),
-                        ),
-                        style: Theme.of(context).textTheme.displayLarge,
-                      ),
-                      const SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Tooltip(
-                            waitDuration: const Duration(seconds: 1),
-                            triggerMode: TooltipTriggerMode.longPress,
-                            decoration: BoxDecoration(
-                              color: Palette.background.withOpacity(0.95),
-                            ),
-                            richMessage: WidgetSpan(
-                              child: SizedBox(
-                                width: 220,
-                                child: Text(
-                                  "-Between 8 and 12 characters\n\n-At least one number (0-9)\n\n-At least one uppercase letter(A-Z)\n\n-At least one lowercase letter (a-z)",
-                                  style:
-                                      Theme.of(context).textTheme.displayMedium,
+                      style: Theme.of(context).textTheme.displayLarge,
+                    ),
+                    const SizedBox(height: 15),
+                    TextFormField(
+                      obscureText: hidePassword,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Please fill the field";
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        password = value!;
+                        setState(() {});
+                      },
+                      decoration: InputDecoration(
+                        hintStyle: Theme.of(context)
+                            .textTheme
+                            .displayLarge!
+                            .copyWith(color: Palette.grey),
+                        hintText: "Password",
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            hidePassword = !hidePassword;
+                            setState(() {});
+                          },
+                          icon: hidePassword
+                              ? const Icon(
+                                  Icons.remove_red_eye_outlined,
+                                  color: Palette.mainColor,
+                                )
+                              : const Icon(
+                                  Icons.remove_red_eye,
+                                  color: Palette.mainColor,
                                 ),
+                        ),
+                      ),
+                      style: Theme.of(context).textTheme.displayLarge,
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Tooltip(
+                          waitDuration: const Duration(seconds: 1),
+                          triggerMode: TooltipTriggerMode.longPress,
+                          decoration: BoxDecoration(
+                            color: Palette.background.withOpacity(0.95),
+                          ),
+                          richMessage: WidgetSpan(
+                            child: SizedBox(
+                              width: 220,
+                              child: Text(
+                                "-Between 8 and 12 characters\n\n-At least one number (0-9)\n\n-At least one uppercase letter(A-Z)\n\n-At least one lowercase letter (a-z)",
+                                style:
+                                    Theme.of(context).textTheme.displayMedium,
                               ),
                             ),
-                            child: Text(
-                              "Password requirements.",
-                              style: Theme.of(context).textTheme.displaySmall,
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 25),
-              ElevatedButton(
-                  onPressed: () {
-                    if (formKey.currentState!.validate()) {
-                      formKey.currentState!.save();
-
-                      ref
-                          .read(authControllerProvider.notifier)
-                          .registerWithEmail(
-                            context,
-                            username,
-                            email,
-                            password,
-                          );
-                    }
-                  },
-                  style: const ButtonStyle(
-                    minimumSize: MaterialStatePropertyAll<Size>(Size(320, 45)),
-                  ),
-                  child: Text(
-                    "REGISTER",
-                    style: Theme.of(context).textTheme.displayLarge,
-                  )),
-              const Spacer(),
-              RichText(
-                text: TextSpan(
-                  children: [
-                    const TextSpan(text: "Already have account? "),
-                    TextSpan(
-                      text: "Login right now!",
-                      style: Theme.of(context)
-                          .textTheme
-                          .displayMedium!
-                          .copyWith(color: Palette.mainColor),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () {
-                          Navigator.pop(context);
-                          showModalBottomSheet(
-                            context: context,
-                            isScrollControlled: true,
-                            builder: (context) {
-                              return const LoginBottomSheet();
-                            },
-                          );
-                        },
+                          ),
+                          child: Text(
+                            "Password requirements.",
+                            style: Theme.of(context).textTheme.displaySmall,
+                          ),
+                        )
+                      ],
                     ),
                   ],
-                  style: Theme.of(context).textTheme.displayMedium,
                 ),
               ),
-              const SizedBox(height: 20),
-            ],
-          ),
+            ),
+            const SizedBox(height: 25),
+            ElevatedButton(
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    formKey.currentState!.save();
+
+                    ref.read(authControllerProvider.notifier).registerWithEmail(
+                          context,
+                          username,
+                          email,
+                          password,
+                        );
+                  }
+                },
+                style: const ButtonStyle(
+                  minimumSize: MaterialStatePropertyAll<Size>(Size(320, 45)),
+                ),
+                child: Text(
+                  "REGISTER",
+                  style: Theme.of(context).textTheme.displayLarge,
+                )),
+            const Spacer(),
+            RichText(
+              text: TextSpan(
+                children: [
+                  const TextSpan(text: "Already have account? "),
+                  TextSpan(
+                    text: "Login right now!",
+                    style: Theme.of(context)
+                        .textTheme
+                        .displayMedium!
+                        .copyWith(color: Palette.mainColor),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        Navigator.pop(context);
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          builder: (context) {
+                            return const LoginBottomSheet();
+                          },
+                        );
+                      },
+                  ),
+                ],
+                style: Theme.of(context).textTheme.displayMedium,
+              ),
+            ),
+            const SizedBox(height: 20),
+          ],
         ),
       ),
     );
