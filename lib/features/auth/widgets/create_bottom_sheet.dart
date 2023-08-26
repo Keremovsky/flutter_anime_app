@@ -134,6 +134,33 @@ class _CreateBottomSheetState extends ConsumerState<CreateBottomSheet> {
                         ),
                         style: Theme.of(context).textTheme.displayLarge,
                       ),
+                      const SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Tooltip(
+                            waitDuration: const Duration(seconds: 1),
+                            triggerMode: TooltipTriggerMode.longPress,
+                            decoration: BoxDecoration(
+                              color: Palette.background.withOpacity(0.95),
+                            ),
+                            richMessage: WidgetSpan(
+                              child: SizedBox(
+                                width: 220,
+                                child: Text(
+                                  "-Between 8 and 12 characters\n\n-At least one number (0-9)\n\n-At least one uppercase letter(A-Z)\n\n-At least one lowercase letter (a-z)",
+                                  style:
+                                      Theme.of(context).textTheme.displayMedium,
+                                ),
+                              ),
+                            ),
+                            child: Text(
+                              "Password requirements.",
+                              style: Theme.of(context).textTheme.displaySmall,
+                            ),
+                          )
+                        ],
+                      ),
                     ],
                   ),
                 ),

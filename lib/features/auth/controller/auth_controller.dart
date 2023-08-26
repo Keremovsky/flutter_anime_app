@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_anime_app/core/utils.dart';
 import 'package:flutter_anime_app/features/auth/repository/auth_repository.dart';
 import 'package:flutter_anime_app/models/user_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,15 +26,15 @@ class AuthController extends StateNotifier<bool> {
     control.fold(
       (left) {
         if (left == "cancel") {
-          _giveFeedback(context, "Google account is not selected.");
+          giveFeedback(context, "Google account is not selected.");
         } else if (left == "account-exists-with-different-credential") {
-          _giveFeedback(context, "Account exist with another provider.");
+          giveFeedback(context, "Account exist with another provider.");
         } else if (left == "user-disabled") {
-          _giveFeedback(context, "Account is disabled.");
+          giveFeedback(context, "Account is disabled.");
         } else if (left == "error") {
-          _giveFeedback(context, "Unknown error occurred.");
+          giveFeedback(context, "Unknown error occurred.");
         } else {
-          _giveFeedback(context, "Unknown server-side error occurred.");
+          giveFeedback(context, "Unknown server-side error occurred.");
         }
       },
       (right) {
@@ -48,15 +49,15 @@ class AuthController extends StateNotifier<bool> {
     control.fold(
       (left) {
         if (left == "cancel") {
-          _giveFeedback(context, "Twitter account is not selected.");
+          giveFeedback(context, "Twitter account is not selected.");
         } else if (left == "account-exists-with-different-credential") {
-          _giveFeedback(context, "Account exist with another provider.");
+          giveFeedback(context, "Account exist with another provider.");
         } else if (left == "user-disabled") {
-          _giveFeedback(context, "Account is disabled.");
+          giveFeedback(context, "Account is disabled.");
         } else if (left == "error") {
-          _giveFeedback(context, "Unknown error occurred.");
+          giveFeedback(context, "Unknown error occurred.");
         } else {
-          _giveFeedback(context, "Unknown server-side error occurred.");
+          giveFeedback(context, "Unknown server-side error occurred.");
         }
       },
       (right) {
@@ -72,15 +73,15 @@ class AuthController extends StateNotifier<bool> {
     control.fold(
       (left) {
         if (left == "wrong-password") {
-          _giveFeedback(context, "Password is not correct.");
+          giveFeedback(context, "Password is not correct.");
         } else if (left == "invalid-email") {
-          _giveFeedback(context, "Email address is not valid.");
+          giveFeedback(context, "Email address is not valid.");
         } else if (left == "user-disabled") {
-          _giveFeedback(context, "Account is disabled.");
+          giveFeedback(context, "Account is disabled.");
         } else if (left == "user-not-found") {
-          _giveFeedback(context, "There is no user with given email.");
+          giveFeedback(context, "There is no user with given email.");
         } else {
-          _giveFeedback(context, "Unknown error occurred.");
+          giveFeedback(context, "Unknown error occurred.");
         }
       },
       (right) {
@@ -91,21 +92,26 @@ class AuthController extends StateNotifier<bool> {
 
   void registerWithEmail(BuildContext context, String username, String email,
       String password) async {
+    if (!passwordValidator(password)) {
+      giveFeedback(context, "Password requirements are not met.");
+      return;
+    }
+
     final control =
         await _authRepository.registerWithEmail(username, email, password);
 
     if (mounted) {
       if (control == "success") {
-        _giveFeedback(context, "Registration is successful.");
+        giveFeedback(context, "Registration is successful.");
       } else if (control == "email-already-in-use") {
-        _giveFeedback(
+        giveFeedback(
             context, "There already exist an account with given email.");
       } else if (control == "invalid-email") {
-        _giveFeedback(context, "Email address is not valid.");
+        giveFeedback(context, "Email address is not valid.");
       } else if (control == "weak-password") {
-        _giveFeedback(context, "Given password is weak.");
+        giveFeedback(context, "Given password is weak.");
       } else {
-        _giveFeedback(context, "Unknown error occurred.");
+        giveFeedback(context, "Unknown error occurred.");
       }
     }
   }
@@ -115,24 +121,14 @@ class AuthController extends StateNotifier<bool> {
 
     if (mounted) {
       if (control == "success") {
-        _giveFeedback(context, "An email sent to your mail address.");
+        giveFeedback(context, "An email sent to your mail address.");
       } else if (control == "invalid-email") {
-        _giveFeedback(context, "Email address is not valid.");
+        giveFeedback(context, "Email address is not valid.");
       } else if (control == "user-not-found") {
-        _giveFeedback(context, "There is no user with given email.");
+        giveFeedback(context, "There is no user with given email.");
       } else {
-        _giveFeedback(context, "Unknown error occurred.");
+        giveFeedback(context, "Unknown error occurred.");
       }
     }
-  }
-
-  void _giveFeedback(BuildContext context, String text) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(text),
-        behavior: SnackBarBehavior.floating,
-        duration: const Duration(seconds: 2),
-      ),
-    );
   }
 }
