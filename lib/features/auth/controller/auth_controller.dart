@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/core/utils.dart';
 import 'package:flutter_anime_app/features/auth/repository/auth_repository.dart';
-import 'package:flutter_anime_app/features/home/screens/home_screen.dart';
+import 'package:flutter_anime_app/features/home/screens/main_screen.dart';
 import 'package:flutter_anime_app/models/user_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -42,7 +42,7 @@ class AuthController extends StateNotifier<bool> {
         _ref.read(userProvider.notifier).update((state) => right);
 
         Navigator.of(context).pop();
-        Navigator.of(context).popAndPushNamed(HomeScreen.routeName);
+        Navigator.of(context).popAndPushNamed(MainScreen.routeName);
       },
     );
   }
@@ -68,7 +68,7 @@ class AuthController extends StateNotifier<bool> {
         _ref.read(userProvider.notifier).update((state) => right);
 
         Navigator.of(context).pop();
-        Navigator.of(context).popAndPushNamed(HomeScreen.routeName);
+        Navigator.of(context).popAndPushNamed(MainScreen.routeName);
       },
     );
   }
@@ -95,7 +95,7 @@ class AuthController extends StateNotifier<bool> {
         _ref.read(userProvider.notifier).update((state) => right);
 
         Navigator.of(context).pop();
-        Navigator.of(context).popAndPushNamed(HomeScreen.routeName);
+        Navigator.of(context).popAndPushNamed(MainScreen.routeName);
       },
     );
   }

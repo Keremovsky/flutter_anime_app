@@ -15,7 +15,7 @@ class AnimeBox extends StatelessWidget {
             width: 120,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              image: DecorationImage(
+              image: const DecorationImage(
                 image: NetworkImage(
                     "https://www.crunchyroll.com/imgsrv/display/thumbnail/480x720/catalog/crunchyroll/98034e78c5ab24fab83db14c22ebf91f.jpe"),
               ),
