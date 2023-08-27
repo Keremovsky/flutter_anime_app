@@ -53,8 +53,8 @@ class MyApp extends StatelessWidget {
               fontSize: 14,
             ),
             displaySmall: TextStyle(
-              color: Palette.grey,
-              fontSize: 12,
+              color: Palette.white,
+              fontSize: 10,
             ),
           ),
 
@@ -64,6 +64,11 @@ class MyApp extends StatelessWidget {
               backgroundColor:
                   MaterialStatePropertyAll<Color>(Palette.mainColor),
             ),
+          ),
+
+          // icon
+          iconTheme: const IconThemeData(
+            color: Palette.white,
           ),
 
           // bottom sheet
@@ -84,8 +89,19 @@ class MyApp extends StatelessWidget {
             backgroundColor: Palette.background,
           ),
 
+          // drawer
           drawerTheme: const DrawerThemeData(
             backgroundColor: Palette.background,
+          ),
+
+          // floating action
+          floatingActionButtonTheme: const FloatingActionButtonThemeData(
+            backgroundColor: Palette.mainColor,
+          ),
+
+          // bottom app bar
+          bottomAppBarTheme: const BottomAppBarTheme(
+            color: Palette.background,
           ),
 
           useMaterial3: true,

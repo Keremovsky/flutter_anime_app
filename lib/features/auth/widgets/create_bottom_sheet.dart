@@ -35,7 +35,7 @@ class _CreateBottomSheetState extends ConsumerState<CreateBottomSheet> {
             RichText(
               text: TextSpan(
                 children: [
-                  const TextSpan(text: "Register and Watch "),
+                  const TextSpan(text: "Register & Watch "),
                   TextSpan(
                     text: "Anime",
                     style: Theme.of(context)
