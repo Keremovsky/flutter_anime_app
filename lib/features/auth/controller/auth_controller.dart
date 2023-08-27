@@ -41,7 +41,6 @@ class AuthController extends StateNotifier<bool> {
       (right) {
         _ref.read(userProvider.notifier).update((state) => right);
 
-        Navigator.of(context).pop();
         Navigator.of(context).popAndPushNamed(MainScreen.routeName);
       },
     );
@@ -67,7 +66,6 @@ class AuthController extends StateNotifier<bool> {
       (right) {
         _ref.read(userProvider.notifier).update((state) => right);
 
-        Navigator.of(context).pop();
         Navigator.of(context).popAndPushNamed(MainScreen.routeName);
       },
     );
