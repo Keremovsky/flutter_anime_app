@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 
 class Anime {
@@ -7,9 +8,7 @@ class Anime {
   final String name;
   final String japName;
   final List<String> genres;
-  final String charactersCollectionRef;
   final double score;
-  final String reviewsCollectionRef;
   final int episodes;
   final String status;
   final int year;
@@ -22,9 +21,7 @@ class Anime {
     required this.name,
     required this.japName,
     required this.genres,
-    required this.charactersCollectionRef,
     required this.score,
-    required this.reviewsCollectionRef,
     required this.episodes,
     required this.status,
     required this.year,
@@ -38,9 +35,7 @@ class Anime {
     String? name,
     String? japName,
     List<String>? genres,
-    String? charactersCollectionRef,
     double? score,
-    String? reviewsCollectionRef,
     int? episodes,
     String? status,
     int? year,
@@ -53,10 +48,7 @@ class Anime {
       name: name ?? this.name,
       japName: japName ?? this.japName,
       genres: genres ?? this.genres,
-      charactersCollectionRef:
-          charactersCollectionRef ?? this.charactersCollectionRef,
       score: score ?? this.score,
-      reviewsCollectionRef: reviewsCollectionRef ?? this.reviewsCollectionRef,
       episodes: episodes ?? this.episodes,
       status: status ?? this.status,
       year: year ?? this.year,
@@ -72,9 +64,7 @@ class Anime {
       'name': name,
       'japName': japName,
       'genres': genres,
-      'charactersCollectionRef': charactersCollectionRef,
       'score': score,
-      'reviewsCollectionRef': reviewsCollectionRef,
       'episodes': episodes,
       'status': status,
       'year': year,
@@ -90,9 +80,7 @@ class Anime {
       name: map['name'] as String,
       japName: map['japName'] as String,
       genres: List<String>.from((map['genres'] as List<String>)),
-      charactersCollectionRef: map['charactersCollectionRef'] as String,
       score: map['score'] as double,
-      reviewsCollectionRef: map['reviewsCollectionRef'] as String,
       episodes: map['episodes'] as int,
       status: map['status'] as String,
       year: map['year'] as int,
@@ -109,7 +97,7 @@ class Anime {
 
   @override
   String toString() {
-    return 'Anime(id: $id, name: $name, japName: $japName, genres: $genres, charactersCollectionRef: $charactersCollectionRef, score: $score, reviewsCollectionRef: $reviewsCollectionRef, episodes: $episodes, status: $status, year: $year, broadcastDay: $broadcastDay, imageURL: $imageURL, trailerURL: $trailerURL)';
+    return 'Anime(id: $id, name: $name, japName: $japName, genres: $genres, score: $score, episodes: $episodes, status: $status, year: $year, broadcastDay: $broadcastDay, imageURL: $imageURL, trailerURL: $trailerURL)';
   }
 
   @override
@@ -120,9 +108,7 @@ class Anime {
         other.name == name &&
         other.japName == japName &&
         listEquals(other.genres, genres) &&
-        other.charactersCollectionRef == charactersCollectionRef &&
         other.score == score &&
-        other.reviewsCollectionRef == reviewsCollectionRef &&
         other.episodes == episodes &&
         other.status == status &&
         other.year == year &&
@@ -137,9 +123,7 @@ class Anime {
         name.hashCode ^
         japName.hashCode ^
         genres.hashCode ^
-        charactersCollectionRef.hashCode ^
         score.hashCode ^
-        reviewsCollectionRef.hashCode ^
         episodes.hashCode ^
         status.hashCode ^
         year.hashCode ^
