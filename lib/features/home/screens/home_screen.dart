@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/features/home/widgets/blog_box_list.dart';
 import 'package:flutter_anime_app/features/home/widgets/popular_anime_list_view.dart';
-import 'package:flutter_anime_app/features/home/widgets/seasonal_anime_list_view.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = "/homeScreen";
@@ -22,12 +21,16 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: ListView(
             children: [
               BlogBoxList(pageController: pageController),
-              const PopularAnimeListView(),
-              const SeasonalAnimeListView(),
+              const AnimeListView(
+                title: "Most Popular Animes",
+              ),
+              const AnimeListView(
+                title: "Seasonal Animes",
+              ),
               const SizedBox(height: 40),
             ],
           ),

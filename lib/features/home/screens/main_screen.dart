@@ -30,8 +30,17 @@ class _MainScreenState extends State<MainScreen> {
     const ProfileScreen(),
   ];
 
-  // hold current screen
+  // hold current screen and current index
   Widget currentScreen = const HomeScreen();
+  int currentIndex = 0;
+
+  // navigate to screen with given index
+  void _navigateToScreen(int index) {
+    setState(() {
+      currentScreen = screens[index];
+      currentIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,48 +71,56 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        height: 50,
-        shape: const CircularNotchedRectangle(),
-        notchMargin: 8,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                NavigationButton(
-                  buttonIcon: Icons.home,
-                  isSelected: currentScreen == screens[0],
-                  index: 0,
-                  navigateToScreen: _navigateToScreen,
-                ),
-                NavigationButton(
-                  buttonIcon: Icons.search,
-                  isSelected: currentScreen == screens[1],
-                  index: 1,
-                  navigateToScreen: _navigateToScreen,
-                ),
-              ],
+      bottomNavigationBar: Container(
+        decoration: const BoxDecoration(
+          border: Border(
+            top: BorderSide(
+              width: 0.2,
+              color: Palette.grey,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                NavigationButton(
-                  buttonIcon: Icons.save,
-                  isSelected: currentScreen == screens[2],
-                  index: 2,
-                  navigateToScreen: _navigateToScreen,
-                ),
-                NavigationButton(
-                  buttonIcon: Icons.account_circle,
-                  isSelected: currentScreen == screens[3],
-                  index: 3,
-                  navigateToScreen: _navigateToScreen,
-                ),
-              ],
-            ),
-          ],
+          ),
+        ),
+        child: BottomAppBar(
+          height: 50,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  NavigationButton(
+                    buttonIcon: Icons.home,
+                    isSelected: currentIndex == 0,
+                    index: 0,
+                    navigateToScreen: _navigateToScreen,
+                  ),
+                  NavigationButton(
+                    buttonIcon: Icons.search,
+                    isSelected: currentIndex == 1,
+                    index: 1,
+                    navigateToScreen: _navigateToScreen,
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  NavigationButton(
+                    buttonIcon: Icons.save,
+                    isSelected: currentIndex == 2,
+                    index: 2,
+                    navigateToScreen: _navigateToScreen,
+                  ),
+                  NavigationButton(
+                    buttonIcon: Icons.account_circle,
+                    isSelected: currentIndex == 3,
+                    index: 3,
+                    navigateToScreen: _navigateToScreen,
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -121,11 +138,5 @@ class _MainScreenState extends State<MainScreen> {
         child: currentScreen,
       ),
     );
-  }
-
-  void _navigateToScreen(int index) {
-    setState(() {
-      currentScreen = screens[index];
-    });
   }
 }

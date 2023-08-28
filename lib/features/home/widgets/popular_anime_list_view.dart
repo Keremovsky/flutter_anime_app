@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/features/home/widgets/anime_box.dart';
 
-class PopularAnimeListView extends StatelessWidget {
-  const PopularAnimeListView({super.key});
+class AnimeListView extends StatelessWidget {
+  final String title;
+
+  const AnimeListView({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +16,7 @@ class PopularAnimeListView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                "Most Popular Animes",
+                title,
                 style: Theme.of(context).textTheme.titleMedium,
               ),
             ],

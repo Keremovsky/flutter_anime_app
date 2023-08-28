@@ -5,4 +5,7 @@ class Constants {
   static const googleLogo = "assets/images/google.png";
   static const facebookLogo = "assets/images/facebook.png";
   static const twitterLogo = "assets/images/twitter.png";
+
+  // firebase ref constants
+  static const usersRef = "users";
 }

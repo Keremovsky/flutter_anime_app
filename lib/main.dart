@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/features/auth/screens/auth_screen.dart';
-import 'package:flutter_anime_app/features/home/screens/home_screen.dart';
 import 'package:flutter_anime_app/features/home/screens/main_screen.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,98 +22,97 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Demo',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: Palette.mainColor,
+      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Palette.mainColor,
 
-            // background
-            background: Palette.background,
-          ),
-
-          // text
-          textTheme: const TextTheme(
-            titleLarge: TextStyle(
-              color: Palette.white,
-              fontSize: 28,
-              fontWeight: FontWeight.w500,
-            ),
-            titleMedium: TextStyle(
-              color: Palette.white,
-              fontSize: 24,
-              fontWeight: FontWeight.w500,
-            ),
-            displayLarge: TextStyle(
-              color: Palette.white,
-              fontSize: 18,
-            ),
-            displayMedium: TextStyle(
-              color: Palette.white,
-              fontSize: 14,
-            ),
-            displaySmall: TextStyle(
-              color: Palette.white,
-              fontSize: 10,
-            ),
-          ),
-
-          // elevated button
-          elevatedButtonTheme: const ElevatedButtonThemeData(
-            style: ButtonStyle(
-              backgroundColor:
-                  MaterialStatePropertyAll<Color>(Palette.mainColor),
-            ),
-          ),
-
-          // icon
-          iconTheme: const IconThemeData(
-            color: Palette.white,
-          ),
-
-          // bottom sheet
-          bottomSheetTheme: const BottomSheetThemeData(
-            backgroundColor: Palette.background,
-            dragHandleColor: Palette.mainColor,
-            showDragHandle: true,
-            dragHandleSize: Size(50, 5),
-            modalElevation: 0,
-          ),
-
-          // snackbar
-          snackBarTheme: const SnackBarThemeData(
-            backgroundColor: Palette.background,
-          ),
-
-          // app bar
-          appBarTheme: const AppBarTheme(
-            backgroundColor: Palette.background,
-            scrolledUnderElevation: 0,
-          ),
-
-          // drawer
-          drawerTheme: const DrawerThemeData(
-            backgroundColor: Palette.background,
-            elevation: 0,
-          ),
-
-          // floating action
-          floatingActionButtonTheme: const FloatingActionButtonThemeData(
-            backgroundColor: Palette.mainColor,
-          ),
-
-          // bottom app bar
-          bottomAppBarTheme: const BottomAppBarTheme(
-            color: Palette.background,
-            elevation: 0,
-          ),
-
-          useMaterial3: true,
+          // background
+          background: Palette.background,
         ),
-        routes: {
-          "/": (context) => const AuthScreen(),
-          MainScreen.routeName: (context) => const MainScreen(),
-          HomeScreen.routeName: (context) => const HomeScreen(),
-        });
+
+        // text
+        textTheme: const TextTheme(
+          titleLarge: TextStyle(
+            color: Palette.white,
+            fontSize: 28,
+            fontWeight: FontWeight.w500,
+          ),
+          titleMedium: TextStyle(
+            color: Palette.white,
+            fontSize: 24,
+            fontWeight: FontWeight.w500,
+          ),
+          displayLarge: TextStyle(
+            color: Palette.white,
+            fontSize: 18,
+          ),
+          displayMedium: TextStyle(
+            color: Palette.white,
+            fontSize: 14,
+          ),
+          displaySmall: TextStyle(
+            color: Palette.white,
+            fontSize: 10,
+          ),
+        ),
+
+        // elevated button
+        elevatedButtonTheme: const ElevatedButtonThemeData(
+          style: ButtonStyle(
+            backgroundColor: MaterialStatePropertyAll<Color>(Palette.mainColor),
+          ),
+        ),
+
+        // icon
+        iconTheme: const IconThemeData(
+          color: Palette.white,
+        ),
+
+        // bottom sheet
+        bottomSheetTheme: const BottomSheetThemeData(
+          backgroundColor: Palette.background,
+          dragHandleColor: Palette.mainColor,
+          showDragHandle: true,
+          dragHandleSize: Size(50, 5),
+          modalElevation: 0,
+        ),
+
+        // snackbar
+        snackBarTheme: const SnackBarThemeData(
+          backgroundColor: Palette.background,
+        ),
+
+        // app bar
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Palette.background,
+          scrolledUnderElevation: 0,
+        ),
+
+        // drawer
+        drawerTheme: const DrawerThemeData(
+          backgroundColor: Palette.background,
+          elevation: 0,
+        ),
+
+        // floating action
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(
+          backgroundColor: Palette.mainColor,
+        ),
+
+        // bottom app bar
+        bottomAppBarTheme: const BottomAppBarTheme(
+          color: Palette.background,
+          elevation: 0,
+        ),
+
+        useMaterial3: true,
+      ),
+      routes: {
+        "/": (context) => const AuthScreen(),
+        MainScreen.routeName: (context) => const MainScreen(),
+      },
+    );
   }
 }
