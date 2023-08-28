@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:either_dart/either.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/core/constants/firebase_constants.dart';
 import 'package:flutter_anime_app/core/constants/keys.dart';
 import 'package:flutter_anime_app/core/providers/firebase_providers.dart';
+import 'package:flutter_anime_app/core/providers/storage_provider.dart';
 import 'package:flutter_anime_app/models/user_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -16,21 +16,24 @@ final authRepositoryProvider = Provider((ref) => AuthRepository(
       auth: ref.read(authProvider),
       google: ref.read(googleSignInProvider),
       firestore: ref.read(firestoreProvider),
-      storage: ref.read(firebaseStorageProvider),
+      storage: ref.read(storageProvider),
     ));
 
 class AuthRepository {
   final FirebaseAuth _auth;
   final GoogleSignIn _google;
   final FirebaseFirestore _firestore;
-  final FirebaseStorage _storage;
+  final Storage _storage;
 
   CollectionReference get _usersCollection =>
       _firestore.collection(FirebaseConstants.usersRef);
 
-  AuthRepository(
-      {required auth, required google, required firestore, required storage})
-      : _auth = auth,
+  AuthRepository({
+    required auth,
+    required google,
+    required firestore,
+    required storage,
+  })  : _auth = auth,
         _google = google,
         _firestore = firestore,
         _storage = storage;
@@ -64,12 +67,14 @@ class AuthRepository {
         final date = DateFormat("MMMM yyyy").format(now);
 
         // get default profile and background picture
-        final profilePic = await _storage
-            .ref("users/default/profile_pic.jpeg")
-            .getDownloadURL();
-        final backgroundPick = await _storage
-            .ref("users/default/background_pic.jpg")
-            .getDownloadURL();
+        final profilePic = await _storage.getFileURL(
+          FirebaseConstants.defaultPath,
+          "profile_pic.jpeg",
+        );
+        final backgroundPick = await _storage.getFileURL(
+          FirebaseConstants.defaultPath,
+          "background_pic.jpg",
+        );
 
         // create new user model
         userModel = UserModel(
@@ -134,12 +139,14 @@ class AuthRepository {
           final date = DateFormat("MMMM yyyy").format(now);
 
           // get default profile and background picture
-          final profilePic = await _storage
-              .ref("users/default/profile_pic.jpeg")
-              .getDownloadURL();
-          final backgroundPick = await _storage
-              .ref("users/default/background_pic.jpg")
-              .getDownloadURL();
+          final profilePic = await _storage.getFileURL(
+            FirebaseConstants.defaultPath,
+            "profile_pic.jpeg",
+          );
+          final backgroundPick = await _storage.getFileURL(
+            FirebaseConstants.defaultPath,
+            "background_pic.jpg",
+          );
 
           // create new user model
           userModel = UserModel(
@@ -213,11 +220,14 @@ class AuthRepository {
       final date = DateFormat("MMMM yyyy").format(now);
 
       // get default profile and background picture
-      final profilePic =
-          await _storage.ref("users/default/profile_pic.jpeg").getDownloadURL();
-      final backgroundPick = await _storage
-          .ref("users/default/background_pic.jpg")
-          .getDownloadURL();
+      final profilePic = await _storage.getFileURL(
+        FirebaseConstants.defaultPath,
+        "profile_pic.jpeg",
+      );
+      final backgroundPick = await _storage.getFileURL(
+        FirebaseConstants.defaultPath,
+        "background_pic.jpg",
+      );
 
       // create user model
       final userModel = UserModel(
