@@ -43,6 +43,7 @@ dependencies:
   either_dart: ^1.0.0
   twitter_login: ^4.4.2
   smooth_page_indicator: ^1.1.0
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:

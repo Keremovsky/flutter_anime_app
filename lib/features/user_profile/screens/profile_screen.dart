@@ -1,27 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_anime_app/features/auth/controller/auth_controller.dart';
 import 'package:flutter_anime_app/features/user_profile/widgets/user_navigation_bar.dart';
 import 'package:flutter_anime_app/features/user_profile/widgets/user_page_view.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ProfileScreen extends StatefulWidget {
+class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  ConsumerState<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenState extends ConsumerState<ProfileScreen> {
+  // controllers
   final PageController pageController = PageController();
   final ScrollController scrollController = ScrollController();
 
+  // current index of page view
   int currentIndex = 0;
 
+  // navigate to page
   void _navigateToListIndex(int index) {
     pageController.jumpToPage(
       index,
     );
   }
 
+  // navigate to list item
   void _navigateToPageIndex(int index) {
     setState(() {
       currentIndex = index;
@@ -34,6 +40,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
+    final userData = ref.read(userProvider);
 
     return Scaffold(
       body: ListView(
@@ -46,10 +53,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Container(
                     height: height * 0.15,
                     width: double.infinity,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: NetworkImage(
-                            "https://img.freepik.com/premium-photo/flat-chinese-new-year-festival-celebration-background-china-city-old-houses-chinese_625492-24164.jpg?w=2000"),
+                        image: NetworkImage(userData!.backgroundPicURL),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -61,9 +67,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       height: 100,
                       width: 100,
                       decoration: BoxDecoration(
-                        image: const DecorationImage(
-                          image: NetworkImage(
-                              "https://i.redd.it/o8n33z9luwp51.jpg"),
+                        image: DecorationImage(
+                          image: NetworkImage(userData.profilePicURL),
                         ),
                         shape: BoxShape.circle,
                         border: Border.all(
@@ -96,9 +101,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          "username / anime character",
+                          userData.animeName == ""
+                              ? "${userData.username} / "
+                              : "${userData.username} / ${userData.animeName}",
                           style: Theme.of(context).textTheme.displayLarge,
                         ),
+                        userData.animeName == ""
+                            ? GestureDetector(
+                                child: Text(
+                                  "Select Anime Character",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .displayLarge!
+                                      .copyWith(color: Palette.mainColor),
+                                ),
+                              )
+                            : const SizedBox(),
                       ],
                     ),
                     const SizedBox(height: 5),
@@ -111,7 +129,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         const SizedBox(width: 5),
                         Text(
-                          "Joined August 2023",
+                          "Joined ${userData.joinDate}",
                           style: Theme.of(context)
                               .textTheme
                               .displayMedium!

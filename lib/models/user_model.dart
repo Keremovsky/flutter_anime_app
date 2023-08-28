@@ -4,27 +4,43 @@ import 'dart:convert';
 class UserModel {
   String uid;
   String username;
+  String animeName;
   String email;
   String registerType;
+  String profilePicURL;
+  String backgroundPicURL;
+  String joinDate;
 
   UserModel({
     required this.uid,
     required this.username,
+    required this.animeName,
     required this.email,
     required this.registerType,
+    required this.profilePicURL,
+    required this.backgroundPicURL,
+    required this.joinDate,
   });
 
   UserModel copyWith({
     String? uid,
     String? username,
+    String? animeName,
     String? email,
     String? registerType,
+    String? profilePicURL,
+    String? backgroundPicURl,
+    String? joinDate,
   }) {
     return UserModel(
       uid: uid ?? this.uid,
       username: username ?? this.username,
+      animeName: animeName ?? this.animeName,
       email: email ?? this.email,
       registerType: registerType ?? this.registerType,
+      profilePicURL: profilePicURL ?? this.profilePicURL,
+      backgroundPicURL: backgroundPicURl ?? this.backgroundPicURL,
+      joinDate: joinDate ?? this.joinDate,
     );
   }
 
@@ -32,8 +48,12 @@ class UserModel {
     return <String, dynamic>{
       'uid': uid,
       'username': username,
+      'animeName': animeName,
       'email': email,
       'registerType': registerType,
+      'profilePicURL': profilePicURL,
+      'backgroundPicURl': backgroundPicURL,
+      'joinDate': joinDate,
     };
   }
 
@@ -41,8 +61,12 @@ class UserModel {
     return UserModel(
       uid: map['uid'] as String,
       username: map['username'] as String,
+      animeName: map['animeName'] as String,
       email: map['email'] as String,
       registerType: map['registerType'] as String,
+      profilePicURL: map['profilePicURL'] as String,
+      backgroundPicURL: map['backgroundPicURl'] as String,
+      joinDate: map['joinDate'] as String,
     );
   }
 
@@ -53,7 +77,7 @@ class UserModel {
 
   @override
   String toString() {
-    return 'User(uid: $uid, username: $username, email: $email, registerType: $registerType)';
+    return 'UserModel(uid: $uid, username: $username, animeName: $animeName, email: $email, registerType: $registerType, profilePicURL: $profilePicURL, backgroundPicURl: $backgroundPicURL, joinDate: $joinDate)';
   }
 
   @override
@@ -62,15 +86,23 @@ class UserModel {
 
     return other.uid == uid &&
         other.username == username &&
+        other.animeName == animeName &&
         other.email == email &&
-        other.registerType == registerType;
+        other.registerType == registerType &&
+        other.profilePicURL == profilePicURL &&
+        other.backgroundPicURL == backgroundPicURL &&
+        other.joinDate == joinDate;
   }
 
   @override
   int get hashCode {
     return uid.hashCode ^
         username.hashCode ^
+        animeName.hashCode ^
         email.hashCode ^
-        registerType.hashCode;
+        registerType.hashCode ^
+        profilePicURL.hashCode ^
+        backgroundPicURL.hashCode ^
+        joinDate.hashCode;
   }
 }

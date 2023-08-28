@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:either_dart/either.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/core/constants/firebase_constants.dart';
 import 'package:flutter_anime_app/core/constants/keys.dart';
@@ -8,26 +9,31 @@ import 'package:flutter_anime_app/core/providers/firebase_providers.dart';
 import 'package:flutter_anime_app/models/user_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:intl/intl.dart';
 import 'package:twitter_login/twitter_login.dart';
 
 final authRepositoryProvider = Provider((ref) => AuthRepository(
       auth: ref.read(authProvider),
       google: ref.read(googleSignInProvider),
       firestore: ref.read(firestoreProvider),
+      storage: ref.read(firebaseStorageProvider),
     ));
 
 class AuthRepository {
   final FirebaseAuth _auth;
   final GoogleSignIn _google;
   final FirebaseFirestore _firestore;
+  final FirebaseStorage _storage;
 
   CollectionReference get _usersCollection =>
       _firestore.collection(FirebaseConstants.usersRef);
 
-  AuthRepository({required auth, required google, required firestore})
+  AuthRepository(
+      {required auth, required google, required firestore, required storage})
       : _auth = auth,
         _google = google,
-        _firestore = firestore;
+        _firestore = firestore,
+        _storage = storage;
 
   Future<Either<String, UserModel>> signInWithGoogle() async {
     try {
@@ -53,12 +59,28 @@ class AuthRepository {
       if (userCredential.additionalUserInfo!.isNewUser) {
         final userData = userCredential.user!;
 
+        // get date of now
+        final now = DateTime.now();
+        final date = DateFormat("MMMM yyyy").format(now);
+
+        // get default profile and background picture
+        final profilePic = await _storage
+            .ref("users/default/profile_pic.jpeg")
+            .getDownloadURL();
+        final backgroundPick = await _storage
+            .ref("users/default/background_pic.jpg")
+            .getDownloadURL();
+
         // create new user model
         userModel = UserModel(
           uid: userData.uid,
           username: userData.displayName ?? "User",
+          animeName: "",
           email: userData.email!,
           registerType: "google",
+          profilePicURL: profilePic,
+          backgroundPicURL: backgroundPick,
+          joinDate: date,
         );
 
         // save user model to database
@@ -107,12 +129,28 @@ class AuthRepository {
         if (userCredential.additionalUserInfo!.isNewUser) {
           final userData = userCredential.user!;
 
+          // get date of now
+          final now = DateTime.now();
+          final date = DateFormat("MMMM yyyy").format(now);
+
+          // get default profile and background picture
+          final profilePic = await _storage
+              .ref("users/default/profile_pic.jpeg")
+              .getDownloadURL();
+          final backgroundPick = await _storage
+              .ref("users/default/background_pic.jpg")
+              .getDownloadURL();
+
           // create new user model
           userModel = UserModel(
             uid: userData.uid,
             username: userData.displayName ?? "User",
+            animeName: "",
             email: userData.email!,
             registerType: "twitter",
+            profilePicURL: profilePic,
+            backgroundPicURL: backgroundPick,
+            joinDate: date,
           );
 
           // save user model to database
@@ -170,12 +208,27 @@ class AuthRepository {
         password: password,
       );
 
+      // get date of now
+      final now = DateTime.now();
+      final date = DateFormat("MMMM yyyy").format(now);
+
+      // get default profile and background picture
+      final profilePic =
+          await _storage.ref("users/default/profile_pic.jpeg").getDownloadURL();
+      final backgroundPick = await _storage
+          .ref("users/default/background_pic.jpg")
+          .getDownloadURL();
+
       // create user model
       final userModel = UserModel(
         uid: userCredential.user!.uid,
         username: username,
+        animeName: "",
         email: email,
         registerType: "email",
+        profilePicURL: profilePic,
+        backgroundPicURL: backgroundPick,
+        joinDate: date,
       );
 
       debugPrint(userModel.toString());
