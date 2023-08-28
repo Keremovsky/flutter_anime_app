@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_anime_app/features/user_profile/widgets/favorites_page_view.dart';
-import 'package:flutter_anime_app/features/user_profile/widgets/last_actions_page_view.dart';
-import 'package:flutter_anime_app/features/user_profile/widgets/lists_page_view.dart';
-import 'package:flutter_anime_app/features/user_profile/widgets/profile_navigation_bar_button.dart';
-import 'package:flutter_anime_app/features/user_profile/widgets/watching_list_page_view.dart';
+import 'package:flutter_anime_app/features/user_profile/widgets/user_navigation_bar.dart';
+import 'package:flutter_anime_app/features/user_profile/widgets/user_page_view.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -17,20 +14,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final PageController pageController = PageController();
   final ScrollController scrollController = ScrollController();
 
-  final List<String> actions = [
-    "Last Actions",
-    "Favorites",
-    "Watching",
-    "Lists",
-  ];
-
   int currentIndex = 0;
 
-  void _navigateToIndex(int index) {
+  void _navigateToListIndex(int index) {
+    pageController.jumpToPage(
+      index,
+    );
+  }
+
+  void _navigateToPageIndex(int index) {
     setState(() {
       currentIndex = index;
-      pageController.jumpToPage(
-        index,
+      scrollController.jumpTo(
+        index * 12,
       );
     });
   }
@@ -124,70 +120,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ],
                     ),
                     const SizedBox(height: 20),
-                    SizedBox(
-                      height: 25,
-                      width: double.infinity,
-                      child: ListView.builder(
-                        itemCount: 4,
-                        controller: scrollController,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          if (index == 0) {
-                            return Padding(
-                              padding: const EdgeInsets.only(right: 10),
-                              child: ProfileNavigationBarButton(
-                                text: actions[index],
-                                index: index,
-                                isSelected: currentIndex == index,
-                                navigateToIndex: _navigateToIndex,
-                              ),
-                            );
-                          } else if (index == 3) {
-                            return Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: ProfileNavigationBarButton(
-                                text: actions[index],
-                                index: index,
-                                isSelected: currentIndex == index,
-                                navigateToIndex: _navigateToIndex,
-                              ),
-                            );
-                          } else {
-                            return Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              child: ProfileNavigationBarButton(
-                                text: actions[index],
-                                index: index,
-                                isSelected: currentIndex == index,
-                                navigateToIndex: _navigateToIndex,
-                              ),
-                            );
-                          }
-                        },
-                      ),
+                    UserNavigationBar(
+                      currentIndex: currentIndex,
+                      scrollController: scrollController,
+                      navigateToListIndex: _navigateToListIndex,
                     ),
                     const SizedBox(height: 20),
-                    SizedBox(
-                      height: 500,
-                      width: double.infinity,
-                      child: PageView(
-                        controller: pageController,
-                        onPageChanged: (value) {
-                          setState(() {
-                            currentIndex = value;
-                            scrollController.jumpTo(
-                              value * 12,
-                            );
-                          });
-                        },
-                        children: const [
-                          LastActionsPageView(),
-                          FavoritesPageView(),
-                          WatchingListPageView(),
-                          ListsPageView(),
-                        ],
-                      ),
+                    UserPageView(
+                      pageController: pageController,
+                      navigateToPageIndex: _navigateToPageIndex,
                     ),
                   ],
                 ),
