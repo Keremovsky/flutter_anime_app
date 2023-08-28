@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/features/home/screens/anime_list_screen.dart';
 import 'package:flutter_anime_app/features/home/screens/home_screen.dart';
-import 'package:flutter_anime_app/features/home/screens/profile_screen.dart';
+import 'package:flutter_anime_app/features/user_profile/screens/profile_screen.dart';
 import 'package:flutter_anime_app/features/home/screens/search_screen.dart';
 import 'package:flutter_anime_app/features/home/widgets/navigation_button.dart';
 import 'package:flutter_anime_app/themes/palette.dart';

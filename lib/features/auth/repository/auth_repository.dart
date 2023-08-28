@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:either_dart/either.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_anime_app/core/constants/constants.dart';
+import 'package:flutter_anime_app/core/constants/firebase_constants.dart';
 import 'package:flutter_anime_app/core/constants/keys.dart';
 import 'package:flutter_anime_app/core/providers/firebase_providers.dart';
 import 'package:flutter_anime_app/models/user_model.dart';
@@ -21,8 +21,8 @@ class AuthRepository {
   final GoogleSignIn _google;
   final FirebaseFirestore _firestore;
 
-  CollectionReference get _usersRef =>
-      _firestore.collection(Constants.usersRef);
+  CollectionReference get _usersCollection =>
+      _firestore.collection(FirebaseConstants.usersRef);
 
   AuthRepository({required auth, required google, required firestore})
       : _auth = auth,
@@ -210,7 +210,7 @@ class AuthRepository {
 
   // get user model form database
   Future<UserModel> _getUserModel(String uid) {
-    return _usersRef
+    return _usersCollection
         .doc(uid)
         .snapshots()
         .map((event) => UserModel.fromMap(event.data() as Map<String, dynamic>))
@@ -219,6 +219,6 @@ class AuthRepository {
 
   // save user model to database
   Future<void> _setUserModel(String uid, UserModel userModel) async {
-    await _usersRef.doc(uid).set(userModel.toMap());
+    await _usersCollection.doc(uid).set(userModel.toMap());
   }
 }
