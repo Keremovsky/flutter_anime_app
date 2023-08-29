@@ -13,15 +13,15 @@ class AnimeController extends StateNotifier {
       : _animeRepository = animeRepository,
         super(false);
 
-  Future<Anime> getAnimeData(String id) async {
-    final control = await _animeRepository.getAnimeData(id);
+  Future<Anime> getAnime(String id) async {
+    final result = await _animeRepository.getAnime(id);
 
-    return control;
+    return result;
   }
 
-  Future<List<String>> getAnimeIdList(String collectionName) async {
-    final control = await _animeRepository.getAnimeIdList(collectionName);
+  Future<List<Anime>> getAnimeList(String collectionName) async {
+    final result = await _animeRepository.getAnimeList(collectionName);
 
-    return control;
+    return result;
   }
 }

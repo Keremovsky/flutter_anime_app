@@ -22,7 +22,7 @@ class AnimeRepository {
 
   AnimeRepository({required firestore}) : _firestore = firestore;
 
-  Future<Anime> getAnimeData(String id) async {
+  Future<Anime> getAnime(String id) async {
     try {
       final anime = await _animesCollection
           .doc(id)
@@ -51,25 +51,33 @@ class AnimeRepository {
     }
   }
 
-  Future<List<String>> getAnimeIdList(String collectionName) async {
-    late QuerySnapshot<Object?> querySnapshot;
+  Future<List<Anime>> getAnimeList(String collectionName) async {
+    try {
+      late QuerySnapshot<Object?> querySnapshot;
 
-    if (collectionName == "Popular Animes") {
-      querySnapshot = await _popularAnimesCollection.get();
-    } else {
-      querySnapshot = await _seasonalAnimesCollection.get();
+      if (collectionName == FirebaseConstants.popularAnimesRef) {
+        querySnapshot = await _popularAnimesCollection.get();
+      } else {
+        querySnapshot = await _seasonalAnimesCollection.get();
+      }
+
+      final popularAnimeList = querySnapshot.docs
+          .map((doc) => doc.data() as Map<String, dynamic>)
+          .toList();
+
+      List<Anime> animes = [];
+      for (final animeId in popularAnimeList) {
+        final anime = await await _animesCollection
+            .doc(animeId["id"])
+            .snapshots()
+            .map((event) => Anime.fromMap(event.data() as Map<String, dynamic>))
+            .first;
+
+        animes.add(anime);
+      }
+      return animes;
+    } catch (e) {
+      return [];
     }
-
-    final popularAnimeList = querySnapshot.docs
-        .map((doc) => doc.data() as Map<String, dynamic>)
-        .toList();
-
-    List<String> animeIdList = [];
-
-    for (final anime in popularAnimeList) {
-      animeIdList.add(anime["id"]);
-    }
-
-    return animeIdList;
   }
 }

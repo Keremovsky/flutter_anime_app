@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/features/anime/controller/anime_controller.dart';
 import 'package:flutter_anime_app/features/home/widgets/anime_box.dart';
+import 'package:flutter_anime_app/models/anime.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AnimeListView extends ConsumerStatefulWidget {
   final String title;
+  final String collectionRef;
 
-  const AnimeListView({super.key, required this.title});
+  const AnimeListView({
+    super.key,
+    required this.title,
+    required this.collectionRef,
+  });
 
   @override
   ConsumerState<AnimeListView> createState() => _AnimeListViewState();
@@ -14,19 +20,19 @@ class AnimeListView extends ConsumerStatefulWidget {
 
 class _AnimeListViewState extends ConsumerState<AnimeListView> {
   // variable to store animes
-  late Future<List<String>> animeList;
+  late Future<List<Anime>> animeList;
 
-  Future<List<String>> _getAnimeIdList() async {
+  Future<List<Anime>> _getAnimeList() async {
     final result = await ref
         .read(animeControllerProvider.notifier)
-        .getAnimeIdList(widget.title);
+        .getAnimeList(widget.collectionRef);
 
     return result;
   }
 
   @override
   void initState() {
-    animeList = _getAnimeIdList();
+    animeList = _getAnimeList();
     super.initState();
   }
 
@@ -63,7 +69,7 @@ class _AnimeListViewState extends ConsumerState<AnimeListView> {
                   itemCount: data.length,
                   itemBuilder: (context, index) {
                     return AnimeBox(
-                      animeId: data[index],
+                      anime: data[index],
                     );
                   },
                 ),
