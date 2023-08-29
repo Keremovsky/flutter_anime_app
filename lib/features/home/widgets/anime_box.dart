@@ -27,7 +27,6 @@ class _AnimeBoxState extends ConsumerState<AnimeBox> {
   @override
   void initState() {
     super.initState();
-
     anime = _getAnimeData();
   }
 
@@ -37,7 +36,7 @@ class _AnimeBoxState extends ConsumerState<AnimeBox> {
       future: anime,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         }
 
         final data = snapshot.data!;

@@ -13,6 +13,7 @@ class AnimeListView extends ConsumerStatefulWidget {
 }
 
 class _AnimeListViewState extends ConsumerState<AnimeListView> {
+  // variable to store animes
   late Future<List<String>> animeList;
 
   Future<List<String>> _getAnimeIdList() async {
@@ -25,9 +26,8 @@ class _AnimeListViewState extends ConsumerState<AnimeListView> {
 
   @override
   void initState() {
-    super.initState();
-
     animeList = _getAnimeIdList();
+    super.initState();
   }
 
   @override
@@ -61,7 +61,7 @@ class _AnimeListViewState extends ConsumerState<AnimeListView> {
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: data.length,
-                  itemBuilder: (BuildContext context, int index) {
+                  itemBuilder: (context, index) {
                     return AnimeBox(
                       animeId: data[index],
                     );

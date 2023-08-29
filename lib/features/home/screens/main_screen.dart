@@ -19,6 +19,8 @@ class _MainScreenState extends State<MainScreen> {
   // scaffold key to open drawer
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
+  final PageController pageController = PageController();
+
   // page bucket
   final PageStorageBucket bucket = PageStorageBucket();
 
@@ -30,16 +32,21 @@ class _MainScreenState extends State<MainScreen> {
     const ProfileScreen(),
   ];
 
-  // hold current screen and current index
-  Widget currentScreen = const HomeScreen();
+  // hold current index
   int currentIndex = 0;
 
   // navigate to screen with given index
   void _navigateToScreen(int index) {
+    pageController.jumpToPage(index);
     setState(() {
-      currentScreen = screens[index];
       currentIndex = index;
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    pageController.dispose();
   }
 
   @override
@@ -133,9 +140,10 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      body: PageStorage(
-        bucket: bucket,
-        child: currentScreen,
+      body: PageView(
+        controller: pageController,
+        physics: const NeverScrollableScrollPhysics(),
+        children: screens,
       ),
     );
   }
