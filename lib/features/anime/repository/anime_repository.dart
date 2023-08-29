@@ -24,11 +24,7 @@ class AnimeRepository {
 
   Future<Anime> getAnime(String id) async {
     try {
-      final anime = await _animesCollection
-          .doc(id)
-          .snapshots()
-          .map((event) => Anime.fromMap(event.data() as Map<String, dynamic>))
-          .first;
+      final anime = await _getAnimeByID(id);
 
       return anime;
     } catch (e) {
@@ -47,11 +43,27 @@ class AnimeRepository {
         imageURL: "",
         trailerURL: "",
       );
+
       return errorAnime;
     }
   }
 
-  Future<List<Anime>> getAnimeList(String collectionName) async {
+  Future<List<Anime>> getAnimeListWithID(List<String> ids) async {
+    try {
+      List<Anime> animes = [];
+      for (final id in ids) {
+        final anime = await _getAnimeByID(id);
+
+        animes.add(anime);
+      }
+
+      return animes;
+    } catch (e) {
+      return [];
+    }
+  }
+
+  Future<List<Anime>> getAnimeListWithColl(String collectionName) async {
     try {
       late QuerySnapshot<Object?> querySnapshot;
 
@@ -67,11 +79,7 @@ class AnimeRepository {
 
       List<Anime> animes = [];
       for (final animeId in popularAnimeList) {
-        final anime = await await _animesCollection
-            .doc(animeId["id"])
-            .snapshots()
-            .map((event) => Anime.fromMap(event.data() as Map<String, dynamic>))
-            .first;
+        final anime = await _getAnimeByID(animeId["id"]);
 
         animes.add(anime);
       }
@@ -79,5 +87,15 @@ class AnimeRepository {
     } catch (e) {
       return [];
     }
+  }
+
+  Future<Anime> _getAnimeByID(String id) async {
+    final anime = await _animesCollection
+        .doc(id)
+        .snapshots()
+        .map((event) => Anime.fromMap(event.data() as Map<String, dynamic>))
+        .first;
+
+    return anime;
   }
 }

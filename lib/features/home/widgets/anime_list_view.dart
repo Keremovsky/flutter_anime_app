@@ -25,7 +25,7 @@ class _AnimeListViewState extends ConsumerState<AnimeListView> {
   Future<List<Anime>> _getAnimeList() async {
     final result = await ref
         .read(animeControllerProvider.notifier)
-        .getAnimeList(widget.collectionRef);
+        .getAnimeListWithColl(widget.collectionRef);
 
     return result;
   }
