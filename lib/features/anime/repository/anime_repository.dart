@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:either_dart/either.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_anime_app/core/constants/firebase_constants.dart';
 import 'package:flutter_anime_app/core/providers/firebase_providers.dart';
 import 'package:flutter_anime_app/models/anime.dart';
@@ -15,19 +15,53 @@ class AnimeRepository {
   CollectionReference get _animesCollection =>
       _firestore.collection(FirebaseConstants.animesRef);
 
+  CollectionReference get _popularAnimesCollection =>
+      _firestore.collection(FirebaseConstants.popularAnimesRef);
+
   AnimeRepository({required firestore}) : _firestore = firestore;
 
-  Future<Either<String, Anime>> getAnimeData(int id) async {
+  Future<Anime> getAnimeData(String id) async {
     try {
       final anime = await _animesCollection
-          .doc(id.toString())
+          .doc(id)
           .snapshots()
           .map((event) => Anime.fromMap(event.data() as Map<String, dynamic>))
           .first;
 
-      return Right(anime);
+      return anime;
     } catch (e) {
-      return const Left("error");
+      final errorAnime = Anime(
+        id: "-1",
+        name: "error",
+        japName: "",
+        genres: [],
+        type: "",
+        score: -1,
+        favorites: -1,
+        episodes: -1,
+        status: "",
+        year: -1,
+        broadcastDay: "",
+        imageURL: "",
+        trailerURL: "",
+      );
+      return errorAnime;
     }
+  }
+
+  Future<List<String>> getPopularAnimeIdList() async {
+    final querySnapshot = await _popularAnimesCollection.get();
+
+    final popularAnimeList = await querySnapshot.docs
+        .map((doc) => doc.data() as Map<String, dynamic>)
+        .toList();
+
+    List<String> animeIdList = [];
+
+    for (final anime in popularAnimeList) {
+      animeIdList.add(anime["id"]);
+    }
+
+    return animeIdList;
   }
 }

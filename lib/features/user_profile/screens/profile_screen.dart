@@ -73,7 +73,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         shape: BoxShape.circle,
                         border: Border.all(
                           color: Palette.background,
-                          width: 8,
+                          width: 6,
                           strokeAlign: BorderSide.strokeAlignOutside,
                         ),
                       ),
@@ -102,21 +102,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       children: [
                         Text(
                           userData.animeName == ""
-                              ? "${userData.username} / "
+                              ? userData.username
                               : "${userData.username} / ${userData.animeName}",
                           style: Theme.of(context).textTheme.displayLarge,
                         ),
-                        userData.animeName == ""
-                            ? GestureDetector(
-                                child: Text(
-                                  "Select Anime Character",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .displayLarge!
-                                      .copyWith(color: Palette.mainColor),
-                                ),
-                              )
-                            : const SizedBox(),
                       ],
                     ),
                     const SizedBox(height: 5),

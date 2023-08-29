@@ -4,11 +4,13 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 class Anime {
-  final int id;
+  final String id;
   final String name;
   final String japName;
-  final List<String> genres;
+  final List<dynamic> genres;
+  final String type;
   final double score;
+  final int favorites;
   final int episodes;
   final String status;
   final int year;
@@ -21,7 +23,9 @@ class Anime {
     required this.name,
     required this.japName,
     required this.genres,
+    required this.type,
     required this.score,
+    required this.favorites,
     required this.episodes,
     required this.status,
     required this.year,
@@ -31,11 +35,13 @@ class Anime {
   });
 
   Anime copyWith({
-    int? id,
+    String? id,
     String? name,
     String? japName,
-    List<String>? genres,
+    List<dynamic>? genres,
+    String? type,
     double? score,
+    int? favorites,
     int? episodes,
     String? status,
     int? year,
@@ -48,7 +54,9 @@ class Anime {
       name: name ?? this.name,
       japName: japName ?? this.japName,
       genres: genres ?? this.genres,
+      type: type ?? this.type,
       score: score ?? this.score,
+      favorites: favorites ?? this.favorites,
       episodes: episodes ?? this.episodes,
       status: status ?? this.status,
       year: year ?? this.year,
@@ -64,7 +72,9 @@ class Anime {
       'name': name,
       'japName': japName,
       'genres': genres,
+      'type': type,
       'score': score,
+      'favorites': favorites,
       'episodes': episodes,
       'status': status,
       'year': year,
@@ -76,11 +86,13 @@ class Anime {
 
   factory Anime.fromMap(Map<String, dynamic> map) {
     return Anime(
-      id: map['id'] as int,
+      id: map['id'] as String,
       name: map['name'] as String,
       japName: map['japName'] as String,
-      genres: List<String>.from((map['genres'] as List<String>)),
+      genres: List<dynamic>.from((map['genres'] as List<dynamic>)),
+      type: map['type'] as String,
       score: map['score'] as double,
+      favorites: map['favorites'] as int,
       episodes: map['episodes'] as int,
       status: map['status'] as String,
       year: map['year'] as int,
@@ -97,7 +109,7 @@ class Anime {
 
   @override
   String toString() {
-    return 'Anime(id: $id, name: $name, japName: $japName, genres: $genres, score: $score, episodes: $episodes, status: $status, year: $year, broadcastDay: $broadcastDay, imageURL: $imageURL, trailerURL: $trailerURL)';
+    return 'Anime(id: $id, name: $name, japName: $japName, genres: $genres, type: $type, score: $score, favorites: $favorites, episodes: $episodes, status: $status, year: $year, broadcastDay: $broadcastDay, imageURL: $imageURL, trailerURL: $trailerURL)';
   }
 
   @override
@@ -108,7 +120,9 @@ class Anime {
         other.name == name &&
         other.japName == japName &&
         listEquals(other.genres, genres) &&
+        other.type == type &&
         other.score == score &&
+        other.favorites == favorites &&
         other.episodes == episodes &&
         other.status == status &&
         other.year == year &&
@@ -123,7 +137,9 @@ class Anime {
         name.hashCode ^
         japName.hashCode ^
         genres.hashCode ^
+        type.hashCode ^
         score.hashCode ^
+        favorites.hashCode ^
         episodes.hashCode ^
         status.hashCode ^
         year.hashCode ^

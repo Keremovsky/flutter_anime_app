@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/core/constants/constants.dart';
+import 'package:flutter_anime_app/features/anime/controller/anime_controller.dart';
+import 'package:flutter_anime_app/features/anime/repository/anime_repository.dart';
 import 'package:flutter_anime_app/features/auth/controller/auth_controller.dart';
 import 'package:flutter_anime_app/features/auth/widgets/create_bottom_sheet.dart';
 import 'package:flutter_anime_app/features/auth/widgets/login_bottom_sheet.dart';
@@ -139,6 +141,10 @@ class AuthScreen extends ConsumerWidget {
                 ],
               ),
               const Spacer(flex: 20),
+              ElevatedButton(
+                onPressed: () async {},
+                child: Text("yoyoyoy"),
+              ),
             ],
           ),
         ),
