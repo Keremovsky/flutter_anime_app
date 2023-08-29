@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: ListView(
             children: [
               const AnimeListView(
-                title: "Most Popular Animes",
+                title: "Popular Animes",
               ),
               const AnimeListView(
                 title: "Seasonal Animes",
