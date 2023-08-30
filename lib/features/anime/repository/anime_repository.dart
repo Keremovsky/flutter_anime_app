@@ -1,15 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/core/constants/firebase_constants.dart';
 import 'package:flutter_anime_app/core/providers/firebase_providers.dart';
+import 'package:flutter_anime_app/features/auth/controller/auth_controller.dart';
 import 'package:flutter_anime_app/models/anime.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final animeRepositoryProvider = Provider((ref) => AnimeRepository(
       firestore: ref.read(firestoreProvider),
+      ref: ref,
     ));
 
 class AnimeRepository {
   final FirebaseFirestore _firestore;
+  final Ref _ref;
 
   CollectionReference get _animesCollection =>
       _firestore.collection(FirebaseConstants.animesRef);
@@ -20,7 +24,9 @@ class AnimeRepository {
   CollectionReference get _seasonalAnimesCollection =>
       _firestore.collection(FirebaseConstants.seasonalAnimesRef);
 
-  AnimeRepository({required firestore}) : _firestore = firestore;
+  AnimeRepository({required firestore, required ref})
+      : _firestore = firestore,
+        _ref = ref;
 
   Future<Anime> getAnime(String id) async {
     try {
@@ -88,6 +94,43 @@ class AnimeRepository {
       return [];
     }
   }
+
+  Future<void> setAnimeToList(String id, String listName) async {
+    try {
+      // get user uid
+      final userUid = _ref.read(userProvider)!.uid;
+
+      // collection reference to lists
+      final userListCollection = _firestore
+          .collection(FirebaseConstants.usersRef)
+          .doc(userUid)
+          .collection(FirebaseConstants.animeListRef);
+
+      // get given list document
+      final animeListDoc = await userListCollection.doc(listName).get();
+
+      // if list with given name exists
+      if (animeListDoc.exists) {
+        // get the data of document
+        final fields = animeListDoc.data();
+
+        // if given anime exists in list
+        if (fields!.containsKey(id)) {
+          await userListCollection
+              .doc(listName)
+              .update({id: FieldValue.delete()});
+        } else {
+          await userListCollection.doc(listName).update({id: id});
+        }
+      } else {
+        await userListCollection.doc(listName).set({id: id});
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  // -------------------------------------------------------------------------------------------------------
 
   Future<Anime> _getAnimeByID(String id) async {
     final anime = await _animesCollection

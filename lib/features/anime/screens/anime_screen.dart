@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_anime_app/features/anime/controller/anime_controller.dart';
 import 'package:flutter_anime_app/models/anime.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AnimeScreen extends StatelessWidget {
+class AnimeScreen extends ConsumerWidget {
   final Anime anime;
 
   const AnimeScreen({super.key, required this.anime});
 
   @override
-  Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -50,6 +50,17 @@ class AnimeScreen extends StatelessWidget {
               const SizedBox(height: 20),
               Column(
                 children: [
+                  IconButton(
+                    onPressed: () {
+                      ref
+                          .read(animeControllerProvider.notifier)
+                          .setAnimeToList(anime.id, "Favorites");
+                    },
+                    icon: const Icon(
+                      Icons.add_circle,
+                      color: Palette.mainColor,
+                    ),
+                  ),
                   Row(
                     children: [
                       Text(

@@ -30,4 +30,8 @@ class AnimeController extends StateNotifier {
 
     return result;
   }
+
+  void setAnimeToList(String id, String listName) async {
+    await _animeRepository.setAnimeToList(id, listName);
+  }
 }
