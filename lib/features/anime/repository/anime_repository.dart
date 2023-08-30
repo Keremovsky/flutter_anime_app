@@ -130,6 +130,27 @@ class AnimeRepository {
     }
   }
 
+  Future<void> deleteAnimeList(String listName) async {
+    try {
+      // get user uid
+      final userUid = _ref.read(userProvider)!.uid;
+
+      // collection reference to lists
+      final userListCollection = _firestore
+          .collection(FirebaseConstants.usersRef)
+          .doc(userUid)
+          .collection(FirebaseConstants.animeListRef);
+
+      final animeListDoc = await userListCollection.doc(listName).get();
+
+      if (animeListDoc.exists) {
+        userListCollection.doc(listName).delete();
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
   // -------------------------------------------------------------------------------------------------------
 
   Future<Anime> _getAnimeByID(String id) async {

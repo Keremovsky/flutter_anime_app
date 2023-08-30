@@ -34,4 +34,8 @@ class AnimeController extends StateNotifier {
   void setAnimeToList(String id, String listName) async {
     await _animeRepository.setAnimeToList(id, listName);
   }
+
+  void deleteAnimeList(String listName) async {
+    await _animeRepository.deleteAnimeList(listName);
+  }
 }
