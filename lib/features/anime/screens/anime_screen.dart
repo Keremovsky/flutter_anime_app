@@ -143,7 +143,7 @@ class AnimeScreen extends ConsumerWidget {
                 onPressed: () {
                   ref
                       .read(animeControllerProvider.notifier)
-                      .setAnimeToList(context, anime.id, "Favorites");
+                      .likeAnime(context, anime.id);
                 },
                 icon: const Icon(
                   Icons.add_circle,

@@ -33,6 +33,20 @@ class AnimeController extends StateNotifier {
     return result;
   }
 
+  void likeAnime(BuildContext context, String id) async {
+    final control = await _animeRepository.likeAnime(id);
+
+    if (mounted) {
+      if (control == "add") {
+        giveFeedback(context, "Anime added to the favorites.");
+      } else if (control == "delete") {
+        giveFeedback(context, "Anime deleted form the favorites.");
+      } else {
+        giveFeedback(context, "Unknown error occurred.");
+      }
+    }
+  }
+
   void setAnimeToList(BuildContext context, String id, String listName) async {
     final control = await _animeRepository.setAnimeToList(id, listName);
 
