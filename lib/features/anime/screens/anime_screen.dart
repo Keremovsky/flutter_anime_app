@@ -11,6 +11,8 @@ class AnimeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -37,121 +39,116 @@ class AnimeScreen extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: ListView(
             children: [
-              Container(
-                height: 240,
-                width: 160,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  image: DecorationImage(
-                    image: NetworkImage(anime.imageURL),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              Column(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
-                      ref
-                          .read(animeControllerProvider.notifier)
-                          .setAnimeToList(context, anime.id, "Favorites");
-                    },
-                    icon: const Icon(
-                      Icons.add_circle,
-                      color: Palette.mainColor,
+                  Container(
+                    height: 240,
+                    width: 170,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      image: DecorationImage(
+                        image: NetworkImage(anime.imageURL),
+                      ),
                     ),
                   ),
-                  Row(
-                    children: [
-                      Text(
-                        "Name: ${anime.name}",
-                        overflow: TextOverflow.clip,
-                        style: Theme.of(context).textTheme.displayMedium,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "Japanese Name: ${anime.japName}",
-                        overflow: TextOverflow.clip,
-                        style: Theme.of(context).textTheme.displayMedium,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "Type: ${anime.type}",
-                        overflow: TextOverflow.clip,
-                        style: Theme.of(context).textTheme.displayMedium,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "Genres: ${anime.genres}",
-                        overflow: TextOverflow.clip,
-                        style: Theme.of(context).textTheme.displayMedium,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "Score: ${anime.score}",
-                        overflow: TextOverflow.clip,
-                        style: Theme.of(context).textTheme.displayMedium,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "Score: ${anime.favorites}",
-                        overflow: TextOverflow.clip,
-                        style: Theme.of(context).textTheme.displayMedium,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "Episodes: ${anime.episodes}",
-                        overflow: TextOverflow.clip,
-                        style: Theme.of(context).textTheme.displayMedium,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "Status: ${anime.status}",
-                        overflow: TextOverflow.clip,
-                        style: Theme.of(context).textTheme.displayMedium,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "Year: ${anime.year}",
-                        overflow: TextOverflow.clip,
-                        style: Theme.of(context).textTheme.displayMedium,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "Broadcast Day: ${anime.broadcastDay}",
-                        overflow: TextOverflow.clip,
-                        style: Theme.of(context).textTheme.displayMedium,
-                      ),
-                    ],
-                  ),
+                  const SizedBox(width: 10),
+                  SizedBox(
+                    height: 240,
+                    width: width - 200,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            "Type: ${anime.type}",
+                            overflow: TextOverflow.clip,
+                            style: Theme.of(context).textTheme.displayMedium,
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            "Year: ${anime.year}",
+                            overflow: TextOverflow.clip,
+                            style: Theme.of(context).textTheme.displayMedium,
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            "Episodes: ${anime.episodes}",
+                            overflow: TextOverflow.clip,
+                            style: Theme.of(context).textTheme.displayMedium,
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            "Status: ${anime.status}",
+                            overflow: TextOverflow.clip,
+                            style: Theme.of(context).textTheme.displayMedium,
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            "Broadcast Day: ${anime.broadcastDay}",
+                            overflow: TextOverflow.clip,
+                            style: Theme.of(context).textTheme.displayMedium,
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            "Genres: ${anime.genres.join(", ")}",
+                            overflow: TextOverflow.clip,
+                            style: Theme.of(context).textTheme.displayMedium,
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            "Score: ${anime.score}",
+                            overflow: TextOverflow.clip,
+                            style: Theme.of(context).textTheme.displayMedium,
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            "Favorites: ${anime.favorites}",
+                            overflow: TextOverflow.clip,
+                            style: Theme.of(context).textTheme.displayMedium,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
                 ],
+              ),
+              const SizedBox(height: 20),
+              Text(
+                "Name: ${anime.name}",
+                overflow: TextOverflow.clip,
+                style: Theme.of(context).textTheme.displayMedium,
+              ),
+              Text(
+                "Japanese Name: ${anime.japName}",
+                overflow: TextOverflow.clip,
+                style: Theme.of(context).textTheme.displayMedium,
+              ),
+              IconButton(
+                onPressed: () {
+                  ref
+                      .read(animeControllerProvider.notifier)
+                      .setAnimeToList(context, anime.id, "Favorites");
+                },
+                icon: const Icon(
+                  Icons.add_circle,
+                  color: Palette.mainColor,
+                ),
               ),
             ],
           ),
