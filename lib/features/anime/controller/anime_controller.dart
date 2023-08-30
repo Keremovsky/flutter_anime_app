@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_anime_app/core/utils.dart';
 import 'package:flutter_anime_app/features/anime/repository/anime_repository.dart';
 import 'package:flutter_anime_app/models/anime.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,11 +33,31 @@ class AnimeController extends StateNotifier {
     return result;
   }
 
-  void setAnimeToList(String id, String listName) async {
-    await _animeRepository.setAnimeToList(id, listName);
+  void setAnimeToList(BuildContext context, String id, String listName) async {
+    final control = await _animeRepository.setAnimeToList(id, listName);
+
+    if (mounted) {
+      if (control == "add") {
+        giveFeedback(context, "Anime added to the list.");
+      } else if (control == "delete") {
+        giveFeedback(context, "Anime deleted form the list.");
+      } else {
+        giveFeedback(context, "Unknown error occurred.");
+      }
+    }
   }
 
-  void deleteAnimeList(String listName) async {
-    await _animeRepository.deleteAnimeList(listName);
+  void deleteAnimeList(BuildContext context, String listName) async {
+    final control = await _animeRepository.deleteAnimeList(listName);
+
+    if (mounted) {
+      if (control == "success") {
+        giveFeedback(context, "List permanently deleted.");
+      } else if (control == "delete") {
+        giveFeedback(context, "There is no list with given name.");
+      } else {
+        giveFeedback(context, "Unknown error occurred.");
+      }
+    }
   }
 }

@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/core/constants/firebase_constants.dart';
 import 'package:flutter_anime_app/core/providers/firebase_providers.dart';
 import 'package:flutter_anime_app/features/auth/controller/auth_controller.dart';
@@ -95,7 +94,7 @@ class AnimeRepository {
     }
   }
 
-  Future<void> setAnimeToList(String id, String listName) async {
+  Future<String> setAnimeToList(String id, String listName) async {
     try {
       // get user uid
       final userUid = _ref.read(userProvider)!.uid;
@@ -119,18 +118,24 @@ class AnimeRepository {
           await userListCollection
               .doc(listName)
               .update({id: FieldValue.delete()});
+
+          return "delete";
         } else {
           await userListCollection.doc(listName).update({id: id});
+
+          return "add";
         }
       } else {
         await userListCollection.doc(listName).set({id: id});
+
+        return "add";
       }
     } catch (e) {
-      debugPrint(e.toString());
+      return "error";
     }
   }
 
-  Future<void> deleteAnimeList(String listName) async {
+  Future<String> deleteAnimeList(String listName) async {
     try {
       // get user uid
       final userUid = _ref.read(userProvider)!.uid;
@@ -145,9 +150,12 @@ class AnimeRepository {
 
       if (animeListDoc.exists) {
         userListCollection.doc(listName).delete();
+        return "success";
+      } else {
+        return "no_list";
       }
     } catch (e) {
-      debugPrint(e.toString());
+      return "error";
     }
   }
 
