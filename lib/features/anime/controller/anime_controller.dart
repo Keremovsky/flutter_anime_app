@@ -53,7 +53,7 @@ class AnimeController extends StateNotifier {
     if (mounted) {
       if (control == "success") {
         giveFeedback(context, "List permanently deleted.");
-      } else if (control == "delete") {
+      } else if (control == "no_list") {
         giveFeedback(context, "There is no list with given name.");
       } else {
         giveFeedback(context, "Unknown error occurred.");

@@ -24,7 +24,7 @@ class AnimeBox extends ConsumerWidget {
         child: Column(
           children: [
             Container(
-              height: 180,
+              height: 170,
               width: 120,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
@@ -47,7 +47,8 @@ class AnimeBox extends ConsumerWidget {
               width: 120,
               child: Center(
                 child: Text(
-                  "${anime.genres[0]}, ${anime.genres[1]}",
+                  anime.genres.join(", "),
+                  overflow: TextOverflow.ellipsis,
                   style: Theme.of(context)
                       .textTheme
                       .displaySmall!
