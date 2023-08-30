@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/features/anime/screens/anime_screen.dart';
-import 'package:flutter_anime_app/models/anime.dart';
+import 'package:flutter_anime_app/models/pre_anime.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AnimeBox extends ConsumerWidget {
-  final Anime anime;
+  final PreAnime anime;
 
   const AnimeBox({super.key, required this.anime});
 
@@ -17,7 +17,7 @@ class AnimeBox extends ConsumerWidget {
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => AnimeScreen(anime: anime),
+              builder: (context) => AnimeScreen(id: anime.id),
             ),
           );
         },

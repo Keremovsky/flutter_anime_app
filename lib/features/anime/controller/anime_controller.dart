@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/core/utils.dart';
 import 'package:flutter_anime_app/features/anime/repository/anime_repository.dart';
 import 'package:flutter_anime_app/models/anime.dart';
+import 'package:flutter_anime_app/models/pre_anime.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final animeControllerProvider = StateNotifierProvider((ref) => AnimeController(
@@ -21,14 +22,15 @@ class AnimeController extends StateNotifier {
     return result;
   }
 
-  Future<List<Anime>> getAnimeListWithID(List<String> ids) async {
-    final result = await _animeRepository.getAnimeListWithID(ids);
+  Future<List<PreAnime>> getAnimeListWithID(List<String> ids) async {
+    final result = await _animeRepository.getPreAnimeListWithID(ids);
 
     return result;
   }
 
-  Future<List<Anime>> getAnimeListWithColl(String collectionName) async {
-    final result = await _animeRepository.getAnimeListWithColl(collectionName);
+  Future<List<PreAnime>> getAnimeListWithColl(String collectionName) async {
+    final result =
+        await _animeRepository.getPreAnimeListWithColl(collectionName);
 
     return result;
   }

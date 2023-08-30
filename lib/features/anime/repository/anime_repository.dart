@@ -3,6 +3,7 @@ import 'package:flutter_anime_app/core/constants/firebase_constants.dart';
 import 'package:flutter_anime_app/core/providers/firebase_providers.dart';
 import 'package:flutter_anime_app/features/auth/controller/auth_controller.dart';
 import 'package:flutter_anime_app/models/anime.dart';
+import 'package:flutter_anime_app/models/pre_anime.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final animeRepositoryProvider = Provider((ref) => AnimeRepository(
@@ -53,22 +54,22 @@ class AnimeRepository {
     }
   }
 
-  Future<List<Anime>> getAnimeListWithID(List<String> ids) async {
+  Future<List<PreAnime>> getPreAnimeListWithID(List<String> ids) async {
     try {
-      List<Anime> animes = [];
+      List<PreAnime> preAnimes = [];
       for (final id in ids) {
-        final anime = await _getAnimeByID(id);
+        final preAnime = await _getPreAnimeByID(id);
 
-        animes.add(anime);
+        preAnimes.add(preAnime);
       }
 
-      return animes;
+      return preAnimes;
     } catch (e) {
       return [];
     }
   }
 
-  Future<List<Anime>> getAnimeListWithColl(String collectionName) async {
+  Future<List<PreAnime>> getPreAnimeListWithColl(String collectionName) async {
     try {
       late QuerySnapshot<Object?> querySnapshot;
 
@@ -82,13 +83,13 @@ class AnimeRepository {
           .map((doc) => doc.data() as Map<String, dynamic>)
           .toList();
 
-      List<Anime> animes = [];
-      for (final animeId in popularAnimeList) {
-        final anime = await _getAnimeByID(animeId["id"]);
+      List<PreAnime> preAnimes = [];
+      for (final preAnimeID in popularAnimeList) {
+        final preAnime = await _getPreAnimeByID(preAnimeID["id"]);
 
-        animes.add(anime);
+        preAnimes.add(preAnime);
       }
-      return animes;
+      return preAnimes;
     } catch (e) {
       return [];
     }
@@ -220,6 +221,8 @@ class AnimeRepository {
   Future<Anime> _getAnimeByID(String id) async {
     final anime = await _animesCollection
         .doc(id)
+        .collection(FirebaseConstants.coreAnimeRef)
+        .doc(id)
         .snapshots()
         .map((event) => Anime.fromMap(event.data() as Map<String, dynamic>))
         .first;
@@ -227,7 +230,21 @@ class AnimeRepository {
     return anime;
   }
 
+  Future<PreAnime> _getPreAnimeByID(String id) async {
+    final preAnime = await _animesCollection
+        .doc(id)
+        .snapshots()
+        .map((event) => PreAnime.fromMap(event.data() as Map<String, dynamic>))
+        .first;
+
+    return preAnime;
+  }
+
   Future<void> _setAnime(Anime anime) async {
-    await _animesCollection.doc(anime.id).set(anime.toMap());
+    await _animesCollection
+        .doc(anime.id)
+        .collection(FirebaseConstants.coreAnimeRef)
+        .doc(anime.id)
+        .set(anime.toMap());
   }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/features/anime/controller/anime_controller.dart';
 import 'package:flutter_anime_app/features/home/widgets/anime_box.dart';
 import 'package:flutter_anime_app/features/home/widgets/anime_box_load.dart';
-import 'package:flutter_anime_app/models/anime.dart';
+import 'package:flutter_anime_app/models/pre_anime.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AnimeListView extends ConsumerStatefulWidget {
@@ -21,9 +21,9 @@ class AnimeListView extends ConsumerStatefulWidget {
 
 class _AnimeListViewState extends ConsumerState<AnimeListView> {
   // variable to store animes
-  late Future<List<Anime>> animeList;
+  late Future<List<PreAnime>> preAnimeList;
 
-  Future<List<Anime>> _getAnimeList() async {
+  Future<List<PreAnime>> _getAnimeList() async {
     final result = await ref
         .read(animeControllerProvider.notifier)
         .getAnimeListWithColl(widget.collectionRef);
@@ -33,7 +33,7 @@ class _AnimeListViewState extends ConsumerState<AnimeListView> {
 
   @override
   void initState() {
-    animeList = _getAnimeList();
+    preAnimeList = _getAnimeList();
     super.initState();
   }
 
@@ -42,7 +42,7 @@ class _AnimeListViewState extends ConsumerState<AnimeListView> {
     final width = MediaQuery.of(context).size.width;
 
     return FutureBuilder(
-      future: animeList,
+      future: preAnimeList,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Padding(
