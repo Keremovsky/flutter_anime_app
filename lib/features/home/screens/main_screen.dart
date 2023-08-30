@@ -63,7 +63,7 @@ class _MainScreenState extends State<MainScreen> {
           "AnimeApp",
           style: Theme.of(context)
               .textTheme
-              .titleLarge!
+              .titleMedium!
               .copyWith(color: Palette.mainColor),
         ),
         centerTitle: true,
@@ -74,7 +74,7 @@ class _MainScreenState extends State<MainScreen> {
           icon: const Icon(
             Icons.menu,
             color: Palette.mainColor,
-            size: 35,
+            size: 30,
           ),
         ),
       ),
