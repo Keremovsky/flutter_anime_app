@@ -138,8 +138,8 @@ class _CreateBottomSheetState extends ConsumerState<CreateBottomSheet> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Tooltip(
-                          waitDuration: const Duration(seconds: 1),
-                          triggerMode: TooltipTriggerMode.longPress,
+                          showDuration: const Duration(seconds: 5),
+                          triggerMode: TooltipTriggerMode.tap,
                           decoration: BoxDecoration(
                             color: Palette.background.withOpacity(0.95),
                           ),
@@ -155,7 +155,10 @@ class _CreateBottomSheetState extends ConsumerState<CreateBottomSheet> {
                           ),
                           child: Text(
                             "Password requirements.",
-                            style: Theme.of(context).textTheme.displaySmall,
+                            style: Theme.of(context)
+                                .textTheme
+                                .displaySmall!
+                                .copyWith(color: Palette.grey),
                           ),
                         )
                       ],
@@ -166,25 +169,26 @@ class _CreateBottomSheetState extends ConsumerState<CreateBottomSheet> {
             ),
             const SizedBox(height: 25),
             ElevatedButton(
-                onPressed: () {
-                  if (formKey.currentState!.validate()) {
-                    formKey.currentState!.save();
+              onPressed: () {
+                if (formKey.currentState!.validate()) {
+                  formKey.currentState!.save();
 
-                    ref.read(authControllerProvider.notifier).registerWithEmail(
-                          context,
-                          username,
-                          email,
-                          password,
-                        );
-                  }
-                },
-                style: const ButtonStyle(
-                  minimumSize: MaterialStatePropertyAll<Size>(Size(320, 45)),
-                ),
-                child: Text(
-                  "REGISTER",
-                  style: Theme.of(context).textTheme.displayLarge,
-                )),
+                  ref.read(authControllerProvider.notifier).registerWithEmail(
+                        context,
+                        username,
+                        email,
+                        password,
+                      );
+                }
+              },
+              style: const ButtonStyle(
+                minimumSize: MaterialStatePropertyAll<Size>(Size(320, 45)),
+              ),
+              child: Text(
+                "REGISTER",
+                style: Theme.of(context).textTheme.displayLarge,
+              ),
+            ),
             const Spacer(),
             RichText(
               text: TextSpan(

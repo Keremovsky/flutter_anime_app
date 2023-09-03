@@ -20,7 +20,7 @@ class AnimeBoxLoad extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Container(
-            height: 7,
+            height: 6,
             width: 120,
             decoration: BoxDecoration(
               color: Palette.grey,
@@ -29,7 +29,7 @@ class AnimeBoxLoad extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Container(
-            height: 7,
+            height: 6,
             width: 90,
             decoration: BoxDecoration(
               color: Palette.grey,

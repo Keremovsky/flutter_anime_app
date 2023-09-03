@@ -128,7 +128,10 @@ class _LoginBottomSheetState extends ConsumerState<LoginBottomSheet> {
                           },
                           child: Text(
                             "Forgot Password?",
-                            style: Theme.of(context).textTheme.displaySmall,
+                            style: Theme.of(context)
+                                .textTheme
+                                .displaySmall!
+                                .copyWith(color: Palette.grey),
                           ),
                         )
                       ],
@@ -139,22 +142,25 @@ class _LoginBottomSheetState extends ConsumerState<LoginBottomSheet> {
             ),
             const SizedBox(height: 25),
             ElevatedButton(
-                onPressed: () {
-                  if (formKey.currentState!.validate()) {
-                    formKey.currentState!.save();
+              onPressed: () {
+                if (formKey.currentState!.validate()) {
+                  formKey.currentState!.save();
 
-                    ref
-                        .read(authControllerProvider.notifier)
-                        .signInWithEmail(context, email, password);
-                  }
-                },
-                style: const ButtonStyle(
-                  minimumSize: MaterialStatePropertyAll<Size>(Size(320, 45)),
-                ),
-                child: Text(
-                  "LOGIN",
-                  style: Theme.of(context).textTheme.displayLarge,
-                )),
+                  ref.read(authControllerProvider.notifier).signInWithEmail(
+                        context,
+                        email,
+                        password,
+                      );
+                }
+              },
+              style: const ButtonStyle(
+                minimumSize: MaterialStatePropertyAll<Size>(Size(320, 45)),
+              ),
+              child: Text(
+                "LOGIN",
+                style: Theme.of(context).textTheme.displayLarge,
+              ),
+            ),
             const Spacer(),
             RichText(
               text: TextSpan(

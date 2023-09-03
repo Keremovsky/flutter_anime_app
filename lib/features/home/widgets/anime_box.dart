@@ -17,19 +17,25 @@ class AnimeBox extends ConsumerWidget {
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => AnimeScreen(id: anime.id),
+              builder: (context) => AnimeScreen(
+                id: anime.id,
+                name: anime.name,
+              ),
             ),
           );
         },
         child: Column(
           children: [
-            Container(
-              height: 170,
-              width: 120,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                image: DecorationImage(
-                  image: NetworkImage(anime.imageURL),
+            Hero(
+              tag: anime.imageURL,
+              child: Container(
+                height: 170,
+                width: 120,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  image: DecorationImage(
+                    image: NetworkImage(anime.imageURL),
+                  ),
                 ),
               ),
             ),

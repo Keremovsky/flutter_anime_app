@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_anime_app/core/utils.dart';
 import 'package:flutter_anime_app/features/anime/controller/anime_controller.dart';
 import 'package:flutter_anime_app/models/anime.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
@@ -6,8 +7,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AnimeScreen extends ConsumerStatefulWidget {
   final String id;
+  final String name;
 
-  const AnimeScreen({super.key, required this.id});
+  const AnimeScreen({super.key, required this.id, required this.name});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _AnimeScreenState();
@@ -37,7 +39,32 @@ class _AnimeScreenState extends ConsumerState<AnimeScreen> {
       future: anime,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(
+                widget.name,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium!
+                    .copyWith(color: Palette.mainColor),
+              ),
+              centerTitle: true,
+              leading: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: Palette.mainColor,
+                  size: 30,
+                ),
+              ),
+            ),
+            body: circularLoading(
+              size: 100,
+              color: Palette.mainColor,
+            ),
+          );
         }
 
         final animeData = snapshot.data!;
@@ -71,13 +98,16 @@ class _AnimeScreenState extends ConsumerState<AnimeScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        height: 240,
-                        width: 170,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          image: DecorationImage(
-                            image: NetworkImage(animeData.imageURL),
+                      Hero(
+                        tag: animeData.imageURL,
+                        child: Container(
+                          height: 240,
+                          width: 170,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            image: DecorationImage(
+                              image: NetworkImage(animeData.imageURL),
+                            ),
                           ),
                         ),
                       ),
