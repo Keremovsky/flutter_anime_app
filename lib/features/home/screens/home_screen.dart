@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_anime_app/core/constants/firebase_constants.dart';
 import 'package:flutter_anime_app/features/home/widgets/anime_list_view.dart';
+import 'package:flutter_anime_app/models/pre_anime.dart';
 
 class HomeScreen extends StatefulWidget {
-  static const routeName = "/homeScreen";
+  final List<PreAnime> popular;
+  final List<PreAnime> seasonal;
 
-  const HomeScreen({super.key});
+  const HomeScreen({super.key, required this.popular, required this.seasonal});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -26,16 +27,16 @@ class _HomeScreenState extends State<HomeScreen>
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: ListView(
-            children: const [
+            children: [
               AnimeListView(
                 title: "Popular Animes",
-                collectionRef: FirebaseConstants.popularAnimesRef,
+                preAnime: widget.popular,
               ),
               AnimeListView(
                 title: "Seasonal Animes",
-                collectionRef: FirebaseConstants.seasonalAnimesRef,
+                preAnime: widget.seasonal,
               ),
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
             ],
           ),
         ),

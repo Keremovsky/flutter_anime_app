@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_anime_app/features/auth/screens/auth_screen.dart';
-import 'package:flutter_anime_app/features/home/screens/main_screen.dart';
-import 'package:flutter_anime_app/features/home/screens/splash_screen.dart';
+import 'package:flutter_anime_app/router.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -22,7 +20,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -110,11 +108,7 @@ class MyApp extends StatelessWidget {
 
         useMaterial3: true,
       ),
-      routes: {
-        "/": (context) => const AuthScreen(),
-        MainScreen.routeName: (context) => const MainScreen(),
-        SplashScreen.routeName: (context) => const SplashScreen(),
-      },
+      routerConfig: AppRouter().router,
     );
   }
 }

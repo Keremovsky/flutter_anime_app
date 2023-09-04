@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/core/constants/constants.dart';
 import 'package:flutter_anime_app/core/constants/firebase_constants.dart';
+import 'package:flutter_anime_app/core/constants/route_constants.dart';
 import 'package:flutter_anime_app/core/utils.dart';
 import 'package:flutter_anime_app/features/anime/controller/anime_controller.dart';
-import 'package:flutter_anime_app/features/home/screens/main_screen.dart';
 import 'package:flutter_anime_app/models/pre_anime.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   static const routeName = "splashScreen";
@@ -22,7 +23,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   late Future<List<PreAnime>> seasonal;
 
   Future<List<PreAnime>> _getAnimeList(String collectionRef) async {
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
 
     final result = await ref
         .read(animeControllerProvider.notifier)
@@ -34,6 +35,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
     super.initState();
+
     popular = _getAnimeList(FirebaseConstants.popularAnimesRef);
     seasonal = _getAnimeList(FirebaseConstants.seasonalAnimesRef);
   }
@@ -50,8 +52,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                 Align(
                   alignment: Alignment.center,
                   child: SizedBox(
-                    height: 120,
-                    width: 120,
+                    height: 100,
+                    width: 100,
                     child: Hero(
                       tag: "authLogo",
                       child: Image.asset(Constants.logoImage),
@@ -61,7 +63,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                 Align(
                   alignment: Alignment.center,
                   child: circularLoading(
-                    size: 160,
+                    size: 140,
                     color: Palette.mainColor,
                   ),
                 )
@@ -69,13 +71,17 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             );
           } else if (snapshot.connectionState == ConnectionState.done) {
             Future.microtask(
-              () => Navigator.of(context).popAndPushNamed(
-                MainScreen.routeName,
+              () => context.pushReplacementNamed(
+                RouteConstants.mainScreen,
+                extra: [
+                  snapshot.data![0],
+                  snapshot.data![1],
+                ],
               ),
             );
           }
 
-          return SizedBox();
+          return const SizedBox();
         },
       ),
     );

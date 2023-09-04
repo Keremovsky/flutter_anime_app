@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_anime_app/core/constants/route_constants.dart';
 import 'package:flutter_anime_app/core/utils.dart';
 import 'package:flutter_anime_app/features/auth/repository/auth_repository.dart';
-import 'package:flutter_anime_app/features/home/screens/splash_screen.dart';
 import 'package:flutter_anime_app/models/user_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 final userProvider = StateProvider<UserModel?>((ref) => null);
 
@@ -41,11 +42,7 @@ class AuthController extends StateNotifier<bool> {
       (right) {
         _ref.read(userProvider.notifier).update((state) => right);
 
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => const SplashScreen(),
-          ),
-        );
+        context.pushReplacementNamed(RouteConstants.splashScreen);
       },
     );
   }
@@ -70,11 +67,7 @@ class AuthController extends StateNotifier<bool> {
       (right) {
         _ref.read(userProvider.notifier).update((state) => right);
 
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => const SplashScreen(),
-          ),
-        );
+        context.pushReplacementNamed(RouteConstants.splashScreen);
       },
     );
   }
@@ -100,12 +93,8 @@ class AuthController extends StateNotifier<bool> {
       (right) {
         _ref.read(userProvider.notifier).update((state) => right);
 
-        Navigator.of(context).pop();
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => const SplashScreen(),
-          ),
-        );
+        context.pop();
+        context.pushReplacementNamed(RouteConstants.splashScreen);
       },
     );
   }

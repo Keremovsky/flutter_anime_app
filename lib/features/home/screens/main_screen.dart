@@ -4,12 +4,14 @@ import 'package:flutter_anime_app/features/home/screens/home_screen.dart';
 import 'package:flutter_anime_app/features/user_profile/screens/profile_screen.dart';
 import 'package:flutter_anime_app/features/home/screens/search_screen.dart';
 import 'package:flutter_anime_app/features/home/widgets/navigation_button.dart';
+import 'package:flutter_anime_app/models/pre_anime.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
 
 class MainScreen extends StatefulWidget {
-  static const routeName = "mainScreen";
+  final List<PreAnime> popular;
+  final List<PreAnime> seasonal;
 
-  const MainScreen({super.key});
+  const MainScreen({super.key, required this.popular, required this.seasonal});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -19,18 +21,8 @@ class _MainScreenState extends State<MainScreen> {
   // scaffold key to open drawer
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
+  // page controller to control page view
   final PageController pageController = PageController();
-
-  // page bucket
-  final PageStorageBucket bucket = PageStorageBucket();
-
-  // all screens
-  final List<Widget> screens = [
-    const HomeScreen(),
-    const SearchScreen(),
-    const AnimeListScreen(),
-    const ProfileScreen(),
-  ];
 
   // hold current index
   int currentIndex = 0;
@@ -143,7 +135,15 @@ class _MainScreenState extends State<MainScreen> {
       body: PageView(
         controller: pageController,
         physics: const NeverScrollableScrollPhysics(),
-        children: screens,
+        children: [
+          HomeScreen(
+            popular: widget.popular,
+            seasonal: widget.seasonal,
+          ),
+          const SearchScreen(),
+          const AnimeListScreen(),
+          const ProfileScreen(),
+        ],
       ),
     );
   }

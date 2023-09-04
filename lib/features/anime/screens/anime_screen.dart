@@ -4,6 +4,7 @@ import 'package:flutter_anime_app/features/anime/controller/anime_controller.dar
 import 'package:flutter_anime_app/models/anime.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class AnimeScreen extends ConsumerStatefulWidget {
   final String id;
@@ -47,7 +48,7 @@ class _AnimeScreenState extends ConsumerState<AnimeScreen> {
         centerTitle: true,
         leading: IconButton(
           onPressed: () {
-            Navigator.pop(context);
+            context.pop();
           },
           icon: const Icon(
             Icons.arrow_back,

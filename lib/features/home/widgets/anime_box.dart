@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_anime_app/features/anime/screens/anime_screen.dart';
+import 'package:flutter_anime_app/core/constants/route_constants.dart';
 import 'package:flutter_anime_app/models/pre_anime.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class AnimeBox extends ConsumerWidget {
   final PreAnime anime;
@@ -15,13 +16,10 @@ class AnimeBox extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: GestureDetector(
         onTap: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => AnimeScreen(
-                id: anime.id,
-                name: anime.name,
-              ),
-            ),
+          context.pushNamed(
+            RouteConstants.animeScreen,
+            pathParameters: {"id": anime.id},
+            extra: anime.name,
           );
         },
         child: Column(
