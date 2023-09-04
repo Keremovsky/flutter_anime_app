@@ -18,13 +18,19 @@ void giveFeedback(BuildContext context, String text) {
   );
 }
 
-Widget circularLoading({required double size, Color color = Palette.white}) {
+Widget circularLoading({
+  required double size,
+  Color color = Palette.white,
+  double strokeWidth = 4,
+}) {
   return Center(
     child: SizedBox(
       height: size,
       width: size,
       child: CircularProgressIndicator(
         color: color,
+        strokeWidth: strokeWidth,
+        strokeCap: StrokeCap.round,
       ),
     ),
   );

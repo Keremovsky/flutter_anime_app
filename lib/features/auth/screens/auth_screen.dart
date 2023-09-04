@@ -31,7 +31,10 @@ class AuthScreen extends ConsumerWidget {
               SizedBox(
                 height: 150,
                 width: 150,
-                child: Image.asset(Constants.logoImage),
+                child: Hero(
+                  tag: "authLogo",
+                  child: Image.asset(Constants.logoImage),
+                ),
               ),
               const Spacer(flex: 8),
               ElevatedButton(

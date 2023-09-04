@@ -35,62 +35,40 @@ class _AnimeScreenState extends ConsumerState<AnimeScreen> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
 
-    return FutureBuilder(
-      future: anime,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Scaffold(
-            appBar: AppBar(
-              title: Text(
-                widget.name,
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium!
-                    .copyWith(color: Palette.mainColor),
-              ),
-              centerTitle: true,
-              leading: IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: const Icon(
-                  Icons.arrow_back,
-                  color: Palette.mainColor,
-                  size: 30,
-                ),
-              ),
-            ),
-            body: circularLoading(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          widget.name,
+          style: Theme.of(context)
+              .textTheme
+              .titleMedium!
+              .copyWith(color: Palette.mainColor),
+        ),
+        centerTitle: true,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Palette.mainColor,
+            size: 30,
+          ),
+        ),
+      ),
+      body: FutureBuilder(
+        future: anime,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return circularLoading(
               size: 100,
               color: Palette.mainColor,
-            ),
-          );
-        }
+            );
+          }
 
-        final animeData = snapshot.data!;
+          final animeData = snapshot.data!;
 
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(
-              animeData.name,
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium!
-                  .copyWith(color: Palette.mainColor),
-            ),
-            centerTitle: true,
-            leading: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(
-                Icons.arrow_back,
-                color: Palette.mainColor,
-                size: 30,
-              ),
-            ),
-          ),
-          body: SafeArea(
+          return SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: ListView(
@@ -220,9 +198,9 @@ class _AnimeScreenState extends ConsumerState<AnimeScreen> {
                 ],
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
