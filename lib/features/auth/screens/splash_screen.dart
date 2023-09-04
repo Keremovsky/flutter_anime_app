@@ -31,7 +31,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
     final result = await ref
         .read(animeControllerProvider.notifier)
-        .getAnimeListWithColl(collectionRef);
+        .getPreAnimeListWithColl(collectionRef);
 
     return result;
   }

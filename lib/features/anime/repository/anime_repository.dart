@@ -15,6 +15,9 @@ class AnimeRepository {
   final FirebaseFirestore _firestore;
   final Ref _ref;
 
+  CollectionReference get _usersCollection =>
+      _firestore.collection(FirebaseConstants.usersRef);
+
   CollectionReference get _animesCollection =>
       _firestore.collection(FirebaseConstants.animesRef);
 
@@ -27,6 +30,35 @@ class AnimeRepository {
   AnimeRepository({required firestore, required ref})
       : _firestore = firestore,
         _ref = ref;
+
+  Future<List<String>> getAnimeIDList(String listName) async {
+    try {
+      // get user uid
+      final userUid = _ref.read(userProvider)!.uid;
+
+      // collection reference to lists
+      final userListCollection = _usersCollection
+          .doc(userUid)
+          .collection(FirebaseConstants.animeListRef);
+
+      final animeListDoc = await userListCollection.doc(listName).get();
+
+      List<String> ids = [];
+      if (animeListDoc.exists) {
+        final fields = animeListDoc.data();
+
+        fields!.forEach((key, value) {
+          ids.add(value);
+        });
+
+        return ids;
+      } else {
+        return [];
+      }
+    } catch (e) {
+      return [];
+    }
+  }
 
   Future<Anime> getAnime(String id) async {
     try {
@@ -101,8 +133,7 @@ class AnimeRepository {
       final userUid = _ref.read(userProvider)!.uid;
 
       // collection reference to lists
-      final userListCollection = _firestore
-          .collection(FirebaseConstants.usersRef)
+      final userListCollection = _usersCollection
           .doc(userUid)
           .collection(FirebaseConstants.animeListRef);
 

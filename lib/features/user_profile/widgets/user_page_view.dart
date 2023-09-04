@@ -16,8 +16,10 @@ class UserPageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+
     return SizedBox(
-      height: 500,
+      height: height * 0.45,
       width: double.infinity,
       child: PageView(
         controller: pageController,

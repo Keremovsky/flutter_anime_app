@@ -3,7 +3,7 @@ import 'package:flutter_anime_app/core/constants/route_constants.dart';
 import 'package:flutter_anime_app/features/anime/screens/anime_screen.dart';
 import 'package:flutter_anime_app/features/auth/screens/auth_screen.dart';
 import 'package:flutter_anime_app/features/home/screens/main_screen.dart';
-import 'package:flutter_anime_app/features/home/screens/splash_screen.dart';
+import 'package:flutter_anime_app/features/auth/screens/splash_screen.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouter {
