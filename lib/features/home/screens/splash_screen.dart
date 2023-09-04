@@ -18,7 +18,11 @@ class SplashScreen extends ConsumerStatefulWidget {
   ConsumerState<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends ConsumerState<SplashScreen> {
+class _SplashScreenState extends ConsumerState<SplashScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController controller;
+  late Animation<double> scaleAnimation;
+
   late Future<List<PreAnime>> popular;
   late Future<List<PreAnime>> seasonal;
 
@@ -38,6 +42,20 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
     popular = _getAnimeList(FirebaseConstants.popularAnimesRef);
     seasonal = _getAnimeList(FirebaseConstants.seasonalAnimesRef);
+
+    controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 800),
+    );
+    scaleAnimation = CurvedAnimation(
+      parent: controller,
+      curve: Curves.elasticInOut,
+    );
+
+    controller.addListener(() {
+      setState(() {});
+    });
+    controller.forward();
   }
 
   @override
@@ -54,17 +72,20 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                   child: SizedBox(
                     height: 100,
                     width: 100,
-                    child: Hero(
-                      tag: "authLogo",
+                    child: ScaleTransition(
+                      scale: scaleAnimation,
                       child: Image.asset(Constants.logoImage),
                     ),
                   ),
                 ),
                 Align(
                   alignment: Alignment.center,
-                  child: circularLoading(
-                    size: 140,
-                    color: Palette.mainColor,
+                  child: ScaleTransition(
+                    scale: scaleAnimation,
+                    child: circularLoading(
+                      size: 140,
+                      color: Palette.mainColor,
+                    ),
                   ),
                 )
               ],

@@ -56,8 +56,5 @@ class AppRouter {
         },
       ),
     ],
-    redirect: (context, state) {
-      return null;
-    },
   );
 }

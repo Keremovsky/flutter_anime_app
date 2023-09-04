@@ -12,16 +12,18 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final router = AppRouter().router;
+
+  MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'Flutter Demo',
+      title: 'Flutter AnimeApp',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
@@ -108,7 +110,7 @@ class MyApp extends StatelessWidget {
 
         useMaterial3: true,
       ),
-      routerConfig: AppRouter().router,
+      routerConfig: router,
     );
   }
 }
