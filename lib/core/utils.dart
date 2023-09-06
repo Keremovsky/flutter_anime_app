@@ -20,6 +20,7 @@ void giveFeedback(BuildContext context, String text) {
 
 Widget circularLoading({
   required double size,
+  Animation<Color>? valueColor,
   Color color = Palette.white,
   double strokeWidth = 4,
 }) {
@@ -28,7 +29,8 @@ Widget circularLoading({
       height: size,
       width: size,
       child: CircularProgressIndicator(
-        color: color,
+        color: valueColor == null ? color : null,
+        valueColor: valueColor,
         strokeWidth: strokeWidth,
         strokeCap: StrokeCap.round,
       ),

@@ -1,8 +1,10 @@
 class Constants {
-  // images
-  static const backgroundImage = "assets/images/background.jpg";
-  static const logoImage = "assets/images/anime_app_logo.png";
-  static const googleLogo = "assets/images/google.png";
-  static const facebookLogo = "assets/images/facebook.png";
-  static const twitterLogo = "assets/images/twitter.png";
+  // image
+  static const backgroundImage = "assets/image/background.jpg";
+
+  // logo
+  static const logoImage = "assets/logo/anime_app_logo.png";
+  static const googleLogo = "assets/logo/google_logo.png";
+  static const facebookLogo = "assets/logo/facebook_logo.png";
+  static const twitterLogo = "assets/logo/twitter_logo.png";
 }

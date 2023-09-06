@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/core/constants/constants.dart';
+import 'package:flutter_anime_app/core/utils/custom_circular_progress_indicator.dart';
 import 'package:flutter_anime_app/features/auth/controller/auth_controller.dart';
 import 'package:flutter_anime_app/features/auth/widgets/create_bottom_sheet.dart';
 import 'package:flutter_anime_app/features/auth/widgets/login_bottom_sheet.dart';
+import 'package:flutter_anime_app/features/auth/widgets/social_auth_button.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AuthScreen extends ConsumerWidget {
   const AuthScreen({super.key});
+
+  static const List<Color> _googleColors = [
+    Color.fromRGBO(219, 68, 55, 1),
+    Color.fromRGBO(244, 180, 0, 1),
+    Color.fromRGBO(15, 157, 88, 1),
+    Color.fromRGBO(66, 133, 244, 1),
+  ];
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -82,58 +91,45 @@ class AuthScreen extends ConsumerWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  InkWell(
-                    onTap: () {
-                      debugPrint("facebook");
+                  SocialAuthButton(
+                    logoImage: Constants.facebookLogo,
+                    background: Palette.facebookBackground,
+                    authProcess: () async {
+                      await Future.delayed(const Duration(seconds: 5));
                     },
-                    child: SizedBox(
-                      height: 30,
-                      width: 50,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(30),
-                        child: Image.asset(
-                          Constants.facebookLogo,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                    loadingIndicator: const CustomCircularProgressIndicator(
+                      size: 15,
+                      strokeWidth: 3,
                     ),
                   ),
                   const SizedBox(width: 10),
-                  InkWell(
-                    onTap: () {
-                      ref
+                  SocialAuthButton(
+                    logoImage: Constants.twitterLogo,
+                    background: Palette.twitterBackground,
+                    authProcess: () async {
+                      await ref
                           .read(authControllerProvider.notifier)
                           .signInWithTwitter(context);
                     },
-                    child: SizedBox(
-                      height: 30,
-                      width: 50,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(30),
-                        child: Image.asset(
-                          Constants.twitterLogo,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                    loadingIndicator: const CustomCircularProgressIndicator(
+                      size: 15,
+                      strokeWidth: 3,
                     ),
                   ),
                   const SizedBox(width: 10),
-                  InkWell(
-                    onTap: () {
+                  SocialAuthButton(
+                    logoImage: Constants.googleLogo,
+                    background: Palette.googleBackground,
+                    authProcess: () async {
                       ref
                           .read(authControllerProvider.notifier)
                           .signInWithGoogle(context);
                     },
-                    child: SizedBox(
-                      height: 30,
-                      width: 50,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(30),
-                        child: Image.asset(
-                          Constants.googleLogo,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                    loadingIndicator: const CustomCircularProgressIndicator(
+                      size: 15,
+                      strokeWidth: 3,
+                      animationColors: _googleColors,
+                      animationTime: Duration(seconds: 2),
                     ),
                   ),
                 ],

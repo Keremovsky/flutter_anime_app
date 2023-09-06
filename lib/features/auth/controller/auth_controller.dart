@@ -22,7 +22,7 @@ class AuthController extends StateNotifier<bool> {
         _ref = ref,
         super(false);
 
-  void signInWithGoogle(BuildContext context) async {
+  Future<void> signInWithGoogle(BuildContext context) async {
     final control = await _authRepository.signInWithGoogle();
 
     control.fold(
@@ -47,7 +47,7 @@ class AuthController extends StateNotifier<bool> {
     );
   }
 
-  void signInWithTwitter(BuildContext context) async {
+  Future<void> signInWithTwitter(BuildContext context) async {
     final control = await _authRepository.signInWithTwitter();
 
     control.fold(
@@ -72,7 +72,7 @@ class AuthController extends StateNotifier<bool> {
     );
   }
 
-  void signInWithEmail(
+  Future<void> signInWithEmail(
       BuildContext context, String email, String password) async {
     final control = await _authRepository.signInWithEmail(email, password);
 
@@ -99,8 +99,8 @@ class AuthController extends StateNotifier<bool> {
     );
   }
 
-  void registerWithEmail(BuildContext context, String username, String email,
-      String password) async {
+  Future<void> registerWithEmail(BuildContext context, String username,
+      String email, String password) async {
     if (!passwordValidator(password)) {
       giveFeedback(context, "Password requirements are not met.");
       return;
@@ -125,7 +125,7 @@ class AuthController extends StateNotifier<bool> {
     }
   }
 
-  void resetPassword(BuildContext context, String email) async {
+  Future<void> resetPassword(BuildContext context, String email) async {
     final control = await _authRepository.resetPassword(email);
 
     if (mounted) {
