@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/features/home/screens/anime_list_screen.dart';
 import 'package:flutter_anime_app/features/home/screens/home_screen.dart';
+import 'package:flutter_anime_app/features/home/widgets/home_drawer.dart';
 import 'package:flutter_anime_app/features/user_profile/screens/profile_screen.dart';
 import 'package:flutter_anime_app/features/home/screens/search_screen.dart';
 import 'package:flutter_anime_app/features/home/widgets/navigation_button.dart';
@@ -45,11 +46,6 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      drawer: const SafeArea(
-        child: Drawer(
-          child: Column(),
-        ),
-      ),
       appBar: AppBar(
         title: Text(
           "AnimeApp",
@@ -70,6 +66,30 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
       ),
+      drawer: const HomeDrawer(),
+      body: PageView(
+        controller: pageController,
+        physics: const NeverScrollableScrollPhysics(),
+        children: [
+          HomeScreen(
+            popular: widget.popular,
+            seasonal: widget.seasonal,
+          ),
+          const SearchScreen(),
+          const AnimeListScreen(),
+          const ProfileScreen(),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        shape: const CircleBorder(),
+        child: const Icon(
+          Icons.add,
+          size: 30,
+          color: Palette.white,
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
           border: Border(
@@ -121,29 +141,6 @@ class _MainScreenState extends State<MainScreen> {
             ],
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        shape: const CircleBorder(),
-        child: const Icon(
-          Icons.add,
-          size: 30,
-          color: Palette.white,
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      body: PageView(
-        controller: pageController,
-        physics: const NeverScrollableScrollPhysics(),
-        children: [
-          HomeScreen(
-            popular: widget.popular,
-            seasonal: widget.seasonal,
-          ),
-          const SearchScreen(),
-          const AnimeListScreen(),
-          const ProfileScreen(),
-        ],
       ),
     );
   }

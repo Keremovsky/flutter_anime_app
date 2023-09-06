@@ -2,10 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:either_dart/either.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_anime_app/core/constants/constants.dart';
 import 'package:flutter_anime_app/core/constants/firebase_constants.dart';
 import 'package:flutter_anime_app/core/constants/keys.dart';
 import 'package:flutter_anime_app/core/providers/firebase_providers.dart';
 import 'package:flutter_anime_app/core/providers/storage_provider.dart';
+import 'package:flutter_anime_app/features/auth/controller/auth_controller.dart';
 import 'package:flutter_anime_app/models/user_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -17,6 +19,7 @@ final authRepositoryProvider = Provider((ref) => AuthRepository(
       google: ref.read(googleSignInProvider),
       firestore: ref.read(firestoreProvider),
       storage: ref.read(storageProvider),
+      ref: ref,
     ));
 
 class AuthRepository {
@@ -24,6 +27,7 @@ class AuthRepository {
   final GoogleSignIn _google;
   final FirebaseFirestore _firestore;
   final Storage _storage;
+  final Ref _ref;
 
   CollectionReference get _usersCollection =>
       _firestore.collection(FirebaseConstants.usersRef);
@@ -33,10 +37,12 @@ class AuthRepository {
     required google,
     required firestore,
     required storage,
+    required ref,
   })  : _auth = auth,
         _google = google,
         _firestore = firestore,
-        _storage = storage;
+        _storage = storage,
+        _ref = ref;
 
   Future<Either<String, UserModel>> signInWithGoogle() async {
     try {
@@ -270,6 +276,24 @@ class AuthRepository {
       return "error";
     }
   }
+
+  Future<String> signOut() async {
+    try {
+      final userModel = _ref.read(userProvider)!;
+
+      if (userModel.registerType == Constants.googleRegister) {
+        await _google.signOut();
+      }
+      await _auth.signOut();
+
+      _ref.read(userProvider.notifier).update((state) => null);
+      return "success";
+    } catch (e) {
+      return "error";
+    }
+  }
+
+  // -------------------------------------------------------------------------------------------------------
 
   // get user model form database
   Future<UserModel> _getUserModel(String uid) {

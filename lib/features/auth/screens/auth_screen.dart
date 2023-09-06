@@ -121,7 +121,7 @@ class AuthScreen extends ConsumerWidget {
                     logoImage: Constants.googleLogo,
                     background: Palette.googleBackground,
                     authProcess: () async {
-                      ref
+                      await ref
                           .read(authControllerProvider.notifier)
                           .signInWithGoogle(context);
                     },

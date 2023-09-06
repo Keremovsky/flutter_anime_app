@@ -140,4 +140,16 @@ class AuthController extends StateNotifier<bool> {
       }
     }
   }
+
+  Future<void> signOut(BuildContext context) async {
+    final control = await _authRepository.signOut();
+
+    if (mounted) {
+      if (control == "success") {
+        context.pushReplacementNamed(RouteConstants.authScreen);
+      } else {
+        giveFeedback(context, "Unknown error occurred.");
+      }
+    }
+  }
 }
