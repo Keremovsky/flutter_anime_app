@@ -101,11 +101,6 @@ class AuthController extends StateNotifier<bool> {
 
   Future<void> registerWithEmail(BuildContext context, String username,
       String email, String password) async {
-    if (!passwordValidator(password)) {
-      giveFeedback(context, "Password requirements are not met.");
-      return;
-    }
-
     final control =
         await _authRepository.registerWithEmail(username, email, password);
 

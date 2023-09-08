@@ -1,6 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_anime_app/core/utils/custom_circular_progress_indicator.dart';
 import 'package:flutter_anime_app/features/auth/controller/auth_controller.dart';
+import 'package:flutter_anime_app/features/auth/widgets/auth_button.dart';
 import 'package:flutter_anime_app/features/auth/widgets/create_bottom_sheet.dart';
 import 'package:flutter_anime_app/features/auth/widgets/reset_password_bottom_sheet.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
@@ -141,21 +143,27 @@ class _LoginBottomSheetState extends ConsumerState<LoginBottomSheet> {
               ),
             ),
             const SizedBox(height: 25),
-            ElevatedButton(
-              onPressed: () {
+            AuthButton(
+              authProcess: () async {
                 if (formKey.currentState!.validate()) {
                   formKey.currentState!.save();
 
-                  ref.read(authControllerProvider.notifier).signInWithEmail(
+                  await ref
+                      .read(authControllerProvider.notifier)
+                      .signInWithEmail(
                         context,
                         email,
                         password,
                       );
                 }
               },
-              style: const ButtonStyle(
-                minimumSize: MaterialStatePropertyAll<Size>(Size(320, 45)),
-              ),
+              height: 45,
+              width: 320,
+              shrinkOnLoading: true,
+              shrinkWidth: 45,
+              shrinkAnimationDuration: const Duration(milliseconds: 250),
+              loadingIndicator: const CustomCircularProgressIndicator(size: 20),
+              background: Palette.mainColor,
               child: Text(
                 "LOGIN",
                 style: Theme.of(context).textTheme.displayLarge,

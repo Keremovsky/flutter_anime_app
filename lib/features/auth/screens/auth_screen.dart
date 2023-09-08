@@ -4,7 +4,7 @@ import 'package:flutter_anime_app/core/utils/custom_circular_progress_indicator.
 import 'package:flutter_anime_app/features/auth/controller/auth_controller.dart';
 import 'package:flutter_anime_app/features/auth/widgets/create_bottom_sheet.dart';
 import 'package:flutter_anime_app/features/auth/widgets/login_bottom_sheet.dart';
-import 'package:flutter_anime_app/features/auth/widgets/social_auth_button.dart';
+import 'package:flutter_anime_app/features/auth/widgets/auth_button.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -91,8 +91,9 @@ class AuthScreen extends ConsumerWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SocialAuthButton(
-                    logoImage: Constants.facebookLogo,
+                  AuthButton(
+                    height: 30,
+                    width: 50,
                     background: Palette.facebookBackground,
                     authProcess: () async {
                       await Future.delayed(const Duration(seconds: 5));
@@ -101,10 +102,15 @@ class AuthScreen extends ConsumerWidget {
                       size: 15,
                       strokeWidth: 3,
                     ),
+                    child: Image.asset(
+                      Constants.facebookLogo,
+                      fit: BoxFit.contain,
+                    ),
                   ),
                   const SizedBox(width: 10),
-                  SocialAuthButton(
-                    logoImage: Constants.twitterLogo,
+                  AuthButton(
+                    height: 30,
+                    width: 50,
                     background: Palette.twitterBackground,
                     authProcess: () async {
                       await ref
@@ -115,10 +121,15 @@ class AuthScreen extends ConsumerWidget {
                       size: 15,
                       strokeWidth: 3,
                     ),
+                    child: Image.asset(
+                      Constants.twitterLogo,
+                      fit: BoxFit.contain,
+                    ),
                   ),
                   const SizedBox(width: 10),
-                  SocialAuthButton(
-                    logoImage: Constants.googleLogo,
+                  AuthButton(
+                    height: 30,
+                    width: 50,
                     background: Palette.googleBackground,
                     authProcess: () async {
                       await ref
@@ -130,6 +141,10 @@ class AuthScreen extends ConsumerWidget {
                       strokeWidth: 3,
                       animationColors: _googleColors,
                       animationTime: Duration(seconds: 2),
+                    ),
+                    child: Image.asset(
+                      Constants.googleLogo,
+                      fit: BoxFit.contain,
                     ),
                   ),
                 ],

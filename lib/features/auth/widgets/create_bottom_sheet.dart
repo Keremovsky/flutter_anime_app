@@ -1,6 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_anime_app/core/utils.dart';
+import 'package:flutter_anime_app/core/utils/custom_circular_progress_indicator.dart';
 import 'package:flutter_anime_app/features/auth/controller/auth_controller.dart';
+import 'package:flutter_anime_app/features/auth/widgets/auth_button.dart';
 import 'package:flutter_anime_app/features/auth/widgets/login_bottom_sheet.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -103,6 +106,9 @@ class _CreateBottomSheetState extends ConsumerState<CreateBottomSheet> {
                         if (value == null || value.isEmpty) {
                           return "Please fill the field";
                         }
+                        if (passwordValidator(value)) {
+                          return "Password requirements are not met.";
+                        }
                         return null;
                       },
                       onSaved: (value) {
@@ -168,12 +174,14 @@ class _CreateBottomSheetState extends ConsumerState<CreateBottomSheet> {
               ),
             ),
             const SizedBox(height: 25),
-            ElevatedButton(
-              onPressed: () {
+            AuthButton(
+              authProcess: () async {
                 if (formKey.currentState!.validate()) {
                   formKey.currentState!.save();
 
-                  ref.read(authControllerProvider.notifier).registerWithEmail(
+                  await ref
+                      .read(authControllerProvider.notifier)
+                      .registerWithEmail(
                         context,
                         username,
                         email,
@@ -181,9 +189,13 @@ class _CreateBottomSheetState extends ConsumerState<CreateBottomSheet> {
                       );
                 }
               },
-              style: const ButtonStyle(
-                minimumSize: MaterialStatePropertyAll<Size>(Size(320, 45)),
-              ),
+              height: 45,
+              width: 320,
+              shrinkOnLoading: true,
+              shrinkAnimationDuration: const Duration(milliseconds: 250),
+              shrinkWidth: 45,
+              loadingIndicator: const CustomCircularProgressIndicator(size: 20),
+              background: Palette.mainColor,
               child: Text(
                 "REGISTER",
                 style: Theme.of(context).textTheme.displayLarge,
