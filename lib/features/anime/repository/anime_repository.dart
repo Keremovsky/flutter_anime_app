@@ -31,35 +31,6 @@ class AnimeRepository {
       : _firestore = firestore,
         _ref = ref;
 
-  Future<List<String>> getAnimeIDList(String listName) async {
-    try {
-      // get user uid
-      final userUid = _ref.read(userProvider)!.uid;
-
-      // collection reference to lists
-      final userListCollection = _usersCollection
-          .doc(userUid)
-          .collection(FirebaseConstants.animeListRef);
-
-      final animeListDoc = await userListCollection.doc(listName).get();
-
-      List<String> ids = [];
-      if (animeListDoc.exists) {
-        final fields = animeListDoc.data();
-
-        fields!.forEach((key, value) {
-          ids.add(value);
-        });
-
-        return ids;
-      } else {
-        return [];
-      }
-    } catch (e) {
-      return [];
-    }
-  }
-
   Future<Anime> getAnime(String id) async {
     try {
       final anime = await _getAnimeByID(id);
@@ -244,6 +215,61 @@ class AnimeRepository {
       }
     } catch (e) {
       return "error";
+    }
+  }
+
+  Future<List<String>> getAnimeIDList(String listName) async {
+    try {
+      // get user uid
+      final userUid = _ref.read(userProvider)!.uid;
+
+      // collection reference to lists
+      final userListCollection = _usersCollection
+          .doc(userUid)
+          .collection(FirebaseConstants.animeListRef);
+
+      final animeListDoc = await userListCollection.doc(listName).get();
+
+      List<String> ids = [];
+      if (animeListDoc.exists) {
+        final fields = animeListDoc.data();
+
+        fields!.forEach((key, value) {
+          ids.add(value);
+        });
+
+        return ids;
+      } else {
+        return [];
+      }
+    } catch (e) {
+      return [];
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getAnimeListData() async {
+    try {
+      final userUid = _ref.read(userProvider)!.uid;
+      final querySnapshot = await _usersCollection
+          .doc(userUid)
+          .collection(FirebaseConstants.animeListRef)
+          .get();
+
+      final data = querySnapshot.docs.map((doc) {
+        List<String> items = [];
+        for (final item in doc.data().values) {
+          items.add(item);
+        }
+
+        return {
+          "listName": doc.id,
+          "animes": items,
+        };
+      }).toList();
+
+      return data;
+    } catch (e) {
+      return [];
     }
   }
 

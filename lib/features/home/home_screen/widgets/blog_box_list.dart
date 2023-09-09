@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_anime_app/features/home/widgets/blog_box.dart';
+import 'package:flutter_anime_app/features/home/home_screen/widgets/blog_box.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 

@@ -91,15 +91,17 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
               ],
             );
           } else if (snapshot.connectionState == ConnectionState.done) {
-            Future.microtask(
-              () => context.pushReplacementNamed(
-                RouteConstants.mainScreen,
-                extra: [
-                  snapshot.data![0],
-                  snapshot.data![1],
-                ],
-              ),
-            );
+            if (mounted) {
+              Future.microtask(
+                () => context.pushReplacementNamed(
+                  RouteConstants.mainScreen,
+                  extra: [
+                    snapshot.data![0],
+                    snapshot.data![1],
+                  ],
+                ),
+              );
+            }
           }
 
           return const SizedBox();

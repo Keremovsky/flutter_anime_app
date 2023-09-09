@@ -2,10 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
 
 class CustomCircularProgressIndicator extends StatefulWidget {
+  /// Size of loading indicator.
   final double size;
+
+  /// List of colors that will be animated.
   final List<Color>? animationColors;
+
+  /// Animation time of colors.
   final Duration animationTime;
+
+  /// Color of indicator.
   final Color? color;
+
+  /// Stroke width of loading indicator.
   final double strokeWidth;
 
   const CustomCircularProgressIndicator({

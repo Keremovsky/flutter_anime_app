@@ -16,12 +16,6 @@ class AnimeController extends StateNotifier {
       : _animeRepository = animeRepository,
         super(false);
 
-  Future<List<String>> getAnimeIDList(String listName) async {
-    final result = await _animeRepository.getAnimeIDList(listName);
-
-    return result;
-  }
-
   Future<Anime> getAnime(String id) async {
     final result = await _animeRepository.getAnime(id);
 
@@ -81,5 +75,17 @@ class AnimeController extends StateNotifier {
         giveFeedback(context, "Unknown error occurred.");
       }
     }
+  }
+
+  Future<List<String>> getAnimeIDList(String listName) async {
+    final result = await _animeRepository.getAnimeIDList(listName);
+
+    return result;
+  }
+
+  Future<List<Map<String, dynamic>>> getAnimeListData() async {
+    final result = await _animeRepository.getAnimeListData();
+
+    return result;
   }
 }

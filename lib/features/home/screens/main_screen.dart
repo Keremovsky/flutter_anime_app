@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_anime_app/features/home/screens/anime_list_screen.dart';
-import 'package:flutter_anime_app/features/home/screens/home_screen.dart';
+import 'package:flutter_anime_app/features/home/anime_list_screen/anime_list_screen.dart';
+import 'package:flutter_anime_app/features/home/home_screen/home_screen.dart';
 import 'package:flutter_anime_app/features/home/widgets/home_drawer.dart';
 import 'package:flutter_anime_app/features/user_profile/screens/profile_screen.dart';
-import 'package:flutter_anime_app/features/home/screens/search_screen.dart';
+import 'package:flutter_anime_app/features/home/search_screen/search_screen.dart';
 import 'package:flutter_anime_app/features/home/widgets/navigation_button.dart';
 import 'package:flutter_anime_app/models/pre_anime.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
@@ -125,7 +125,7 @@ class _MainScreenState extends State<MainScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   NavigationButton(
-                    buttonIcon: Icons.save,
+                    buttonIcon: Icons.favorite,
                     isSelected: currentIndex == 2,
                     index: 2,
                     navigateToScreen: _navigateToScreen,

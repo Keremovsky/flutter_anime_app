@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_anime_app/features/home/widgets/anime_box.dart';
+import 'package:flutter_anime_app/features/home/home_screen/widgets/anime_box.dart';
 import 'package:flutter_anime_app/models/pre_anime.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
