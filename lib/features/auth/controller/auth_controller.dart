@@ -42,7 +42,7 @@ class AuthController extends StateNotifier<bool> {
       (right) {
         _ref.read(userProvider.notifier).update((state) => right);
 
-        context.pushReplacementNamed(RouteConstants.splashScreen);
+        context.pushReplacementNamed(RouteConstants.splashScreenName);
       },
     );
   }
@@ -67,7 +67,7 @@ class AuthController extends StateNotifier<bool> {
       (right) {
         _ref.read(userProvider.notifier).update((state) => right);
 
-        context.pushReplacementNamed(RouteConstants.splashScreen);
+        context.pushReplacementNamed(RouteConstants.splashScreenName);
       },
     );
   }
@@ -94,7 +94,7 @@ class AuthController extends StateNotifier<bool> {
         _ref.read(userProvider.notifier).update((state) => right);
 
         context.pop();
-        context.pushReplacementNamed(RouteConstants.splashScreen);
+        context.pushReplacementNamed(RouteConstants.splashScreenName);
       },
     );
   }
@@ -141,7 +141,7 @@ class AuthController extends StateNotifier<bool> {
 
     if (mounted) {
       if (control == "success") {
-        context.pushReplacementNamed(RouteConstants.authScreen);
+        context.pushReplacementNamed(RouteConstants.authScreenName);
       } else {
         giveFeedback(context, "Unknown error occurred.");
       }

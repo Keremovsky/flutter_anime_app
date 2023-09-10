@@ -83,8 +83,8 @@ class AnimeController extends StateNotifier {
     return result;
   }
 
-  Future<List<Map<String, dynamic>>> getAnimeListData() async {
-    final result = await _animeRepository.getAnimeListData();
+  Future<List<String>> getAnimeListNames() async {
+    final result = await _animeRepository.getAnimeListNames();
 
     return result;
   }

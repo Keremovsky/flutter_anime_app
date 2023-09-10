@@ -247,7 +247,7 @@ class AnimeRepository {
     }
   }
 
-  Future<List<Map<String, dynamic>>> getAnimeListData() async {
+  Future<List<String>> getAnimeListNames() async {
     try {
       final userUid = _ref.read(userProvider)!.uid;
       final querySnapshot = await _usersCollection
@@ -256,15 +256,7 @@ class AnimeRepository {
           .get();
 
       final data = querySnapshot.docs.map((doc) {
-        List<String> items = [];
-        for (final item in doc.data().values) {
-          items.add(item);
-        }
-
-        return {
-          "listName": doc.id,
-          "animes": items,
-        };
+        return doc.id;
       }).toList();
 
       return data;

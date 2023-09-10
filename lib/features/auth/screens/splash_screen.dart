@@ -94,7 +94,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
             if (mounted) {
               Future.microtask(
                 () => context.pushReplacementNamed(
-                  RouteConstants.mainScreen,
+                  RouteConstants.mainScreenName,
                   extra: [
                     snapshot.data![0],
                     snapshot.data![1],

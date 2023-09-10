@@ -1,6 +1,16 @@
 class RouteConstants {
-  static const authScreen = "authScreen";
-  static const splashScreen = "splashScreen";
-  static const mainScreen = "mainScreen";
-  static const animeScreen = "animeScreen";
+  static const authScreenPath = "/";
+  static const authScreenName = "authScreen";
+
+  static const splashScreenPath = "/splashScreen";
+  static const splashScreenName = "splashScreen";
+
+  static const mainScreenPath = "/mainScreen";
+  static const mainScreenName = "mainScreen";
+
+  static const animeScreenPath = "/animeScreen";
+  static const animeScreenName = "animeScreen";
+
+  static const animeListsScreenPath = "/animeListScreen";
+  static const animeListsScreenName = "animeListScreen";
 }

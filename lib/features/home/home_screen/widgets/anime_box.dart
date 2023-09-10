@@ -17,7 +17,7 @@ class AnimeBox extends ConsumerWidget {
       child: GestureDetector(
         onTap: () {
           context.pushNamed(
-            RouteConstants.animeScreen,
+            RouteConstants.animeScreenName,
             pathParameters: {"id": anime.id},
             extra: anime.name,
           );

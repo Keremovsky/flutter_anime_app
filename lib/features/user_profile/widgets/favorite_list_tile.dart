@@ -13,29 +13,27 @@ class FavoriteAnimeListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
-      child: GestureDetector(
+      child: ListTile(
         onTap: () {
           context.pushNamed(
-            RouteConstants.animeScreen,
+            RouteConstants.animeScreenName,
             pathParameters: {"id": anime.id},
             extra: anime.name,
           );
         },
-        child: ListTile(
-          leading: Image.network(
-            anime.imageURL,
-          ),
-          title: Text(
-            anime.name,
-            style: Theme.of(context).textTheme.displayLarge,
-          ),
-          subtitle: Text(
-            anime.genres.join(", "),
-            style: Theme.of(context)
-                .textTheme
-                .displaySmall!
-                .copyWith(color: Palette.grey),
-          ),
+        leading: Image.network(
+          anime.imageURL,
+        ),
+        title: Text(
+          anime.name,
+          style: Theme.of(context).textTheme.displayLarge,
+        ),
+        subtitle: Text(
+          anime.genres.join(", "),
+          style: Theme.of(context)
+              .textTheme
+              .displaySmall!
+              .copyWith(color: Palette.grey),
         ),
       ),
     );

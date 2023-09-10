@@ -10,8 +10,8 @@ class AppRouter {
   final GoRouter router = GoRouter(
     routes: [
       GoRoute(
-        name: RouteConstants.authScreen,
-        path: "/",
+        name: RouteConstants.authScreenName,
+        path: RouteConstants.authScreenPath,
         pageBuilder: (context, state) {
           return const MaterialPage(
             child: AuthScreen(),
@@ -19,8 +19,8 @@ class AppRouter {
         },
       ),
       GoRoute(
-        name: RouteConstants.splashScreen,
-        path: "/splashScreen",
+        name: RouteConstants.splashScreenName,
+        path: RouteConstants.splashScreenPath,
         pageBuilder: (context, state) {
           return const MaterialPage(
             child: SplashScreen(),
@@ -28,8 +28,8 @@ class AppRouter {
         },
       ),
       GoRoute(
-        name: RouteConstants.mainScreen,
-        path: "/mainScreen",
+        name: RouteConstants.mainScreenName,
+        path: RouteConstants.mainScreenPath,
         pageBuilder: (context, state) {
           final arg = state.extra as List<dynamic>;
 
@@ -42,8 +42,8 @@ class AppRouter {
         },
       ),
       GoRoute(
-        name: RouteConstants.animeScreen,
-        path: "/animeScreen/:id",
+        name: RouteConstants.animeScreenName,
+        path: "${RouteConstants.animeScreenPath}/:id",
         pageBuilder: (context, state) {
           final name = state.extra as String;
 
