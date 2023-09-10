@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/core/utils/custom_circular_progress_indicator.dart';
 import 'package:flutter_anime_app/features/anime/controller/anime_controller.dart';
-import 'package:flutter_anime_app/features/home/anime_list_screen/widgets/anime_list_box.dart';
+import 'package:flutter_anime_app/features/anime/widgets/anime_list_tile.dart';
 import 'package:flutter_anime_app/models/pre_anime.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -88,7 +88,7 @@ class _AnimeListScreenState extends ConsumerState<AnimeSavedListsScreen>
                   child: ListView.builder(
                     itemCount: data.length,
                     itemBuilder: (context, index) {
-                      return AnimeListBox(
+                      return AnimeListTile(
                         listName: listNames[index],
                         preAnimes: data[index],
                       );
@@ -98,7 +98,7 @@ class _AnimeListScreenState extends ConsumerState<AnimeSavedListsScreen>
               );
             }
 
-            return SizedBox();
+            return const SizedBox();
           },
         ),
       ),

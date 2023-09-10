@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/core/constants/route_constants.dart';
 import 'package:flutter_anime_app/features/anime/screens/anime_screen.dart';
+import 'package:flutter_anime_app/features/anime/widgets/anime_list_screen.dart';
 import 'package:flutter_anime_app/features/auth/screens/auth_screen.dart';
 import 'package:flutter_anime_app/features/home/screens/main_screen.dart';
 import 'package:flutter_anime_app/features/auth/screens/splash_screen.dart';
@@ -51,6 +52,20 @@ class AppRouter {
             child: AnimeScreen(
               id: state.pathParameters["id"]!,
               name: name,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        name: RouteConstants.animeListsScreenName,
+        path: RouteConstants.animeListsScreenPath,
+        pageBuilder: (context, state) {
+          final args = state.extra as List<dynamic>;
+
+          return MaterialPage(
+            child: AnimeListScreen(
+              title: args[0],
+              preAnimes: args[1],
             ),
           );
         },

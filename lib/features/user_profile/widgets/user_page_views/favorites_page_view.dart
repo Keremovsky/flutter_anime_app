@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/core/utils.dart';
 import 'package:flutter_anime_app/features/anime/controller/anime_controller.dart';
-import 'package:flutter_anime_app/features/user_profile/widgets/favorite_list_tile.dart';
+import 'package:flutter_anime_app/features/anime/widgets/anime_tile.dart';
 import 'package:flutter_anime_app/models/pre_anime.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -97,7 +97,7 @@ class _FavoritesPageViewState extends ConsumerState<FavoritesPageView>
                 if (index == animes.length) {
                   return SizedBox(height: 10);
                 }
-                return FavoriteAnimeListTile(anime: animes[index]);
+                return AnimeTile(anime: animes[index]);
               },
             ),
           ),

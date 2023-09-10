@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_anime_app/features/home/anime_list_screen/widgets/anime_list_box_leading.dart';
+import 'package:flutter_anime_app/core/constants/route_constants.dart';
+import 'package:flutter_anime_app/features/anime/widgets/anime_list_box_leading.dart';
 import 'package:flutter_anime_app/models/pre_anime.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
+import 'package:go_router/go_router.dart';
 
-class AnimeListBox extends StatelessWidget {
+class AnimeListTile extends StatelessWidget {
   final String listName;
   final List<PreAnime> preAnimes;
 
-  const AnimeListBox({
+  const AnimeListTile({
     super.key,
     required this.listName,
     required this.preAnimes,
@@ -19,9 +21,10 @@ class AnimeListBox extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        for (final preAnime in preAnimes) {
-          debugPrint(preAnime.toString());
-        }
+        context.pushNamed(RouteConstants.animeListsScreenName, extra: [
+          listName,
+          preAnimes,
+        ]);
       },
       borderRadius: BorderRadius.circular(10),
       child: Container(
@@ -31,17 +34,21 @@ class AnimeListBox extends StatelessWidget {
           children: [
             Builder(
               builder: (context) {
-                if (preAnimes.length < 4) {
-                  return AnimeListBoxLeading(imageURLs: [
-                    preAnimes[0].imageURL,
-                  ]);
+                if (preAnimes.isEmpty) {
+                  return const AnimeListBoxLeading(imageURLs: []);
                 } else {
-                  return AnimeListBoxLeading(imageURLs: [
-                    preAnimes[0].imageURL,
-                    preAnimes[1].imageURL,
-                    preAnimes[2].imageURL,
-                    preAnimes[3].imageURL,
-                  ]);
+                  if (preAnimes.length < 4) {
+                    return AnimeListBoxLeading(imageURLs: [
+                      preAnimes[0].imageURL,
+                    ]);
+                  } else {
+                    return AnimeListBoxLeading(imageURLs: [
+                      preAnimes[0].imageURL,
+                      preAnimes[1].imageURL,
+                      preAnimes[2].imageURL,
+                      preAnimes[3].imageURL,
+                    ]);
+                  }
                 }
               },
             ),
@@ -53,10 +60,7 @@ class AnimeListBox extends StatelessWidget {
                     alignment: Alignment.center,
                     child: Text(
                       listName,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge!
-                          .copyWith(color: Palette.mainColor),
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
                   ),
                   Align(

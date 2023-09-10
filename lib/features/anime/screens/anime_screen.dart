@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/core/utils.dart';
+import 'package:flutter_anime_app/core/utils/app_bar_back_button.dart';
 import 'package:flutter_anime_app/features/anime/controller/anime_controller.dart';
 import 'package:flutter_anime_app/models/anime.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 class AnimeScreen extends ConsumerStatefulWidget {
   final String id;
@@ -46,16 +46,7 @@ class _AnimeScreenState extends ConsumerState<AnimeScreen> {
               .copyWith(color: Palette.mainColor),
         ),
         centerTitle: true,
-        leading: IconButton(
-          onPressed: () {
-            context.pop();
-          },
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Palette.mainColor,
-            size: 30,
-          ),
-        ),
+        leading: const AppBarBackButton(),
       ),
       body: FutureBuilder(
         future: anime,

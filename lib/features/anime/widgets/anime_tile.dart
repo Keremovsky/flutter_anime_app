@@ -4,10 +4,10 @@ import 'package:flutter_anime_app/models/pre_anime.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
 import 'package:go_router/go_router.dart';
 
-class FavoriteAnimeListTile extends StatelessWidget {
+class AnimeTile extends StatelessWidget {
   final PreAnime anime;
 
-  const FavoriteAnimeListTile({super.key, required this.anime});
+  const AnimeTile({super.key, required this.anime});
 
   @override
   Widget build(BuildContext context) {
