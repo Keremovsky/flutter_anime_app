@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 bool passwordValidator(String password) {
   RegExp regex =
@@ -15,4 +16,11 @@ void giveFeedback(BuildContext context, String text) {
       duration: const Duration(seconds: 2),
     ),
   );
+}
+
+String getDateDMY() {
+  final now = DateTime.now();
+  final date = DateFormat("d MMMM yyyy").format(now);
+
+  return date;
 }

@@ -7,11 +7,12 @@ import 'package:flutter_anime_app/core/constants/firebase_constants.dart';
 import 'package:flutter_anime_app/core/constants/keys.dart';
 import 'package:flutter_anime_app/core/providers/firebase_providers.dart';
 import 'package:flutter_anime_app/core/providers/storage_provider.dart';
+import 'package:flutter_anime_app/core/utils.dart';
 import 'package:flutter_anime_app/features/auth/controller/auth_controller.dart';
+import 'package:flutter_anime_app/models/anime_list.dart';
 import 'package:flutter_anime_app/models/user_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:intl/intl.dart';
 import 'package:twitter_login/twitter_login.dart';
 
 final authRepositoryProvider = Provider((ref) => AuthRepository(
@@ -69,8 +70,7 @@ class AuthRepository {
         final userData = userCredential.user!;
 
         // get date of now
-        final now = DateTime.now();
-        final date = DateFormat("MMMM yyyy").format(now);
+        final date = getDateDMY();
 
         // get default profile and background picture
         final profilePic = await _storage.getFileURL(
@@ -96,6 +96,9 @@ class AuthRepository {
 
         // save user model to database
         await _setUserModel(userCredential.user!.uid, userModel);
+
+        // create default lists
+        await _createDefaultLists(userModel.uid, date);
       } else {
         // get user model form database
         userModel = await _getUserModel(userCredential.user!.uid);
@@ -141,8 +144,7 @@ class AuthRepository {
           final userData = userCredential.user!;
 
           // get date of now
-          final now = DateTime.now();
-          final date = DateFormat("MMMM yyyy").format(now);
+          final date = getDateDMY();
 
           // get default profile and background picture
           final profilePic = await _storage.getFileURL(
@@ -168,6 +170,9 @@ class AuthRepository {
 
           // save user model to database
           await _setUserModel(userCredential.user!.uid, userModel);
+
+          // create default lists
+          await _createDefaultLists(userModel.uid, date);
         } else {
           // get user model from database
           userModel = await _getUserModel(userCredential.user!.uid);
@@ -222,8 +227,7 @@ class AuthRepository {
       );
 
       // get date of now
-      final now = DateTime.now();
-      final date = DateFormat("MMMM yyyy").format(now);
+      final date = getDateDMY();
 
       // get default profile and background picture
       final profilePic = await _storage.getFileURL(
@@ -251,6 +255,9 @@ class AuthRepository {
 
       // save user model to database
       await _setUserModel(userCredential.user!.uid, userModel);
+
+      // create default lists
+      await _createDefaultLists(userModel.uid, date);
 
       return "success";
     } on FirebaseAuthException catch (e) {
@@ -307,5 +314,31 @@ class AuthRepository {
   // save user model to database
   Future<void> _setUserModel(String uid, UserModel userModel) async {
     await _usersCollection.doc(uid).set(userModel.toMap());
+  }
+
+  // create default lists for user creation
+  Future<void> _createDefaultLists(String uid, String date) async {
+    final userListCollection =
+        _usersCollection.doc(uid).collection(FirebaseConstants.animeListRef);
+
+    final favoritesList = AnimeList(
+      name: Constants.favoriteListName,
+      animes: [],
+      createdDate: date,
+    );
+
+    await userListCollection
+        .doc(Constants.favoriteListName)
+        .set(favoritesList.toMap());
+
+    final watchingList = AnimeList(
+      name: Constants.watchingListName,
+      animes: [],
+      createdDate: date,
+    );
+
+    await userListCollection
+        .doc(Constants.watchingListName)
+        .set(watchingList.toMap());
   }
 }

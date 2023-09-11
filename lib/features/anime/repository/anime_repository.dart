@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_anime_app/core/constants/firebase_constants.dart';
 import 'package:flutter_anime_app/core/providers/firebase_providers.dart';
+import 'package:flutter_anime_app/core/utils.dart';
 import 'package:flutter_anime_app/features/auth/controller/auth_controller.dart';
 import 'package:flutter_anime_app/models/anime.dart';
+import 'package:flutter_anime_app/models/anime_list.dart';
 import 'package:flutter_anime_app/models/pre_anime.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -104,35 +106,46 @@ class AnimeRepository {
       final userUid = _ref.read(userProvider)!.uid;
 
       // collection reference to lists
-      final userListCollection = _firestore
-          .collection(FirebaseConstants.usersRef)
+      final userListCollection = _usersCollection
           .doc(userUid)
           .collection(FirebaseConstants.animeListRef);
 
-      // get given list document
+      // get document of given list
       final animeListDoc = await userListCollection.doc(listName).get();
 
       // if list with given name exists
       if (animeListDoc.exists) {
         // get the data of document
-        final fields = animeListDoc.data();
+        final animeList = await _getAnimeList(listName, userListCollection);
 
         // if given anime exists in list
-        if (fields!.containsKey(id)) {
-          await userListCollection
-              .doc(listName)
-              .update({id: FieldValue.delete()});
+        if (animeList.animes.contains(id)) {
+          final newAnimes = animeList.animes.where((element) => element != id);
+          final newAnimeList = animeList.copyWith(animes: newAnimes.toList());
+
+          await _setAnimeList(listName, newAnimeList, userListCollection);
 
           return "delete";
         } else {
-          await userListCollection.doc(listName).update({id: id});
+          final newAnimes = animeList.animes + [id];
+          final newAnimeList = animeList.copyWith(animes: newAnimes);
+
+          await _setAnimeList(listName, newAnimeList, userListCollection);
 
           return "add";
         }
       } else {
-        await userListCollection.doc(listName).set({id: id});
+        final date = getDateDMY();
 
-        return "add";
+        final animeList = AnimeList(
+          name: listName,
+          animes: [id],
+          createdDate: date,
+        );
+
+        await _setAnimeList(listName, animeList, userListCollection);
+
+        return "create";
       }
     } catch (e) {
       return "error";
@@ -163,7 +176,7 @@ class AnimeRepository {
     }
   }
 
-  Future<List<String>> getAnimeIDList(String listName) async {
+  Future<AnimeList> getAnimeListData(String listName) async {
     try {
       // get user uid
       final userUid = _ref.read(userProvider)!.uid;
@@ -173,22 +186,16 @@ class AnimeRepository {
           .doc(userUid)
           .collection(FirebaseConstants.animeListRef);
 
-      final animeListDoc = await userListCollection.doc(listName).get();
+      final animeList = await _getAnimeList(listName, userListCollection);
 
-      List<String> ids = [];
-      if (animeListDoc.exists) {
-        final fields = animeListDoc.data();
-
-        fields!.forEach((key, value) {
-          ids.add(value);
-        });
-
-        return ids;
-      } else {
-        return [];
-      }
+      return animeList;
     } catch (e) {
-      return [];
+      final errorAnimeList = AnimeList(
+        name: "",
+        animes: [],
+        createdDate: "",
+      );
+      return errorAnimeList;
     }
   }
 
@@ -232,6 +239,31 @@ class AnimeRepository {
         .first;
 
     return preAnime;
+  }
+
+  Future<AnimeList> _getAnimeList(
+    String listName,
+    CollectionReference<Map<String, dynamic>> userListCollection,
+  ) async {
+    final animeList =
+        await userListCollection.doc(listName).snapshots().map((event) {
+      final data = event.data()!;
+      return AnimeList(
+        name: data["name"],
+        animes: data["animes"].cast<String>(),
+        createdDate: data["createdDate"],
+      );
+    }).first;
+
+    return animeList;
+  }
+
+  Future<void> _setAnimeList(
+    String listName,
+    AnimeList animeList,
+    CollectionReference<Map<String, dynamic>> userListCollection,
+  ) async {
+    await userListCollection.doc(listName).set(animeList.toMap());
   }
 
   Future<void> _setAnime(Anime anime) async {

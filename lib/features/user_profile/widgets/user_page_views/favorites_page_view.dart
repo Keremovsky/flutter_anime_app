@@ -19,13 +19,13 @@ class _FavoritesPageViewState extends ConsumerState<FavoritesPageView>
   late Future<List<PreAnime>> favoriteAnimes;
 
   Future<List<PreAnime>> _getPreAnimeList(String listName) async {
-    final ids = await ref
+    final animeLists = await ref
         .read(animeControllerProvider.notifier)
-        .getAnimeIDList(listName);
+        .getAnimeListData(listName);
 
     final result = await ref
         .read(animeControllerProvider.notifier)
-        .getPreAnimeListWithID(ids);
+        .getPreAnimeListWithID(animeLists.animes as List<String>);
 
     return result;
   }

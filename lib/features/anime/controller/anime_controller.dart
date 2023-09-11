@@ -3,6 +3,7 @@ import 'package:flutter_anime_app/core/constants/constants.dart';
 import 'package:flutter_anime_app/core/utils.dart';
 import 'package:flutter_anime_app/features/anime/repository/anime_repository.dart';
 import 'package:flutter_anime_app/models/anime.dart';
+import 'package:flutter_anime_app/models/anime_list.dart';
 import 'package:flutter_anime_app/models/pre_anime.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -36,8 +37,8 @@ class AnimeController extends StateNotifier {
     return result;
   }
 
-  Future<List<String>> getAnimeIDList(String listName) async {
-    final result = await _animeRepository.getAnimeIDList(listName);
+  Future<AnimeList> getAnimeListData(String listName) async {
+    final result = await _animeRepository.getAnimeListData(listName);
 
     return result;
   }
@@ -77,6 +78,8 @@ class AnimeController extends StateNotifier {
             giveFeedback(context, "Anime deleted from the list.");
             break;
         }
+      } else if (control == "create") {
+        giveFeedback(context, "$listName successfully created.");
       } else {
         giveFeedback(context, "Unknown error occurred.");
       }
