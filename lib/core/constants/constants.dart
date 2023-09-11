@@ -12,4 +12,8 @@ class Constants {
   static const googleRegister = "google";
   static const twitterRegister = "twitter";
   static const emailRegister = "email";
+
+  // constant list names
+  static const favoriteListName = "Favorites";
+  static const watchingListName = "Watching";
 }

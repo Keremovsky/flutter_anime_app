@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_anime_app/core/constants/constants.dart';
 import 'package:flutter_anime_app/core/utils.dart';
 import 'package:flutter_anime_app/features/anime/repository/anime_repository.dart';
 import 'package:flutter_anime_app/models/anime.dart';
@@ -35,35 +36,54 @@ class AnimeController extends StateNotifier {
     return result;
   }
 
-  void likeAnime(BuildContext context, String id) async {
-    final control = await _animeRepository.likeAnime(id);
+  Future<List<String>> getAnimeIDList(String listName) async {
+    final result = await _animeRepository.getAnimeIDList(listName);
 
-    if (mounted) {
-      if (control == "add") {
-        giveFeedback(context, "Anime added to the favorites.");
-      } else if (control == "delete") {
-        giveFeedback(context, "Anime deleted form the favorites.");
-      } else {
-        giveFeedback(context, "Unknown error occurred.");
-      }
-    }
+    return result;
   }
 
-  void setAnimeToList(BuildContext context, String id, String listName) async {
+  Future<List<String>> getAnimeListNames() async {
+    final result = await _animeRepository.getAnimeListNames();
+
+    return result;
+  }
+
+  Future<void> setAnimeToList(
+      BuildContext context, String id, String listName) async {
     final control = await _animeRepository.setAnimeToList(id, listName);
 
     if (mounted) {
       if (control == "add") {
-        giveFeedback(context, "Anime added to the list.");
+        switch (listName) {
+          case Constants.favoriteListName:
+            giveFeedback(context, "Anime added to the favorites.");
+            break;
+          case Constants.watchingListName:
+            giveFeedback(context, "Anime added to the watching list.");
+            break;
+          default:
+            giveFeedback(context, "Anime added to the list.");
+            break;
+        }
       } else if (control == "delete") {
-        giveFeedback(context, "Anime deleted form the list.");
+        switch (listName) {
+          case Constants.favoriteListName:
+            giveFeedback(context, "Anime deleted from the favorites.");
+            break;
+          case Constants.watchingListName:
+            giveFeedback(context, "Anime deleted from the watching list.");
+            break;
+          default:
+            giveFeedback(context, "Anime deleted from the list.");
+            break;
+        }
       } else {
         giveFeedback(context, "Unknown error occurred.");
       }
     }
   }
 
-  void deleteAnimeList(BuildContext context, String listName) async {
+  Future<void> deleteAnimeList(BuildContext context, String listName) async {
     final control = await _animeRepository.deleteAnimeList(listName);
 
     if (mounted) {
@@ -75,17 +95,5 @@ class AnimeController extends StateNotifier {
         giveFeedback(context, "Unknown error occurred.");
       }
     }
-  }
-
-  Future<List<String>> getAnimeIDList(String listName) async {
-    final result = await _animeRepository.getAnimeIDList(listName);
-
-    return result;
-  }
-
-  Future<List<String>> getAnimeListNames() async {
-    final result = await _animeRepository.getAnimeListNames();
-
-    return result;
   }
 }

@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_anime_app/core/constants/constants.dart';
 
 import 'package:flutter_anime_app/features/user_profile/widgets/profile_navigation_bar_button.dart';
 
@@ -22,8 +23,8 @@ class UserNavigationBar extends StatefulWidget {
 class _UserNavigationBarState extends State<UserNavigationBar> {
   final List<String> actions = [
     "Last Actions",
-    "Favorites",
-    "Watching",
+    Constants.favoriteListName,
+    Constants.watchingListName,
     "Lists",
   ];
 
@@ -33,7 +34,7 @@ class _UserNavigationBarState extends State<UserNavigationBar> {
       height: 25,
       width: double.infinity,
       child: ListView.builder(
-        itemCount: 4,
+        itemCount: actions.length,
         controller: widget.scrollController,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
@@ -47,7 +48,7 @@ class _UserNavigationBarState extends State<UserNavigationBar> {
                 navigateToIndex: widget.navigateToListIndex,
               ),
             );
-          } else if (index == 3) {
+          } else if (index == actions.length - 1) {
             return Padding(
               padding: const EdgeInsets.only(left: 10),
               child: ProfileNavigationBarButton(

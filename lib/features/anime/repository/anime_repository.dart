@@ -98,61 +98,6 @@ class AnimeRepository {
     }
   }
 
-  Future<String> likeAnime(String id) async {
-    try {
-      // get user uid
-      final userUid = _ref.read(userProvider)!.uid;
-
-      // collection reference to lists
-      final userListCollection = _usersCollection
-          .doc(userUid)
-          .collection(FirebaseConstants.animeListRef);
-
-      // get given list document
-      final animeFavDoc = await userListCollection.doc("Favorites").get();
-
-      // get anime
-      final anime = await _getAnimeByID(id);
-
-      // if list with given name exists
-      if (animeFavDoc.exists) {
-        // get the data of document
-        final fields = animeFavDoc.data();
-
-        // if given anime exists in list
-        if (fields!.containsKey(id)) {
-          await userListCollection
-              .doc("Favorites")
-              .update({id: FieldValue.delete()});
-
-          // update anime
-          final newAnime = anime.copyWith(favorites: anime.favorites - 1);
-          await _setAnime(newAnime);
-
-          return "delete";
-        } else {
-          await userListCollection.doc("Favorites").update({id: id});
-
-          // update anime
-          final newAnime = anime.copyWith(favorites: anime.favorites + 1);
-          await _setAnime(newAnime);
-
-          return "add";
-        }
-      } else {
-        await userListCollection.doc("Favorites").set({id: id});
-
-        // update anime
-        final newAnime = anime.copyWith(favorites: anime.favorites + 1);
-        await _setAnime(newAnime);
-
-        return "add";
-      }
-    } catch (e) {
-      return "error";
-    }
-  }
-
   Future<String> setAnimeToList(String id, String listName) async {
     try {
       // get user uid

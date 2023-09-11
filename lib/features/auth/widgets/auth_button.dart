@@ -50,7 +50,6 @@ class _AuthButtonState extends State<AuthButton> {
 
   late double height;
   late double width;
-  double minWidth = 0;
 
   @override
   void initState() {

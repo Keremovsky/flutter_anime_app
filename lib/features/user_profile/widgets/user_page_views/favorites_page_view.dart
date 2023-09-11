@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_anime_app/core/utils.dart';
+import 'package:flutter_anime_app/core/constants/constants.dart';
+import 'package:flutter_anime_app/core/utils/custom_circular_progress_indicator.dart';
 import 'package:flutter_anime_app/features/anime/controller/anime_controller.dart';
 import 'package:flutter_anime_app/features/anime/widgets/anime_tile.dart';
 import 'package:flutter_anime_app/models/pre_anime.dart';
@@ -36,7 +37,7 @@ class _FavoritesPageViewState extends ConsumerState<FavoritesPageView>
   @override
   void initState() {
     super.initState();
-    favoriteAnimes = _getPreAnimeList("Favorites");
+    favoriteAnimes = _getPreAnimeList(Constants.favoriteListName);
   }
 
   @override
@@ -47,7 +48,10 @@ class _FavoritesPageViewState extends ConsumerState<FavoritesPageView>
       future: favoriteAnimes,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return circularLoading(size: 50, color: Palette.mainColor);
+          return const CustomCircularProgressIndicator(
+            size: 50,
+            color: Palette.mainColor,
+          );
         }
 
         final animes = snapshot.data!;
@@ -56,14 +60,14 @@ class _FavoritesPageViewState extends ConsumerState<FavoritesPageView>
           return RefreshIndicator(
             onRefresh: () async {
               setState(() {
-                favoriteAnimes = _getPreAnimeList("Favorites");
+                favoriteAnimes = _getPreAnimeList(Constants.favoriteListName);
               });
             },
             displacement: 10,
             color: Palette.mainColor,
             child: ListView(
               children: [
-                Icon(
+                const Icon(
                   Icons.sentiment_neutral_outlined,
                   size: 120,
                   color: Palette.mainColor,
@@ -86,7 +90,7 @@ class _FavoritesPageViewState extends ConsumerState<FavoritesPageView>
           child: RefreshIndicator(
             onRefresh: () async {
               setState(() {
-                favoriteAnimes = _getPreAnimeList("Favorites");
+                favoriteAnimes = _getPreAnimeList(Constants.favoriteListName);
               });
             },
             displacement: 10,
@@ -95,7 +99,7 @@ class _FavoritesPageViewState extends ConsumerState<FavoritesPageView>
               itemCount: animes.length + 1,
               itemBuilder: (context, index) {
                 if (index == animes.length) {
-                  return SizedBox(height: 10);
+                  return const SizedBox(height: 10);
                 }
                 return AnimeTile(anime: animes[index]);
               },

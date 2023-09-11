@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/core/constants/constants.dart';
 import 'package:flutter_anime_app/core/constants/firebase_constants.dart';
 import 'package:flutter_anime_app/core/constants/route_constants.dart';
-import 'package:flutter_anime_app/core/utils.dart';
+import 'package:flutter_anime_app/core/utils/custom_circular_progress_indicator.dart';
 import 'package:flutter_anime_app/features/anime/controller/anime_controller.dart';
 import 'package:flutter_anime_app/models/pre_anime.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
@@ -82,7 +82,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                   alignment: Alignment.center,
                   child: ScaleTransition(
                     scale: scaleAnimation,
-                    child: circularLoading(
+                    child: const CustomCircularProgressIndicator(
                       size: 140,
                       color: Palette.mainColor,
                     ),

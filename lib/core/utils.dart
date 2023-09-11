@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_anime_app/themes/palette.dart';
 
 bool passwordValidator(String password) {
   RegExp regex =
@@ -14,26 +13,6 @@ void giveFeedback(BuildContext context, String text) {
       content: Text(text),
       behavior: SnackBarBehavior.floating,
       duration: const Duration(seconds: 2),
-    ),
-  );
-}
-
-Widget circularLoading({
-  required double size,
-  Animation<Color>? valueColor,
-  Color color = Palette.white,
-  double strokeWidth = 4,
-}) {
-  return Center(
-    child: SizedBox(
-      height: size,
-      width: size,
-      child: CircularProgressIndicator(
-        color: valueColor == null ? color : null,
-        valueColor: valueColor,
-        strokeWidth: strokeWidth,
-        strokeCap: StrokeCap.round,
-      ),
     ),
   );
 }
