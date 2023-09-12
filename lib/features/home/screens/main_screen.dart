@@ -102,42 +102,36 @@ class _MainScreenState extends State<MainScreen> {
         child: BottomAppBar(
           height: 50,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  NavigationButton(
-                    buttonIcon: Icons.home,
-                    isSelected: currentIndex == 0,
-                    index: 0,
-                    navigateToScreen: _navigateToScreen,
-                  ),
-                  NavigationButton(
-                    buttonIcon: Icons.search,
-                    isSelected: currentIndex == 1,
-                    index: 1,
-                    navigateToScreen: _navigateToScreen,
-                  ),
-                ],
+              const Spacer(flex: 1),
+              NavigationButton(
+                buttonIcon: Icons.home,
+                isSelected: currentIndex == 0,
+                index: 0,
+                navigateToScreen: _navigateToScreen,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  NavigationButton(
-                    buttonIcon: Icons.favorite,
-                    isSelected: currentIndex == 2,
-                    index: 2,
-                    navigateToScreen: _navigateToScreen,
-                  ),
-                  NavigationButton(
-                    buttonIcon: Icons.account_circle,
-                    isSelected: currentIndex == 3,
-                    index: 3,
-                    navigateToScreen: _navigateToScreen,
-                  ),
-                ],
+              const Spacer(flex: 1),
+              NavigationButton(
+                buttonIcon: Icons.search,
+                isSelected: currentIndex == 1,
+                index: 1,
+                navigateToScreen: _navigateToScreen,
               ),
+              const Spacer(flex: 20),
+              NavigationButton(
+                buttonIcon: Icons.favorite,
+                isSelected: currentIndex == 2,
+                index: 2,
+                navigateToScreen: _navigateToScreen,
+              ),
+              const Spacer(flex: 1),
+              NavigationButton(
+                buttonIcon: Icons.account_circle,
+                isSelected: currentIndex == 3,
+                index: 3,
+                navigateToScreen: _navigateToScreen,
+              ),
+              const Spacer(flex: 1),
             ],
           ),
         ),

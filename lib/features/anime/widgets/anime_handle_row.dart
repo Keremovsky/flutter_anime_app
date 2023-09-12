@@ -46,6 +46,27 @@ class AnimeHandleRow extends ConsumerWidget {
           height: 45,
           width: 80,
           borderRadius: BorderRadius.circular(10),
+          onTap: () async {
+            await ref
+                .read(animeControllerProvider.notifier)
+                .setAnimeToList(context, id, Constants.favoriteListName);
+          },
+          icon: const Icon(
+            Icons.tv,
+            color: Palette.mainColor,
+          ),
+          label: Text(
+            "Watching",
+            style: Theme.of(context)
+                .textTheme
+                .displaySmall!
+                .copyWith(color: Palette.mainColor),
+          ),
+        ),
+        AnimeHandleButton(
+          height: 45,
+          width: 80,
+          borderRadius: BorderRadius.circular(10),
           onTap: () {},
           icon: const Icon(
             Icons.bookmark_border_outlined,

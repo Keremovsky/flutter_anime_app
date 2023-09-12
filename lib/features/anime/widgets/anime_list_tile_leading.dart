@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class AnimeListBoxLeading extends StatelessWidget {
+class AnimeListTileLeading extends StatelessWidget {
   final List<String> imageURLs;
 
-  const AnimeListBoxLeading({super.key, required this.imageURLs});
+  const AnimeListTileLeading({super.key, required this.imageURLs});
 
   @override
   Widget build(BuildContext context) {

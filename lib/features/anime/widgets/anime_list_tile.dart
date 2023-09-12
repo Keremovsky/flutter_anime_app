@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/core/constants/route_constants.dart';
-import 'package:flutter_anime_app/features/anime/widgets/anime_list_box_leading.dart';
+import 'package:flutter_anime_app/features/anime/widgets/anime_list_tile_leading.dart';
 import 'package:flutter_anime_app/models/pre_anime.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
 import 'package:go_router/go_router.dart';
@@ -35,14 +35,14 @@ class AnimeListTile extends StatelessWidget {
             Builder(
               builder: (context) {
                 if (preAnimes.isEmpty) {
-                  return const AnimeListBoxLeading(imageURLs: []);
+                  return const AnimeListTileLeading(imageURLs: []);
                 } else {
                   if (preAnimes.length < 4) {
-                    return AnimeListBoxLeading(imageURLs: [
+                    return AnimeListTileLeading(imageURLs: [
                       preAnimes[0].imageURL,
                     ]);
                   } else {
-                    return AnimeListBoxLeading(imageURLs: [
+                    return AnimeListTileLeading(imageURLs: [
                       preAnimes[0].imageURL,
                       preAnimes[1].imageURL,
                       preAnimes[2].imageURL,

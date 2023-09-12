@@ -86,14 +86,16 @@ class _AnimeListScreenState extends ConsumerState<AnimeSavedListsScreen>
                     });
                   },
                   displacement: 20,
-                  child: ListView.builder(
-                    itemCount: data.length,
-                    itemBuilder: (context, index) {
-                      return AnimeListTile(
-                        listName: listNames[index],
-                        preAnimes: data[index],
-                      );
-                    },
+                  child: Expanded(
+                    child: ListView.builder(
+                      itemCount: data.length,
+                      itemBuilder: (context, index) {
+                        return AnimeListTile(
+                          listName: listNames[index],
+                          preAnimes: data[index],
+                        );
+                      },
+                    ),
                   ),
                 ),
               );
