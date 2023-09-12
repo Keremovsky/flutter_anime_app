@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/core/utils/app_bar_back_button.dart';
 import 'package:flutter_anime_app/core/utils/custom_circular_progress_indicator.dart';
 import 'package:flutter_anime_app/features/anime/controller/anime_controller.dart';
-import 'package:flutter_anime_app/features/anime/widgets/anime_handle_row.dart';
-import 'package:flutter_anime_app/features/anime/widgets/anime_main_info.dart';
+import 'package:flutter_anime_app/features/anime/widgets/anime_screen_widgets/anime_handle_row.dart';
+import 'package:flutter_anime_app/features/anime/widgets/anime_screen_widgets/anime_main_info.dart';
 import 'package:flutter_anime_app/models/anime.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/core/constants/route_constants.dart';
-import 'package:flutter_anime_app/features/anime/widgets/anime_list_tile_leading.dart';
+import 'package:flutter_anime_app/features/anime/widgets/anime_list_screen_widgets/anime_list_tile_leading.dart';
 import 'package:flutter_anime_app/models/anime_list.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
 import 'package:go_router/go_router.dart';
