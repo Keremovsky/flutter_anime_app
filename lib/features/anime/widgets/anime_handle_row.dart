@@ -9,11 +9,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class AnimeHandleRow extends ConsumerWidget {
   final String id;
   final String name;
+  final String imageURL;
 
   const AnimeHandleRow({
     super.key,
     required this.id,
     required this.name,
+    required this.imageURL,
   });
 
   @override
@@ -26,16 +28,20 @@ class AnimeHandleRow extends ConsumerWidget {
           width: 80,
           borderRadius: BorderRadius.circular(10),
           onTap: () async {
-            await ref
-                .read(animeControllerProvider.notifier)
-                .setAnimeToList(context, id, Constants.favoriteListName);
+            await ref.read(animeControllerProvider.notifier).setAnimeToList(
+                  context,
+                  id,
+                  name,
+                  imageURL,
+                  Constants.favoriteListName,
+                );
           },
           icon: const Icon(
             Icons.favorite_border_outlined,
             color: Palette.mainColor,
           ),
           label: Text(
-            "Like",
+            Constants.favoriteListName,
             style: Theme.of(context)
                 .textTheme
                 .displaySmall!
@@ -47,16 +53,20 @@ class AnimeHandleRow extends ConsumerWidget {
           width: 80,
           borderRadius: BorderRadius.circular(10),
           onTap: () async {
-            await ref
-                .read(animeControllerProvider.notifier)
-                .setAnimeToList(context, id, Constants.favoriteListName);
+            await ref.read(animeControllerProvider.notifier).setAnimeToList(
+                  context,
+                  id,
+                  name,
+                  imageURL,
+                  Constants.watchingListName,
+                );
           },
           icon: const Icon(
             Icons.tv,
             color: Palette.mainColor,
           ),
           label: Text(
-            "Watching",
+            Constants.watchingListName,
             style: Theme.of(context)
                 .textTheme
                 .displaySmall!

@@ -120,7 +120,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           ),
                           const SizedBox(width: 5),
                           Text(
-                            "Joined ${userData.joinDate}",
+                            userData.joinDate,
                             style: Theme.of(context)
                                 .textTheme
                                 .displayMedium!

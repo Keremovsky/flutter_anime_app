@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_anime_app/core/constants/constants.dart';
 import 'package:flutter_anime_app/core/constants/firebase_constants.dart';
 import 'package:flutter_anime_app/core/providers/firebase_providers.dart';
 import 'package:flutter_anime_app/core/utils.dart';
@@ -84,12 +85,12 @@ class AnimeRepository {
         querySnapshot = await _seasonalAnimesCollection.get();
       }
 
-      final popularAnimeList = querySnapshot.docs
+      final collectionAnimeList = querySnapshot.docs
           .map((doc) => doc.data() as Map<String, dynamic>)
           .toList();
 
       List<PreAnime> preAnimes = [];
-      for (final preAnimeID in popularAnimeList) {
+      for (final preAnimeID in collectionAnimeList) {
         final preAnime = await _getPreAnimeByID(preAnimeID["id"]);
 
         preAnimes.add(preAnime);
@@ -100,37 +101,68 @@ class AnimeRepository {
     }
   }
 
-  Future<String> setAnimeToList(String id, String listName) async {
+  Future<String> setAnimeToList(String id, String animeName,
+      String animeImageURL, String listName) async {
     try {
       // get user uid
       final userUid = _ref.read(userProvider)!.uid;
 
       // collection reference to lists
-      final userListCollection = _usersCollection
+      final animeListCollection = _usersCollection
           .doc(userUid)
           .collection(FirebaseConstants.animeListRef);
 
       // get document of given list
-      final animeListDoc = await userListCollection.doc(listName).get();
+      final animeListDoc = await animeListCollection.doc(listName).get();
 
       // if list with given name exists
       if (animeListDoc.exists) {
         // get the data of document
-        final animeList = await _getAnimeList(listName, userListCollection);
+        final animeList = await _getAnimeList(listName, animeListCollection);
 
         // if given anime exists in list
-        if (animeList.animes.contains(id)) {
-          final newAnimes = animeList.animes.where((element) => element != id);
-          final newAnimeList = animeList.copyWith(animes: newAnimes.toList());
+        if (animeList.animesIDs.contains(id)) {
+          final newAnimeIDs = animeList.animesIDs.where(
+            (element) => element != id,
+          );
+          final newAnimeNames = animeList.animeNames.where(
+            (element) => element != animeName,
+          );
+          final newAnimeImageURLs = animeList.animeImageURLs.where(
+            (element) => element != animeImageURL,
+          );
 
-          await _setAnimeList(listName, newAnimeList, userListCollection);
+          final newAnimeList = animeList.copyWith(
+            animesIDs: newAnimeIDs.toList(),
+            animeNames: newAnimeNames.toList(),
+            animeImageURLs: newAnimeImageURLs.toList(),
+          );
+
+          await _setAnimeList(listName, newAnimeList, animeListCollection);
+
+          if (listName == Constants.favoriteListName) {
+            final anime = await _getAnimeByID(id);
+            await _setAnime(anime.copyWith(favorites: anime.favorites - 1));
+          }
 
           return "delete";
         } else {
-          final newAnimes = animeList.animes + [id];
-          final newAnimeList = animeList.copyWith(animes: newAnimes);
+          final newAnimeIDs = animeList.animesIDs + [id];
+          final newAnimeNames = animeList.animeNames + [animeName];
+          final newAnimeImageURLs = animeList.animeImageURLs + [animeImageURL];
 
-          await _setAnimeList(listName, newAnimeList, userListCollection);
+          final newAnimeList = animeList.copyWith(
+            animesIDs: newAnimeIDs,
+            animeNames: newAnimeNames,
+            animeImageURLs: newAnimeImageURLs,
+          );
+
+          await _setAnimeList(listName, newAnimeList, animeListCollection);
+
+          if (listName == Constants.favoriteListName) {
+            final anime = await _getAnimeByID(id);
+            await _setAnime(anime.copyWith(favorites: anime.favorites + 1));
+          }
 
           return "add";
         }
@@ -139,11 +171,13 @@ class AnimeRepository {
 
         final animeList = AnimeList(
           name: listName,
-          animes: [id],
+          animesIDs: [id],
+          animeNames: [animeName],
+          animeImageURLs: [animeImageURL],
           createdDate: date,
         );
 
-        await _setAnimeList(listName, animeList, userListCollection);
+        await _setAnimeList(listName, animeList, animeListCollection);
 
         return "create";
       }
@@ -158,15 +192,14 @@ class AnimeRepository {
       final userUid = _ref.read(userProvider)!.uid;
 
       // collection reference to lists
-      final userListCollection = _firestore
-          .collection(FirebaseConstants.usersRef)
+      final animeListCollection = _usersCollection
           .doc(userUid)
           .collection(FirebaseConstants.animeListRef);
 
-      final animeListDoc = await userListCollection.doc(listName).get();
+      final animeListDoc = await animeListCollection.doc(listName).get();
 
       if (animeListDoc.exists) {
-        userListCollection.doc(listName).delete();
+        animeListCollection.doc(listName).delete();
         return "success";
       } else {
         return "no_list";
@@ -176,45 +209,32 @@ class AnimeRepository {
     }
   }
 
-  Future<AnimeList> getAnimeListData(String listName) async {
-    try {
-      // get user uid
-      final userUid = _ref.read(userProvider)!.uid;
+  Stream<AnimeList> getAnimeListStream(String listName) {
+    // get user uid
+    final userUid = _ref.read(userProvider)!.uid;
 
-      // collection reference to lists
-      final userListCollection = _usersCollection
-          .doc(userUid)
-          .collection(FirebaseConstants.animeListRef);
+    // collection reference to lists
+    final animeListCollection = _usersCollection
+        .doc(userUid)
+        .collection(FirebaseConstants.animeListRef);
 
-      final animeList = await _getAnimeList(listName, userListCollection);
+    final animeListStream = _getAnimeListStream(listName, animeListCollection);
 
-      return animeList;
-    } catch (e) {
-      final errorAnimeList = AnimeList(
-        name: "",
-        animes: [],
-        createdDate: "",
-      );
-      return errorAnimeList;
-    }
+    return animeListStream;
   }
 
-  Future<List<String>> getAnimeListNames() async {
-    try {
-      final userUid = _ref.read(userProvider)!.uid;
-      final querySnapshot = await _usersCollection
-          .doc(userUid)
-          .collection(FirebaseConstants.animeListRef)
-          .get();
+  Stream<List<AnimeList>> getAllAnimeListStream() {
+    // get user uid
+    final userUid = _ref.read(userProvider)!.uid;
 
-      final data = querySnapshot.docs.map((doc) {
-        return doc.id;
-      }).toList();
+    // collection reference to lists
+    final animeListCollection = _usersCollection
+        .doc(userUid)
+        .collection(FirebaseConstants.animeListRef);
 
-      return data;
-    } catch (e) {
-      return [];
-    }
+    final animeListStream = _getAllAnimeListStream(animeListCollection);
+
+    return animeListStream;
   }
 
   // -------------------------------------------------------------------------------------------------------
@@ -243,19 +263,64 @@ class AnimeRepository {
 
   Future<AnimeList> _getAnimeList(
     String listName,
-    CollectionReference<Map<String, dynamic>> userListCollection,
+    CollectionReference<Map<String, dynamic>> animeListCollection,
   ) async {
     final animeList =
-        await userListCollection.doc(listName).snapshots().map((event) {
+        await animeListCollection.doc(listName).snapshots().map((event) {
       final data = event.data()!;
       return AnimeList(
         name: data["name"],
-        animes: data["animes"].cast<String>(),
+        animesIDs: data["animesIDs"].cast<String>(),
+        animeNames: data["animeNames"].cast<String>(),
+        animeImageURLs: data["animeImageURLs"].cast<String>(),
         createdDate: data["createdDate"],
       );
     }).first;
 
     return animeList;
+  }
+
+  Stream<AnimeList> _getAnimeListStream(
+    String listName,
+    CollectionReference<Map<String, dynamic>> animeListCollection,
+  ) {
+    final animeList =
+        animeListCollection.doc(listName).snapshots().map((event) {
+      final data = event.data()!;
+
+      return AnimeList(
+        name: data["name"],
+        animesIDs: data["animesIDs"].cast<String>(),
+        animeNames: data["animeNames"].cast<String>(),
+        animeImageURLs: data["animeImageURLs"].cast<String>(),
+        createdDate: data["createdDate"],
+      );
+    });
+
+    return animeList;
+  }
+
+  Stream<List<AnimeList>> _getAllAnimeListStream(
+    CollectionReference<Map<String, dynamic>> animeListCollection,
+  ) {
+    final animeLists = animeListCollection.snapshots().map((event) {
+      List<AnimeList> lists = [];
+      for (final data in event.docs) {
+        lists.add(
+          AnimeList(
+            name: data["name"],
+            animesIDs: data["animesIDs"].cast<String>(),
+            animeNames: data["animeNames"].cast<String>(),
+            animeImageURLs: data["animeImageURLs"].cast<String>(),
+            createdDate: data["createdDate"],
+          ),
+        );
+      }
+
+      return lists;
+    });
+
+    return animeLists;
   }
 
   Future<void> _setAnimeList(

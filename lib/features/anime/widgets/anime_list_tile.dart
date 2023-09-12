@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/core/constants/route_constants.dart';
 import 'package:flutter_anime_app/features/anime/widgets/anime_list_tile_leading.dart';
-import 'package:flutter_anime_app/models/pre_anime.dart';
+import 'package:flutter_anime_app/models/anime_list.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
 import 'package:go_router/go_router.dart';
 
 class AnimeListTile extends StatelessWidget {
-  final String listName;
-  final List<PreAnime> preAnimes;
+  final AnimeList animeList;
 
-  const AnimeListTile({
-    super.key,
-    required this.listName,
-    required this.preAnimes,
-  });
+  const AnimeListTile({super.key, required this.animeList});
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +17,7 @@ class AnimeListTile extends StatelessWidget {
     return InkWell(
       onTap: () {
         context.pushNamed(RouteConstants.animeListsScreenName, extra: [
-          listName,
-          preAnimes,
+          animeList,
         ]);
       },
       borderRadius: BorderRadius.circular(10),
@@ -32,58 +26,62 @@ class AnimeListTile extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         child: Row(
           children: [
-            Builder(
-              builder: (context) {
-                if (preAnimes.isEmpty) {
-                  return const AnimeListTileLeading(imageURLs: []);
-                } else {
-                  if (preAnimes.length < 4) {
-                    return AnimeListTileLeading(imageURLs: [
-                      preAnimes[0].imageURL,
-                    ]);
-                  } else {
-                    return AnimeListTileLeading(imageURLs: [
-                      preAnimes[0].imageURL,
-                      preAnimes[1].imageURL,
-                      preAnimes[2].imageURL,
-                      preAnimes[3].imageURL,
-                    ]);
-                  }
-                }
-              },
-            ),
+            Builder(builder: (context) {
+              return AnimeListTileLeading(imageURLs: animeList.animeImageURLs);
+            }),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Stack(
-                children: [
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      listName,
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: SizedBox(
-                      height: 20,
-                      width: width - 125,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: preAnimes.length,
-                        itemBuilder: (context, index) {
-                          return Text(
-                            "${preAnimes[index].name}   ",
-                            style: Theme.of(context)
-                                .textTheme
-                                .displayMedium!
-                                .copyWith(color: Palette.grey),
-                          );
-                        },
+              child: SizedBox(
+                height: 100,
+                width: width - 125,
+                child: Stack(
+                  children: [
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        animeList.name,
+                        style: Theme.of(context).textTheme.titleLarge,
                       ),
                     ),
-                  ),
-                ],
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: Text(
+                        "${animeList.animesIDs.length}",
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        animeList.createdDate,
+                        style: Theme.of(context)
+                            .textTheme
+                            .displayMedium!
+                            .copyWith(color: Palette.grey),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: SizedBox(
+                        height: 20,
+                        width: width - 125,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: animeList.animesIDs.length,
+                          itemBuilder: (context, index) {
+                            return Text(
+                              "${animeList.animeNames[index]}   ",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displayMedium!
+                                  .copyWith(color: Palette.grey),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

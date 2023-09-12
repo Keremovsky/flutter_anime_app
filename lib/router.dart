@@ -64,8 +64,7 @@ class AppRouter {
 
           return MaterialPage(
             child: AnimeListScreen(
-              title: args[0],
-              preAnimes: args[1],
+              animeList: args[0],
             ),
           );
         },

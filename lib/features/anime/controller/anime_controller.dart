@@ -37,21 +37,26 @@ class AnimeController extends StateNotifier {
     return result;
   }
 
-  Future<AnimeList> getAnimeListData(String listName) async {
-    final result = await _animeRepository.getAnimeListData(listName);
+  Stream<AnimeList> getAnimeListStream(String listName) {
+    final result = _animeRepository.getAnimeListStream(listName);
 
     return result;
   }
 
-  Future<List<String>> getAnimeListNames() async {
-    final result = await _animeRepository.getAnimeListNames();
+  Stream<List<AnimeList>> getAllAnimeListStream() {
+    final result = _animeRepository.getAllAnimeListStream();
 
     return result;
   }
 
-  Future<void> setAnimeToList(
-      BuildContext context, String id, String listName) async {
-    final control = await _animeRepository.setAnimeToList(id, listName);
+  Future<void> setAnimeToList(BuildContext context, String id, String animeName,
+      String animeImageURL, String listName) async {
+    final control = await _animeRepository.setAnimeToList(
+      id,
+      animeName,
+      animeImageURL,
+      listName,
+    );
 
     if (mounted) {
       if (control == "add") {

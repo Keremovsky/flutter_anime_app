@@ -323,7 +323,9 @@ class AuthRepository {
 
     final favoritesList = AnimeList(
       name: Constants.favoriteListName,
-      animes: [],
+      animesIDs: [],
+      animeNames: [],
+      animeImageURLs: [],
       createdDate: date,
     );
 
@@ -333,7 +335,9 @@ class AuthRepository {
 
     final watchingList = AnimeList(
       name: Constants.watchingListName,
-      animes: [],
+      animesIDs: [],
+      animeNames: [],
+      animeImageURLs: [],
       createdDate: date,
     );
 

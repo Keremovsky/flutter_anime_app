@@ -85,6 +85,7 @@ class _AnimeScreenState extends ConsumerState<AnimeScreen> {
                   AnimeHandleRow(
                     id: animeData.id,
                     name: animeData.name,
+                    imageURL: animeData.imageURL,
                   ),
                 ],
               ),
