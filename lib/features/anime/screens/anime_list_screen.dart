@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/core/utils/app_bar_back_button.dart';
 import 'package:flutter_anime_app/features/anime/controller/anime_controller.dart';
-import 'package:flutter_anime_app/features/anime/widgets/anime_tile.dart';
+import 'package:flutter_anime_app/features/anime/widgets/anime_list_view.dart';
 import 'package:flutter_anime_app/models/anime_list.dart';
 import 'package:flutter_anime_app/models/pre_anime.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
@@ -51,28 +51,7 @@ class _AnimeListScreenState extends ConsumerState<AnimeListScreen> {
         centerTitle: true,
         leading: const AppBarBackButton(),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: FutureBuilder(
-          future: preAnimes,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const SizedBox();
-            }
-
-            final data = snapshot.data!;
-
-            return Expanded(
-              child: ListView.builder(
-                itemCount: data.length,
-                itemBuilder: (context, index) {
-                  return AnimeTile(anime: data[index]);
-                },
-              ),
-            );
-          },
-        ),
-      ),
+      body: AnimeListView(animeList: widget.animeList),
     );
   }
 }

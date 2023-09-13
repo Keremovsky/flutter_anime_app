@@ -209,7 +209,7 @@ class AnimeRepository {
     }
   }
 
-  Stream<AnimeList> getAnimeListStream(String listName) {
+  Future<AnimeList> getAnimeListStream(String listName) {
     // get user uid
     final userUid = _ref.read(userProvider)!.uid;
 
@@ -218,12 +218,12 @@ class AnimeRepository {
         .doc(userUid)
         .collection(FirebaseConstants.animeListRef);
 
-    final animeListStream = _getAnimeListStream(listName, animeListCollection);
+    final animeListStream = _getAnimeList(listName, animeListCollection);
 
     return animeListStream;
   }
 
-  Stream<List<AnimeList>> getAllAnimeListStream() {
+  Future<List<AnimeList>> getAllAnimeList() {
     // get user uid
     final userUid = _ref.read(userProvider)!.uid;
 
@@ -232,7 +232,7 @@ class AnimeRepository {
         .doc(userUid)
         .collection(FirebaseConstants.animeListRef);
 
-    final animeListStream = _getAllAnimeListStream(animeListCollection);
+    final animeListStream = _getAllAnimeList(animeListCollection);
 
     return animeListStream;
   }
@@ -280,47 +280,30 @@ class AnimeRepository {
     return animeList;
   }
 
-  Stream<AnimeList> _getAnimeListStream(
-    String listName,
-    CollectionReference<Map<String, dynamic>> animeListCollection,
-  ) {
-    final animeList =
-        animeListCollection.doc(listName).snapshots().map((event) {
-      final data = event.data()!;
-
-      return AnimeList(
-        name: data["name"],
-        animesIDs: data["animesIDs"].cast<String>(),
-        animeNames: data["animeNames"].cast<String>(),
-        animeImageURLs: data["animeImageURLs"].cast<String>(),
-        createdDate: data["createdDate"],
-      );
-    });
-
-    return animeList;
-  }
-
-  Stream<List<AnimeList>> _getAllAnimeListStream(
+  Future<List<AnimeList>> _getAllAnimeList(
     CollectionReference<Map<String, dynamic>> animeListCollection,
   ) {
     final animeLists = animeListCollection.snapshots().map((event) {
       List<AnimeList> lists = [];
       for (final data in event.docs) {
-        lists.add(
-          AnimeList(
-            name: data["name"],
-            animesIDs: data["animesIDs"].cast<String>(),
-            animeNames: data["animeNames"].cast<String>(),
-            animeImageURLs: data["animeImageURLs"].cast<String>(),
-            createdDate: data["createdDate"],
-          ),
-        );
+        if (data.id != Constants.favoriteListName &&
+            data.id != Constants.watchingListName) {
+          lists.add(
+            AnimeList(
+              name: data["name"],
+              animesIDs: data["animesIDs"].cast<String>(),
+              animeNames: data["animeNames"].cast<String>(),
+              animeImageURLs: data["animeImageURLs"].cast<String>(),
+              createdDate: data["createdDate"],
+            ),
+          );
+        }
       }
 
       return lists;
     });
 
-    return animeLists;
+    return animeLists.first;
   }
 
   Future<void> _setAnimeList(

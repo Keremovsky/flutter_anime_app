@@ -3,17 +3,18 @@ import 'package:flutter_anime_app/features/home/home_screen/widgets/anime_box.da
 import 'package:flutter_anime_app/models/pre_anime.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AnimeListView extends ConsumerStatefulWidget {
+class AnimeBoxListView extends ConsumerStatefulWidget {
   final String title;
   final List<PreAnime> preAnime;
 
-  const AnimeListView({super.key, required this.title, required this.preAnime});
+  const AnimeBoxListView(
+      {super.key, required this.title, required this.preAnime});
 
   @override
-  ConsumerState<AnimeListView> createState() => _AnimeListViewState();
+  ConsumerState<AnimeBoxListView> createState() => _AnimeListViewState();
 }
 
-class _AnimeListViewState extends ConsumerState<AnimeListView> {
+class _AnimeListViewState extends ConsumerState<AnimeBoxListView> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;

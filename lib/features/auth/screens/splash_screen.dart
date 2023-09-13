@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/core/constants/constants.dart';
 import 'package:flutter_anime_app/core/constants/firebase_constants.dart';
 import 'package:flutter_anime_app/core/constants/route_constants.dart';
+import 'package:flutter_anime_app/core/providers/state_notifier_providers/anime_lists_state_notifier.dart';
+import 'package:flutter_anime_app/core/providers/state_notifier_providers/favorites_state_notifier.dart';
+import 'package:flutter_anime_app/core/providers/state_notifier_providers/watching_state_notifier.dart';
 import 'package:flutter_anime_app/core/utils/custom_circular_progress_indicator.dart';
 import 'package:flutter_anime_app/features/anime/controller/anime_controller.dart';
 import 'package:flutter_anime_app/models/pre_anime.dart';
@@ -36,6 +39,12 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     return result;
   }
 
+  Future<void> _fetchListData() async {
+    await ref.read(favoriteStateNotifierProvider.notifier).updateState();
+    await ref.read(watchingStateNotifierProvider.notifier).updateState();
+    await ref.read(animeListsStateNotifierProvider.notifier).updateState();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -62,7 +71,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-        future: Future.wait([popular, seasonal]),
+        future: Future.wait([popular, seasonal, _fetchListData()]),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Stack(

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_anime_app/core/constants/constants.dart';
-import 'package:flutter_anime_app/features/anime/controller/anime_controller.dart';
+import 'package:flutter_anime_app/core/providers/state_notifier_providers/anime_lists_state_notifier.dart';
 import 'package:flutter_anime_app/features/anime/widgets/anime_screen_widgets/create_anime_list_button.dart';
 import 'package:flutter_anime_app/features/anime/widgets/anime_screen_widgets/save_anime_list_tile.dart';
-import 'package:flutter_anime_app/models/anime_list.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SaveAnimeBottomSheet extends ConsumerStatefulWidget {
@@ -25,19 +23,10 @@ class SaveAnimeBottomSheet extends ConsumerStatefulWidget {
 
 class _SaveAnimeBottomSheetState extends ConsumerState<SaveAnimeBottomSheet> {
   late TextEditingController textController;
-  late Stream<List<AnimeList>> animeLists;
-
-  Stream<List<AnimeList>> _getAnimeLists() {
-    final result =
-        ref.read(animeControllerProvider.notifier).getAllAnimeListStream();
-
-    return result;
-  }
 
   @override
   void initState() {
     textController = TextEditingController();
-    animeLists = _getAnimeLists();
     super.initState();
   }
 
@@ -51,6 +40,8 @@ class _SaveAnimeBottomSheetState extends ConsumerState<SaveAnimeBottomSheet> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
 
+    final animeLists = ref.watch(animeListsStateNotifierProvider);
+
     return Padding(
       padding: MediaQuery.of(context).viewInsets +
           const EdgeInsets.symmetric(horizontal: 10),
@@ -59,34 +50,18 @@ class _SaveAnimeBottomSheetState extends ConsumerState<SaveAnimeBottomSheet> {
         width: double.infinity,
         child: Column(
           children: [
-            StreamBuilder(
-              stream: animeLists,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const SizedBox();
-                }
-
-                final data = snapshot.data!;
-
-                return Expanded(
-                  child: ListView.builder(
-                    itemCount: data.length,
-                    itemBuilder: (context, index) {
-                      if (data[index].name == Constants.favoriteListName ||
-                          data[index].name == Constants.watchingListName) {
-                        return const SizedBox();
-                      }
-
-                      return SaveAnimeListTile(
-                        currentAnimeID: widget.id,
-                        animeName: widget.animeName,
-                        animeImageURL: widget.animeImageURL,
-                        animeList: data[index],
-                      );
-                    },
-                  ),
-                );
-              },
+            Expanded(
+              child: ListView.builder(
+                itemCount: animeLists.length,
+                itemBuilder: (context, index) {
+                  return SaveAnimeListTile(
+                    currentAnimeID: widget.id,
+                    animeName: widget.animeName,
+                    animeImageURL: widget.animeImageURL,
+                    animeList: animeLists[index],
+                  );
+                },
+              ),
             ),
             SizedBox(
               height: 80,

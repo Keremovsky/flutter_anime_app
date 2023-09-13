@@ -28,11 +28,11 @@ class _HomeScreenState extends State<HomeScreen>
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: ListView(
             children: [
-              AnimeListView(
+              AnimeBoxListView(
                 title: "Popular Animes",
                 preAnime: widget.popular,
               ),
-              AnimeListView(
+              AnimeBoxListView(
                 title: "Seasonal Animes",
                 preAnime: widget.seasonal,
               ),

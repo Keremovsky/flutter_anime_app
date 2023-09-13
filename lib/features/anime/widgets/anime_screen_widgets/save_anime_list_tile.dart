@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_anime_app/core/providers/state_notifier_providers/anime_lists_state_notifier.dart';
 import 'package:flutter_anime_app/features/anime/controller/anime_controller.dart';
 import 'package:flutter_anime_app/features/anime/widgets/anime_list_screen_widgets/anime_list_tile_leading.dart';
 import 'package:flutter_anime_app/models/anime_list.dart';
@@ -32,6 +33,7 @@ class SaveAnimeListTile extends ConsumerWidget {
               animeImageURL,
               animeList.name,
             );
+        await ref.read(animeListsStateNotifierProvider.notifier).updateState();
       },
       borderRadius: BorderRadius.circular(10),
       child: Container(

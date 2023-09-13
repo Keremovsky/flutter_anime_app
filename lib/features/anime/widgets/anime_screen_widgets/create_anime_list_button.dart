@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_anime_app/core/providers/state_notifier_providers/anime_lists_state_notifier.dart';
 import 'package:flutter_anime_app/core/utils.dart';
 import 'package:flutter_anime_app/features/anime/controller/anime_controller.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
@@ -30,7 +31,15 @@ class CreateAnimeListButton extends ConsumerWidget {
             return;
           }
           await ref.read(animeControllerProvider.notifier).setAnimeToList(
-              context, id, animeName, animeImageURL, textController.text);
+                context,
+                id,
+                animeName,
+                animeImageURL,
+                textController.text,
+              );
+          await ref
+              .read(animeListsStateNotifierProvider.notifier)
+              .updateState();
         },
         borderRadius: BorderRadius.circular(15),
         child: const SizedBox(
