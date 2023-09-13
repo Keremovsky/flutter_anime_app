@@ -5,6 +5,7 @@ import 'package:flutter_anime_app/features/anime/screens/anime_list_screen.dart'
 import 'package:flutter_anime_app/features/auth/screens/auth_screen.dart';
 import 'package:flutter_anime_app/features/home/screens/main_screen.dart';
 import 'package:flutter_anime_app/features/auth/screens/splash_screen.dart';
+import 'package:flutter_anime_app/features/user_profile/screens/edit_user_screen.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouter {
@@ -69,6 +70,22 @@ class AppRouter {
           );
         },
       ),
+      GoRoute(
+        name: RouteConstants.editUserScreenName,
+        path: RouteConstants.editUserScreenPath,
+        pageBuilder: (context, state) {
+          final args = state.extra as List<String>;
+
+          return MaterialPage(
+            child: EditUserScreen(
+              username: args[0],
+              animeName: args[1],
+              profilePicURL: args[2],
+              backgroundPicURL: args[3],
+            ),
+          );
+        },
+      )
     ],
   );
 }

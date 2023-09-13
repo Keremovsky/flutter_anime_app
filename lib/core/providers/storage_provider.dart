@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_anime_app/core/providers/firebase_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,7 +14,10 @@ class Storage {
 
   Future<String> getFileURL(String path, String fileName) async {
     final fileURL = await _storage.ref("$path$fileName").getDownloadURL();
-
     return fileURL;
+  }
+
+  Future<void> storeFile(String path, String fileName, File file) async {
+    await _storage.ref("$path$fileName").putFile(file);
   }
 }

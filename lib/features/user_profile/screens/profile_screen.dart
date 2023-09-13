@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_anime_app/core/constants/route_constants.dart';
 import 'package:flutter_anime_app/features/auth/controller/auth_controller.dart';
 import 'package:flutter_anime_app/features/user_profile/widgets/user_navigation_bar.dart';
 import 'package:flutter_anime_app/features/user_profile/widgets/user_page_view.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
@@ -40,7 +42,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
-    final userData = ref.read(userProvider);
+
+    final userData = ref.watch(userProvider);
 
     return Scaffold(
       body: SizedBox(
@@ -71,6 +74,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             image: NetworkImage(userData.profilePicURL),
+                            fit: BoxFit.cover,
                           ),
                           shape: BoxShape.circle,
                           border: Border.all(
@@ -84,11 +88,30 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     Positioned(
                       right: 14,
                       bottom: 0,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        child: Text(
-                          "Edit Profile",
-                          style: Theme.of(context).textTheme.displayLarge,
+                      child: Material(
+                        color: Palette.mainColor,
+                        borderRadius: BorderRadius.circular(15),
+                        child: InkWell(
+                          onTap: () {
+                            context.pushNamed(RouteConstants.editUserScreenName,
+                                extra: [
+                                  userData.username,
+                                  userData.animeName,
+                                  userData.profilePicURL,
+                                  userData.backgroundPicURL,
+                                ]);
+                          },
+                          borderRadius: BorderRadius.circular(15),
+                          child: SizedBox(
+                            height: 40,
+                            width: 120,
+                            child: Center(
+                              child: Text(
+                                "Edit Profile",
+                                style: Theme.of(context).textTheme.displayLarge,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ),
