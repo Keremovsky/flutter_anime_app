@@ -51,17 +51,22 @@ class _SaveAnimeBottomSheetState extends ConsumerState<SaveAnimeBottomSheet> {
         child: Column(
           children: [
             Expanded(
-              child: ListView.builder(
-                itemCount: animeLists.length,
-                itemBuilder: (context, index) {
-                  return SaveAnimeListTile(
-                    currentAnimeID: widget.id,
-                    animeName: widget.animeName,
-                    animeImageURL: widget.animeImageURL,
-                    animeList: animeLists[index],
-                  );
-                },
-              ),
+              child: animeLists.isEmpty
+                  ? Text(
+                      "No Anime List",
+                      style: Theme.of(context).textTheme.titleLarge,
+                    )
+                  : ListView.builder(
+                      itemCount: animeLists.length,
+                      itemBuilder: (context, index) {
+                        return SaveAnimeListTile(
+                          currentAnimeID: widget.id,
+                          animeName: widget.animeName,
+                          animeImageURL: widget.animeImageURL,
+                          animeList: animeLists[index],
+                        );
+                      },
+                    ),
             ),
             SizedBox(
               height: 80,
@@ -71,6 +76,12 @@ class _SaveAnimeBottomSheetState extends ConsumerState<SaveAnimeBottomSheet> {
                   Expanded(
                     child: TextField(
                       controller: textController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                      ),
+                      style: Theme.of(context).textTheme.displayLarge,
                     ),
                   ),
                   const SizedBox(width: 20),

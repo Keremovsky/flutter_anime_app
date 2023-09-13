@@ -43,9 +43,12 @@ class CreateAnimeListButton extends ConsumerWidget {
         },
         borderRadius: BorderRadius.circular(15),
         child: const SizedBox(
-          height: 50,
-          width: 50,
-          child: Icon(Icons.create),
+          height: 55,
+          width: 55,
+          child: Icon(
+            Icons.add,
+            size: 30,
+          ),
         ),
       ),
     );
