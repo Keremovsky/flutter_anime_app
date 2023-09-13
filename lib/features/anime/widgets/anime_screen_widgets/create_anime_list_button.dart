@@ -27,7 +27,11 @@ class CreateAnimeListButton extends ConsumerWidget {
       child: InkWell(
         onTap: () async {
           if (textController.text.isEmpty) {
-            giveFeedback(context, "Please fill the text field.");
+            giveFeedback(
+              context,
+              "Please fill the text field.",
+              const Duration(seconds: 1),
+            );
             return;
           }
           await ref.read(animeControllerProvider.notifier).setAnimeToList(

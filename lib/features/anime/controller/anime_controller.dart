@@ -62,31 +62,63 @@ class AnimeController extends StateNotifier {
       if (control == "add") {
         switch (listName) {
           case Constants.favoriteListName:
-            giveFeedback(context, "Anime added to the favorites.");
+            giveFeedback(
+              context,
+              "Anime added to the favorites.",
+              const Duration(seconds: 1),
+            );
             break;
           case Constants.watchingListName:
-            giveFeedback(context, "Anime added to the watching list.");
+            giveFeedback(
+              context,
+              "Anime added to the watching list.",
+              const Duration(seconds: 1),
+            );
             break;
           default:
-            giveFeedback(context, "Anime added to the list.");
+            giveFeedback(
+              context,
+              "Anime added to the list.",
+              const Duration(seconds: 1),
+            );
             break;
         }
       } else if (control == "delete") {
         switch (listName) {
           case Constants.favoriteListName:
-            giveFeedback(context, "Anime deleted from the favorites.");
+            giveFeedback(
+              context,
+              "Anime deleted from the favorites.",
+              const Duration(seconds: 1),
+            );
             break;
           case Constants.watchingListName:
-            giveFeedback(context, "Anime deleted from the watching list.");
+            giveFeedback(
+              context,
+              "Anime deleted from the watching list.",
+              const Duration(seconds: 1),
+            );
             break;
           default:
-            giveFeedback(context, "Anime deleted from the list.");
+            giveFeedback(
+              context,
+              "Anime deleted from the list.",
+              const Duration(seconds: 1),
+            );
             break;
         }
       } else if (control == "create") {
-        giveFeedback(context, "$listName successfully created.");
+        giveFeedback(
+          context,
+          "$listName successfully created.",
+          const Duration(seconds: 1),
+        );
       } else {
-        giveFeedback(context, "Unknown error occurred.");
+        giveFeedback(
+          context,
+          "Unknown error occurred.",
+          const Duration(seconds: 1),
+        );
       }
     }
   }
@@ -96,11 +128,23 @@ class AnimeController extends StateNotifier {
 
     if (mounted) {
       if (control == "success") {
-        giveFeedback(context, "List permanently deleted.");
+        giveFeedback(
+          context,
+          "List permanently deleted.",
+          const Duration(seconds: 1),
+        );
       } else if (control == "no_list") {
-        giveFeedback(context, "There is no list with given name.");
+        giveFeedback(
+          context,
+          "There is no list with given name.",
+          const Duration(seconds: 1),
+        );
       } else {
-        giveFeedback(context, "Unknown error occurred.");
+        giveFeedback(
+          context,
+          "Unknown error occurred.",
+          const Duration(seconds: 1),
+        );
       }
     }
   }

@@ -28,15 +28,35 @@ class AuthController extends StateNotifier<bool> {
     control.fold(
       (left) {
         if (left == "cancel") {
-          giveFeedback(context, "Google account is not selected.");
+          giveFeedback(
+            context,
+            "Google account is not selected.",
+            const Duration(seconds: 2),
+          );
         } else if (left == "account-exists-with-different-credential") {
-          giveFeedback(context, "Account exist with another provider.");
+          giveFeedback(
+            context,
+            "Account exist with another provider.",
+            const Duration(seconds: 2),
+          );
         } else if (left == "user-disabled") {
-          giveFeedback(context, "Account is disabled.");
+          giveFeedback(
+            context,
+            "Account is disabled.",
+            const Duration(seconds: 2),
+          );
         } else if (left == "error") {
-          giveFeedback(context, "Unknown error occurred.");
+          giveFeedback(
+            context,
+            "Unknown error occurred.",
+            const Duration(seconds: 2),
+          );
         } else {
-          giveFeedback(context, "Unknown server-side error occurred.");
+          giveFeedback(
+            context,
+            "Unknown server-side error occurred.",
+            const Duration(seconds: 2),
+          );
         }
       },
       (right) {
@@ -53,15 +73,35 @@ class AuthController extends StateNotifier<bool> {
     control.fold(
       (left) {
         if (left == "cancel") {
-          giveFeedback(context, "Twitter account is not selected.");
+          giveFeedback(
+            context,
+            "Twitter account is not selected.",
+            const Duration(seconds: 2),
+          );
         } else if (left == "account-exists-with-different-credential") {
-          giveFeedback(context, "Account exist with another provider.");
+          giveFeedback(
+            context,
+            "Account exist with another provider.",
+            const Duration(seconds: 2),
+          );
         } else if (left == "user-disabled") {
-          giveFeedback(context, "Account is disabled.");
+          giveFeedback(
+            context,
+            "Account is disabled.",
+            const Duration(seconds: 2),
+          );
         } else if (left == "error") {
-          giveFeedback(context, "Unknown error occurred.");
+          giveFeedback(
+            context,
+            "Unknown error occurred.",
+            const Duration(seconds: 2),
+          );
         } else {
-          giveFeedback(context, "Unknown server-side error occurred.");
+          giveFeedback(
+            context,
+            "Unknown server-side error occurred.",
+            const Duration(seconds: 2),
+          );
         }
       },
       (right) {
@@ -79,15 +119,35 @@ class AuthController extends StateNotifier<bool> {
     control.fold(
       (left) {
         if (left == "wrong-password") {
-          giveFeedback(context, "Password is not correct.");
+          giveFeedback(
+            context,
+            "Password is not correct.",
+            const Duration(seconds: 2),
+          );
         } else if (left == "invalid-email") {
-          giveFeedback(context, "Email address is not valid.");
+          giveFeedback(
+            context,
+            "Email address is not valid.",
+            const Duration(seconds: 2),
+          );
         } else if (left == "user-disabled") {
-          giveFeedback(context, "Account is disabled.");
+          giveFeedback(
+            context,
+            "Account is disabled.",
+            const Duration(seconds: 2),
+          );
         } else if (left == "user-not-found") {
-          giveFeedback(context, "There is no user with given email.");
+          giveFeedback(
+            context,
+            "There is no user with given email.",
+            const Duration(seconds: 2),
+          );
         } else {
-          giveFeedback(context, "Unknown error occurred.");
+          giveFeedback(
+            context,
+            "Unknown error occurred.",
+            const Duration(seconds: 2),
+          );
         }
       },
       (right) {
@@ -106,16 +166,35 @@ class AuthController extends StateNotifier<bool> {
 
     if (mounted) {
       if (control == "success") {
-        giveFeedback(context, "Registration is successful.");
+        giveFeedback(
+          context,
+          "Registration is successful.",
+          const Duration(seconds: 2),
+        );
       } else if (control == "email-already-in-use") {
         giveFeedback(
-            context, "There already exist an account with given email.");
+          context,
+          "There already exist an account with given email.",
+          const Duration(seconds: 2),
+        );
       } else if (control == "invalid-email") {
-        giveFeedback(context, "Email address is not valid.");
+        giveFeedback(
+          context,
+          "Email address is not valid.",
+          const Duration(seconds: 2),
+        );
       } else if (control == "weak-password") {
-        giveFeedback(context, "Given password is weak.");
+        giveFeedback(
+          context,
+          "Given password is weak.",
+          const Duration(seconds: 2),
+        );
       } else {
-        giveFeedback(context, "Unknown error occurred.");
+        giveFeedback(
+          context,
+          "Unknown error occurred.",
+          const Duration(seconds: 2),
+        );
       }
     }
   }
@@ -125,13 +204,29 @@ class AuthController extends StateNotifier<bool> {
 
     if (mounted) {
       if (control == "success") {
-        giveFeedback(context, "An email sent to your mail address.");
+        giveFeedback(
+          context,
+          "An email sent to your mail address.",
+          const Duration(seconds: 2),
+        );
       } else if (control == "invalid-email") {
-        giveFeedback(context, "Email address is not valid.");
+        giveFeedback(
+          context,
+          "Email address is not valid.",
+          const Duration(seconds: 2),
+        );
       } else if (control == "user-not-found") {
-        giveFeedback(context, "There is no user with given email.");
+        giveFeedback(
+          context,
+          "There is no user with given email.",
+          const Duration(seconds: 2),
+        );
       } else {
-        giveFeedback(context, "Unknown error occurred.");
+        giveFeedback(
+          context,
+          "Unknown error occurred.",
+          const Duration(seconds: 2),
+        );
       }
     }
   }
@@ -143,7 +238,11 @@ class AuthController extends StateNotifier<bool> {
       if (control == "success") {
         context.pushReplacementNamed(RouteConstants.authScreenName);
       } else {
-        giveFeedback(context, "Unknown error occurred.");
+        giveFeedback(
+          context,
+          "Unknown error occurred.",
+          const Duration(seconds: 2),
+        );
       }
     }
   }

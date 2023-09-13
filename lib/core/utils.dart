@@ -8,12 +8,12 @@ bool passwordValidator(String password) {
   return !regex.hasMatch(password);
 }
 
-void giveFeedback(BuildContext context, String text) {
+void giveFeedback(BuildContext context, String text, Duration duration) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       content: Text(text),
       behavior: SnackBarBehavior.floating,
-      duration: const Duration(seconds: 2),
+      duration: duration,
     ),
   );
 }
