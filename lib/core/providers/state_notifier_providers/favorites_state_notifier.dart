@@ -30,4 +30,8 @@ class FavoriteStateNotifier extends StateNotifier<AnimeList> {
 
     state = newState;
   }
+
+  bool controlAnime(String id) {
+    return state.animesIDs.contains(id);
+  }
 }

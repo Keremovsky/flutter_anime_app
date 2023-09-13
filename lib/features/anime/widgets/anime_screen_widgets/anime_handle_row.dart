@@ -9,7 +9,7 @@ import 'package:flutter_anime_app/features/anime/widgets/anime_screen_widgets/sa
 import 'package:flutter_anime_app/themes/palette.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AnimeHandleRow extends ConsumerWidget {
+class AnimeHandleRow extends ConsumerStatefulWidget {
   final String id;
   final String name;
   final String imageURL;
@@ -22,7 +22,12 @@ class AnimeHandleRow extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _AnimeHandleRowState();
+}
+
+class _AnimeHandleRowState extends ConsumerState<AnimeHandleRow> {
+  @override
+  Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
@@ -33,17 +38,23 @@ class AnimeHandleRow extends ConsumerWidget {
           onTap: () async {
             await ref.read(animeControllerProvider.notifier).setAnimeToList(
                   context,
-                  id,
-                  name,
-                  imageURL,
+                  widget.id,
+                  widget.name,
+                  widget.imageURL,
                   Constants.favoriteListName,
                 );
             await ref
                 .read(favoriteStateNotifierProvider.notifier)
                 .updateState();
+
+            setState(() {});
           },
-          icon: const Icon(
-            Icons.favorite_border_outlined,
+          icon: Icon(
+            ref
+                    .read(favoriteStateNotifierProvider.notifier)
+                    .controlAnime(widget.id)
+                ? Icons.favorite
+                : Icons.favorite_border_outlined,
             color: Palette.mainColor,
           ),
           label: Text(
@@ -61,18 +72,24 @@ class AnimeHandleRow extends ConsumerWidget {
           onTap: () async {
             await ref.read(animeControllerProvider.notifier).setAnimeToList(
                   context,
-                  id,
-                  name,
-                  imageURL,
+                  widget.id,
+                  widget.name,
+                  widget.imageURL,
                   Constants.watchingListName,
                 );
 
             await ref
                 .read(watchingStateNotifierProvider.notifier)
                 .updateState();
+
+            setState(() {});
           },
-          icon: const Icon(
-            Icons.tv,
+          icon: Icon(
+            ref
+                    .read(watchingStateNotifierProvider.notifier)
+                    .controlAnime(widget.id)
+                ? Icons.connected_tv
+                : Icons.tv,
             color: Palette.mainColor,
           ),
           label: Text(
@@ -93,9 +110,9 @@ class AnimeHandleRow extends ConsumerWidget {
               isScrollControlled: true,
               builder: (context) {
                 return SaveAnimeBottomSheet(
-                  id: id,
-                  animeName: name,
-                  animeImageURL: imageURL,
+                  id: widget.id,
+                  animeName: widget.name,
+                  animeImageURL: widget.imageURL,
                 );
               },
             );
@@ -118,7 +135,7 @@ class AnimeHandleRow extends ConsumerWidget {
           borderRadius: BorderRadius.circular(10),
           onTap: () async {
             await Clipboard.setData(
-              ClipboardData(text: name),
+              ClipboardData(text: widget.name),
             );
           },
           icon: const Icon(
