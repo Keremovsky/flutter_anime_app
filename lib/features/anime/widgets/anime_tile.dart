@@ -21,6 +21,7 @@ class AnimeTile extends StatelessWidget {
             extra: anime.name,
           );
         },
+        splashColor: Colors.transparent,
         leading: Image.network(
           anime.imageURL,
         ),

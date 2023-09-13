@@ -119,7 +119,7 @@ class _MainScreenState extends State<MainScreen> {
               ),
               const Spacer(flex: 20),
               NavigationButton(
-                buttonIcon: Icons.favorite,
+                buttonIcon: Icons.save,
                 isSelected: currentIndex == 2,
                 index: 2,
                 navigateToScreen: _navigateToScreen,

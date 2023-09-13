@@ -26,13 +26,9 @@ class _AnimeListViewState extends ConsumerState<AnimeListView> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    preAnimes = _getPreAnimes(widget.animeList.animesIDs);
-  }
-
-  @override
   Widget build(BuildContext context) {
+    preAnimes = _getPreAnimes(widget.animeList.animesIDs);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: FutureBuilder(
