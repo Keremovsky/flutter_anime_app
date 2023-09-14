@@ -4,6 +4,8 @@ import 'package:flutter_anime_app/core/utils/custom_circular_progress_indicator.
 import 'package:flutter_anime_app/features/anime/controller/anime_controller.dart';
 import 'package:flutter_anime_app/features/anime/widgets/anime_screen_widgets/anime_handle_row.dart';
 import 'package:flutter_anime_app/features/anime/widgets/anime_screen_widgets/anime_main_info.dart';
+import 'package:flutter_anime_app/features/anime/widgets/anime_screen_widgets/anime_review_list.dart';
+import 'package:flutter_anime_app/features/anime/widgets/anime_screen_widgets/expandable_anime_details.dart';
 import 'package:flutter_anime_app/models/anime.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -87,6 +89,14 @@ class _AnimeScreenState extends ConsumerState<AnimeScreen> {
                     name: animeData.name,
                     imageURL: animeData.imageURL,
                   ),
+                  const SizedBox(height: 20),
+                  ExpandableAnimeDetails(
+                    anime: animeData,
+                    normalHeight: 140,
+                    expandedHeight: 300,
+                  ),
+                  const SizedBox(height: 30),
+                  AnimeReviewList(),
                 ],
               ),
             ),

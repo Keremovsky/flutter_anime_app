@@ -18,6 +18,8 @@ class AnimeRepository {
   final FirebaseFirestore _firestore;
   final Ref _ref;
 
+  DocumentSnapshot? lastDocument;
+
   CollectionReference get _usersCollection =>
       _firestore.collection(FirebaseConstants.usersRef);
 
@@ -236,6 +238,22 @@ class AnimeRepository {
 
     return animeListStream;
   }
+
+  // Future<void> getAnimeReviews(String id) async {
+  //   if (lastDocument != null) {
+  //     final userUid = _ref.read(userProvider)!.uid;
+
+  //     final reviewSnapshot = await _usersCollection
+  //         .doc(userUid)
+  //         .collection("reviews")
+  //         .orderBy("id", descending: true)
+  //         .startAfter([lastDocument])
+  //         .limit(10)
+  //         .snapshots()
+  //         .map((event) => null)
+  //         .first;
+  //   }
+  // }
 
   // -------------------------------------------------------------------------------------------------------
 
