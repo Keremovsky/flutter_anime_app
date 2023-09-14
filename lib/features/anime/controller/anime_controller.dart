@@ -4,6 +4,7 @@ import 'package:flutter_anime_app/core/utils.dart';
 import 'package:flutter_anime_app/features/anime/repository/anime_repository.dart';
 import 'package:flutter_anime_app/models/anime.dart';
 import 'package:flutter_anime_app/models/anime_list.dart';
+import 'package:flutter_anime_app/models/anime_review.dart';
 import 'package:flutter_anime_app/models/pre_anime.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -147,5 +148,15 @@ class AnimeController extends StateNotifier {
         );
       }
     }
+  }
+
+  Future<List<AnimeReview>> getAnimeReviewsFromAnime(
+      String id, bool isFirstFetch) async {
+    final result = await _animeRepository.getAnimeReviewsFromAnime(
+      id,
+      isFirstFetch,
+    );
+
+    return result;
   }
 }

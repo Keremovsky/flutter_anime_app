@@ -96,7 +96,7 @@ class _AnimeScreenState extends ConsumerState<AnimeScreen> {
                     expandedHeight: 300,
                   ),
                   const SizedBox(height: 30),
-                  AnimeReviewList(),
+                  const AnimeReviewList(),
                 ],
               ),
             ),

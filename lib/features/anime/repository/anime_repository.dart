@@ -6,6 +6,7 @@ import 'package:flutter_anime_app/core/utils.dart';
 import 'package:flutter_anime_app/features/auth/controller/auth_controller.dart';
 import 'package:flutter_anime_app/models/anime.dart';
 import 'package:flutter_anime_app/models/anime_list.dart';
+import 'package:flutter_anime_app/models/anime_review.dart';
 import 'package:flutter_anime_app/models/pre_anime.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -239,21 +240,14 @@ class AnimeRepository {
     return animeListStream;
   }
 
-  // Future<void> getAnimeReviews(String id) async {
-  //   if (lastDocument != null) {
-  //     final userUid = _ref.read(userProvider)!.uid;
+  Future<List<AnimeReview>> getAnimeReviewsFromAnime(
+      String id, bool isFirstFetch) async {
+    final reviewCollection = _animesCollection.doc(id).collection("reviews");
 
-  //     final reviewSnapshot = await _usersCollection
-  //         .doc(userUid)
-  //         .collection("reviews")
-  //         .orderBy("id", descending: true)
-  //         .startAfter([lastDocument])
-  //         .limit(10)
-  //         .snapshots()
-  //         .map((event) => null)
-  //         .first;
-  //   }
-  // }
+    final reviews = await _getAnimeReviews(isFirstFetch, reviewCollection);
+
+    return reviews;
+  }
 
   // -------------------------------------------------------------------------------------------------------
 
@@ -338,5 +332,35 @@ class AnimeRepository {
         .collection(FirebaseConstants.coreAnimeRef)
         .doc(anime.id)
         .set(anime.toMap());
+  }
+
+  Future<List<AnimeReview>> _getAnimeReviews(
+    bool isFirstFetch,
+    CollectionReference<Map<String, dynamic>> reviewCollection,
+  ) async {
+    Query query = reviewCollection.orderBy("createdDate").limit(10);
+
+    if (!isFirstFetch) {
+      query = query.startAfter([lastDocument]);
+    }
+
+    final reviewSnapshot = await query.get();
+    lastDocument = reviewSnapshot.docs.last;
+
+    List<AnimeReview> result = _getAnimeReviewList(reviewSnapshot);
+
+    return result;
+  }
+
+  List<AnimeReview> _getAnimeReviewList(QuerySnapshot<Object?> event) {
+    List<AnimeReview> animeReviewList = [];
+
+    for (final doc in event.docs) {
+      animeReviewList.add(
+        AnimeReview.fromMap(doc.data() as Map<String, dynamic>),
+      );
+    }
+
+    return animeReviewList;
   }
 }
