@@ -246,7 +246,23 @@ class AnimeRepository {
 
     final reviews = await _getAnimeReviews(isFirstFetch, reviewCollection);
 
-    return reviews;
+    if (reviews == null) {
+      return [];
+    } else {
+      return reviews;
+    }
+  }
+
+  Future<String> setAnimeReview(AnimeReview animeReview) async {
+    try {
+      final reviewCollection =
+          _animesCollection.doc(animeReview.animeID).collection("reviews");
+
+      await reviewCollection.doc(animeReview.id).set(animeReview.toMap());
+      return "success";
+    } catch (e) {
+      return "error";
+    }
   }
 
   // -------------------------------------------------------------------------------------------------------
@@ -334,25 +350,30 @@ class AnimeRepository {
         .set(anime.toMap());
   }
 
-  Future<List<AnimeReview>> _getAnimeReviews(
+  Future<List<AnimeReview>?> _getAnimeReviews(
     bool isFirstFetch,
     CollectionReference<Map<String, dynamic>> reviewCollection,
   ) async {
     Query query = reviewCollection.orderBy("createdDate").limit(10);
 
     if (!isFirstFetch) {
-      query = query.startAfter([lastDocument]);
+      query = query.startAfterDocument(lastDocument!);
     }
 
     final reviewSnapshot = await query.get();
+
+    if (reviewSnapshot.docs.isEmpty) {
+      return null;
+    }
+
     lastDocument = reviewSnapshot.docs.last;
 
-    List<AnimeReview> result = _getAnimeReviewList(reviewSnapshot);
+    List<AnimeReview> result = __getAnimeReviewList(reviewSnapshot);
 
     return result;
   }
 
-  List<AnimeReview> _getAnimeReviewList(QuerySnapshot<Object?> event) {
+  List<AnimeReview> __getAnimeReviewList(QuerySnapshot<Object?> event) {
     List<AnimeReview> animeReviewList = [];
 
     for (final doc in event.docs) {

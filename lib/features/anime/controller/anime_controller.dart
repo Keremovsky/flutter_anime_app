@@ -159,4 +159,25 @@ class AnimeController extends StateNotifier {
 
     return result;
   }
+
+  Future<void> setAnimeReview(
+      BuildContext context, AnimeReview animeReview) async {
+    final control = await _animeRepository.setAnimeReview(animeReview);
+
+    if (mounted) {
+      if (control == "success") {
+        giveFeedback(
+          context,
+          "Review successfully created.",
+          const Duration(seconds: 1),
+        );
+      } else {
+        giveFeedback(
+          context,
+          "Unknown error occurred.",
+          const Duration(seconds: 1),
+        );
+      }
+    }
+  }
 }

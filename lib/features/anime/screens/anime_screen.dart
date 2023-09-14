@@ -1,12 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/core/utils/app_bar_back_button.dart';
 import 'package:flutter_anime_app/core/utils/custom_circular_progress_indicator.dart';
 import 'package:flutter_anime_app/features/anime/controller/anime_controller.dart';
 import 'package:flutter_anime_app/features/anime/widgets/anime_screen_widgets/anime_handle_row.dart';
 import 'package:flutter_anime_app/features/anime/widgets/anime_screen_widgets/anime_main_info.dart';
-import 'package:flutter_anime_app/features/anime/widgets/anime_screen_widgets/anime_review_list.dart';
 import 'package:flutter_anime_app/features/anime/widgets/anime_screen_widgets/expandable_anime_details.dart';
+import 'package:flutter_anime_app/features/auth/controller/auth_controller.dart';
 import 'package:flutter_anime_app/models/anime.dart';
+import 'package:flutter_anime_app/models/anime_review.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AnimeScreen extends ConsumerStatefulWidget {
@@ -20,9 +22,11 @@ class AnimeScreen extends ConsumerStatefulWidget {
 }
 
 class _AnimeScreenState extends ConsumerState<AnimeScreen> {
-  bool expanded = false;
-
   late Future<Anime> anime;
+
+  ValueNotifier<List<AnimeReview>> animeReviews =
+      ValueNotifier<List<AnimeReview>>([]);
+  ValueNotifier<bool> isFirstFetch = ValueNotifier<bool>(true);
 
   Future<Anime> getAnime(String id) async {
     final result =
@@ -31,9 +35,25 @@ class _AnimeScreenState extends ConsumerState<AnimeScreen> {
     return result;
   }
 
+  void getAnimeReviews(String id) async {
+    if (isFirstFetch.value == true) {
+      final result = await ref
+          .read(animeControllerProvider.notifier)
+          .getAnimeReviewsFromAnime(
+            id,
+            true,
+          );
+
+      animeReviews.value = result;
+
+      isFirstFetch.value = false;
+    }
+  }
+
   @override
   void initState() {
     anime = getAnime(widget.id);
+
     super.initState();
   }
 
@@ -54,6 +74,8 @@ class _AnimeScreenState extends ConsumerState<AnimeScreen> {
           }
 
           final animeData = snapshot.data!;
+
+          getAnimeReviews(animeData.id);
 
           return SafeArea(
             child: Padding(
@@ -96,7 +118,55 @@ class _AnimeScreenState extends ConsumerState<AnimeScreen> {
                     expandedHeight: 300,
                   ),
                   const SizedBox(height: 30),
-                  const AnimeReviewList(),
+                  ValueListenableBuilder(
+                    valueListenable: animeReviews,
+                    builder: (context, value, child) {
+                      if (value.isEmpty) {
+                        debugPrint(value.toString());
+                        return const SizedBox();
+                      }
+                      return Text(
+                        value.length.toString(),
+                        style: Theme.of(context).textTheme.displayLarge,
+                      );
+                    },
+                  ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      final userUid = ref.read(userProvider)!.uid;
+
+                      final animeReview = AnimeReview(
+                        id: "0",
+                        animeID: animeData.id,
+                        animeName: animeData.name,
+                        animeImageURL: animeData.imageURL,
+                        userID: userUid,
+                        createdDate: Timestamp.fromDate(DateTime.now()),
+                        score: "10",
+                        reviewContent: "This is fire!",
+                      );
+
+                      await ref
+                          .read(animeControllerProvider.notifier)
+                          .setAnimeReview(
+                            context,
+                            animeReview,
+                          );
+                    },
+                    child: const Text("Set Anime Review"),
+                  ),
+                  ElevatedButton(
+                      onPressed: () async {
+                        final result = await ref
+                            .read(animeControllerProvider.notifier)
+                            .getAnimeReviewsFromAnime(
+                              animeData.id,
+                              false,
+                            );
+
+                        animeReviews.value = animeReviews.value + result;
+                      },
+                      child: const Text("Fetch Anime Review")),
                 ],
               ),
             ),

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_anime_app/models/anime_review.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
 
-class AnimeReviewList extends StatelessWidget {
-  const AnimeReviewList({super.key});
+class AnimeReviewBox extends StatelessWidget {
+  final AnimeReview animeReview;
+
+  const AnimeReviewBox({super.key, required this.animeReview});
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +19,7 @@ class AnimeReviewList extends StatelessWidget {
           topRight: Radius.circular(20),
         ),
       ),
+      child: Text(animeReview.animeID),
     );
   }
 }
