@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/core/utils/app_bar_back_button.dart';
 import 'package:flutter_anime_app/core/utils/custom_circular_progress_indicator.dart';
-import 'package:flutter_anime_app/core/utils/icon_label_button.dart';
 import 'package:flutter_anime_app/features/anime/controller/anime_controller.dart';
 import 'package:flutter_anime_app/features/anime/widgets/anime_screen_widgets/anime_episode_box.dart';
-import 'package:flutter_anime_app/features/anime/widgets/anime_screen_widgets/anime_handle_row.dart';
-import 'package:flutter_anime_app/features/anime/widgets/anime_screen_widgets/anime_main_info.dart';
-import 'package:flutter_anime_app/features/anime/widgets/anime_screen_widgets/anime_review_button.dart';
-import 'package:flutter_anime_app/features/anime/widgets/anime_screen_widgets/expandable_anime_details.dart';
+import 'package:flutter_anime_app/features/anime/widgets/anime_screen_widgets/anime_main/anime_main.dart';
+import 'package:flutter_anime_app/features/anime/widgets/anime_screen_widgets/anime_tab_bar.dart';
+import 'package:flutter_anime_app/features/anime/widgets/anime_screen_widgets/anime_review_box.dart';
 import 'package:flutter_anime_app/models/anime.dart';
 import 'package:flutter_anime_app/models/anime_review.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
@@ -25,13 +23,15 @@ class AnimeScreen extends ConsumerStatefulWidget {
 
 class _AnimeScreenState extends ConsumerState<AnimeScreen>
     with TickerProviderStateMixin {
-  late Future<Anime> anime;
-
-  late ValueNotifier<List<AnimeReview>> animeReviews;
   ValueNotifier<bool> isFirstFetch = ValueNotifier<bool>(true);
+  ValueNotifier<String> animeID = ValueNotifier<String>("");
+  late ValueNotifier<List<AnimeReview>> animeReviews;
 
   final List<String> tabs = ["Episodes", "Reviews"];
   late TabController tabController;
+  final ScrollController scrollController = ScrollController();
+
+  late Future<Anime> anime;
 
   Future<Anime> getAnime(String id) async {
     final result =
@@ -41,17 +41,26 @@ class _AnimeScreenState extends ConsumerState<AnimeScreen>
   }
 
   void getAnimeReviews(String id) async {
-    if (isFirstFetch.value == true) {
-      final result = await ref
-          .read(animeControllerProvider.notifier)
-          .getAnimeReviewsFromAnime(
-            id,
-            true,
-          );
+    final result = await ref
+        .read(animeControllerProvider.notifier)
+        .getAnimeReviewsFromAnime(
+          id,
+          isFirstFetch.value,
+        );
 
+    if (isFirstFetch.value) {
       animeReviews.value = result;
-
       isFirstFetch.value = false;
+    } else {
+      animeReviews.value = animeReviews.value + result;
+    }
+  }
+
+  void scrollListener() {
+    if (scrollController.offset >= scrollController.position.maxScrollExtent &&
+        !scrollController.position.outOfRange &&
+        tabController.index == 1) {
+      getAnimeReviews(animeID.value);
     }
   }
 
@@ -60,19 +69,29 @@ class _AnimeScreenState extends ConsumerState<AnimeScreen>
     anime = getAnime(widget.id);
 
     animeReviews = ValueNotifier<List<AnimeReview>>([]);
+
+    scrollController.addListener(scrollListener);
     tabController = TabController(length: tabs.length, vsync: this);
 
     super.initState();
   }
 
   @override
-  Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+  void dispose() {
+    super.dispose();
 
+    scrollController.dispose();
+    animeReviews.dispose();
+    isFirstFetch.dispose();
+    tabController.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: const AppBarBackButton(),
-        backgroundColor: Colors.transparent,
+        backgroundColor: Palette.background,
       ),
       body: FutureBuilder(
         future: anime,
@@ -83,96 +102,20 @@ class _AnimeScreenState extends ConsumerState<AnimeScreen>
 
           final animeData = snapshot.data!;
 
-          getAnimeReviews(animeData.id);
+          animeID.value = animeData.id;
+          getAnimeReviews(animeID.value);
 
           return SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: NestedScrollView(
+                controller: scrollController,
                 headerSliverBuilder: (context, innerBoxIsScrolled) {
                   return [
-                    SliverList(
-                      delegate: SliverChildListDelegate(
-                        [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Hero(
-                                tag: animeData.imageURL,
-                                child: Container(
-                                  height: 180,
-                                  width: 130,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    image: DecorationImage(
-                                      image: NetworkImage(animeData.imageURL),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 10),
-                              AnimeMainInfo(
-                                width: width,
-                                animeData: animeData,
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 20),
-                          AnimeHandleRow(
-                            id: animeData.id,
-                            name: animeData.name,
-                            imageURL: animeData.imageURL,
-                          ),
-                          const SizedBox(height: 20),
-                          ExpandableAnimeDetails(
-                            anime: animeData,
-                            normalHeight: 140,
-                            expandedHeight: 300,
-                          ),
-                          const SizedBox(height: 30),
-                        ],
-                      ),
-                    ),
-                    SliverAppBar(
-                      pinned: true,
-                      leading: null,
-                      automaticallyImplyLeading: false,
-                      backgroundColor: Palette.background,
-                      forceElevated: innerBoxIsScrolled,
-                      toolbarHeight: 70,
-                      flexibleSpace: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          IconLabelButton(
-                            onTap: () {
-                              tabController.animateTo(0);
-                            },
-                            height: 60,
-                            width: 100,
-                            icon: const Icon(Icons.video_collection_outlined),
-                            label: const Text(
-                              "Episodes",
-                              style: TextStyle(color: Palette.white),
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                            backgroundColor: Palette.boxColor,
-                          ),
-                          IconLabelButton(
-                            onTap: () {
-                              tabController.animateTo(1);
-                            },
-                            height: 60,
-                            width: 100,
-                            icon: const Icon(Icons.reviews),
-                            label: const Text(
-                              "Reviews",
-                              style: TextStyle(color: Palette.white),
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                            backgroundColor: Palette.boxColor,
-                          ),
-                        ],
-                      ),
+                    AnimeMain(anime: animeData),
+                    AnimeTabBar(
+                      tabController: tabController,
+                      innerBoxIsScrolled: innerBoxIsScrolled,
                     ),
                   ];
                 },
@@ -189,7 +132,7 @@ class _AnimeScreenState extends ConsumerState<AnimeScreen>
                           width: 200,
                           backgroundColor: Palette.boxColor,
                           onTap: () {},
-                          episode: index + 1,
+                          episode: animeData.episodes - index,
                         );
                       },
                     ),
@@ -198,11 +141,8 @@ class _AnimeScreenState extends ConsumerState<AnimeScreen>
                       builder: (context, value, child) {
                         return ListView.builder(
                           key: PageStorageKey(tabs[1]),
-                          itemCount: value.length + 1,
+                          itemCount: value.length,
                           itemBuilder: (context, index) {
-                            if (index == value.length) {
-                              return const SizedBox(height: 20);
-                            }
                             return AnimeReviewBox(
                               animeReview: value[index],
                             );

@@ -354,7 +354,7 @@ class AnimeRepository {
     bool isFirstFetch,
     CollectionReference<Map<String, dynamic>> reviewCollection,
   ) async {
-    Query query = reviewCollection.orderBy("createdDate").limit(10);
+    Query query = reviewCollection.orderBy("createdDate").limit(1);
 
     if (!isFirstFetch) {
       query = query.startAfterDocument(lastDocument!);

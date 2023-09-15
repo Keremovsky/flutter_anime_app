@@ -7,13 +7,14 @@ class AnimeEpisodeButton extends StatelessWidget {
   final int episode;
   final Function()? onTap;
 
-  const AnimeEpisodeButton(
-      {super.key,
-      this.height,
-      this.width,
-      this.backgroundColor,
-      required this.episode,
-      this.onTap});
+  const AnimeEpisodeButton({
+    super.key,
+    this.height,
+    this.width,
+    this.backgroundColor,
+    required this.episode,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
