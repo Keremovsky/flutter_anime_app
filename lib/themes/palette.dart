@@ -6,6 +6,7 @@ class Palette {
   static const background = Color.fromRGBO(25, 25, 25, 1);
   static const white = Color.fromRGBO(248, 248, 248, 1);
   static const grey = Color.fromRGBO(102, 102, 102, 1);
+  static const boxColor = Color.fromRGBO(35, 35, 35, 1);
 
   // auth logo colors
   static const googleBackground = Color.fromRGBO(248, 248, 248, 1);

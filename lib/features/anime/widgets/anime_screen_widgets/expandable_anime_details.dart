@@ -114,7 +114,7 @@ class _ExpandableAnimeDetailsState extends State<ExpandableAnimeDetails> {
                   borderRadius: BorderRadius.circular(5),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: const Color.fromRGBO(35, 35, 35, 1),
+                      color: Palette.boxColor,
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: Padding(

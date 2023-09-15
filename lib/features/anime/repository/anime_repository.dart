@@ -212,7 +212,7 @@ class AnimeRepository {
     }
   }
 
-  Future<AnimeList> getAnimeListStream(String listName) {
+  Future<AnimeList> getAnimeList(String listName) {
     // get user uid
     final userUid = _ref.read(userProvider)!.uid;
 

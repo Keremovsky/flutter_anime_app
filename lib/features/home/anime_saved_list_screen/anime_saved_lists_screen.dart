@@ -31,25 +31,23 @@ class _AnimeListScreenState extends ConsumerState<AnimeSavedListsScreen>
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: Expanded(
-        child: ListView.builder(
-          itemCount: animeLists.length + 2,
-          itemBuilder: (context, index) {
-            if (index == 0) {
-              return AnimeListTile(
-                animeList: fav,
-              );
-            }
-            if (index == 1) {
-              return AnimeListTile(
-                animeList: watching,
-              );
-            }
+      child: ListView.builder(
+        itemCount: animeLists.length + 2,
+        itemBuilder: (context, index) {
+          if (index == 0) {
             return AnimeListTile(
-              animeList: animeLists[index - 2],
+              animeList: fav,
             );
-          },
-        ),
+          }
+          if (index == 1) {
+            return AnimeListTile(
+              animeList: watching,
+            );
+          }
+          return AnimeListTile(
+            animeList: animeLists[index - 2],
+          );
+        },
       ),
     );
   }

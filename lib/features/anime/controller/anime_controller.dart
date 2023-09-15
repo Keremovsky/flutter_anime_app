@@ -39,7 +39,7 @@ class AnimeController extends StateNotifier {
   }
 
   Future<AnimeList> getAnimeList(String listName) {
-    final result = _animeRepository.getAnimeListStream(listName);
+    final result = _animeRepository.getAnimeList(listName);
 
     return result;
   }

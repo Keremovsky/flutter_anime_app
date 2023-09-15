@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class AnimeHandleButton extends StatelessWidget {
+class IconLabelButton extends StatelessWidget {
   final double? height;
   final double? width;
   final Icon icon;
@@ -10,7 +10,7 @@ class AnimeHandleButton extends StatelessWidget {
   final Function()? onTap;
   final Function()? onLongPress;
 
-  const AnimeHandleButton({
+  const IconLabelButton({
     super.key,
     this.height,
     this.width,
