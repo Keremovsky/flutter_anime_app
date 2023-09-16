@@ -17,12 +17,21 @@ class SocialRepository {
   SocialRepository({required firestore}) : _firestore = firestore;
 
   Future<UserModel> getUserData(String uid) async {
-    final userModel = await _usersCollection
+    final userModel = await _getUserModel(uid);
+
+    return userModel;
+  }
+
+  // -------------------------------------------------------------------------------------------------------
+
+  // get user model form database
+  Future<UserModel> _getUserModel(String uid) async {
+    final result = await _usersCollection
         .doc(uid)
         .snapshots()
         .map((event) => UserModel.fromMap(event.data() as Map<String, dynamic>))
         .first;
 
-    return userModel;
+    return result;
   }
 }

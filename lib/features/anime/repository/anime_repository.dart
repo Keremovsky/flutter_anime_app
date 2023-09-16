@@ -253,12 +253,31 @@ class AnimeRepository {
     }
   }
 
-  Future<String> setAnimeReview(AnimeReview animeReview) async {
+  Future<String> setAnimeReview(
+      String content, String score, Anime anime) async {
     try {
-      final reviewCollection =
+      final now = DateTime.now();
+      final userID = _ref.read(userProvider)!.uid;
+
+      final animeReview = AnimeReview(
+        id: anime.name + userID,
+        animeID: anime.id,
+        animeName: anime.name,
+        animeImageURL: anime.imageURL,
+        userID: userID,
+        createdDate: Timestamp.fromDate(now),
+        score: score,
+        reviewContent: content,
+      );
+
+      final animeReviewCollection =
           _animesCollection.doc(animeReview.animeID).collection("reviews");
 
-      await reviewCollection.doc(animeReview.id).set(animeReview.toMap());
+      final userReviewCollection =
+          _usersCollection.doc(userID).collection("reviews");
+
+      await animeReviewCollection.doc(animeReview.id).set(animeReview.toMap());
+      await userReviewCollection.doc(animeReview.id).set(animeReview.toMap());
       return "success";
     } catch (e) {
       return "error";

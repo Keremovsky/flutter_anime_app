@@ -161,8 +161,16 @@ class AnimeController extends StateNotifier {
   }
 
   Future<void> setAnimeReview(
-      BuildContext context, AnimeReview animeReview) async {
-    final control = await _animeRepository.setAnimeReview(animeReview);
+    BuildContext context,
+    String content,
+    String score,
+    Anime anime,
+  ) async {
+    final control = await _animeRepository.setAnimeReview(
+      content,
+      score,
+      anime,
+    );
 
     if (mounted) {
       if (control == "success") {

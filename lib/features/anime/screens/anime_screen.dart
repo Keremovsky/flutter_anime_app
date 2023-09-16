@@ -121,7 +121,10 @@ class _AnimeScreenState extends ConsumerState<AnimeScreen>
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: AnimeTabBar(tabController: tabController),
+                      child: AnimeTabBar(
+                        tabController: tabController,
+                        anime: animeData,
+                      ),
                     ),
                     Expanded(
                       child: TabBarView(
