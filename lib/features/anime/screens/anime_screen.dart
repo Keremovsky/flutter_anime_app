@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_anime_app/core/utils/app_bar_back_button.dart';
 import 'package:flutter_anime_app/core/utils/custom_circular_progress_indicator.dart';
 import 'package:flutter_anime_app/features/anime/controller/anime_controller.dart';
@@ -25,7 +26,8 @@ class _AnimeScreenState extends ConsumerState<AnimeScreen>
     with TickerProviderStateMixin {
   ValueNotifier<bool> isFirstFetch = ValueNotifier<bool>(true);
   ValueNotifier<String> animeID = ValueNotifier<String>("");
-  late ValueNotifier<List<AnimeReview>> animeReviews;
+  ValueNotifier<List<AnimeReview>> animeReviews =
+      ValueNotifier<List<AnimeReview>>([]);
 
   final List<String> tabs = ["Episodes", "Reviews"];
   late TabController tabController;
@@ -68,8 +70,6 @@ class _AnimeScreenState extends ConsumerState<AnimeScreen>
   void initState() {
     anime = getAnime(widget.id);
 
-    animeReviews = ValueNotifier<List<AnimeReview>>([]);
-
     scrollController.addListener(scrollListener);
     tabController = TabController(length: tabs.length, vsync: this);
 
@@ -89,10 +89,7 @@ class _AnimeScreenState extends ConsumerState<AnimeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: const AppBarBackButton(),
-        backgroundColor: Palette.background,
-      ),
+      resizeToAvoidBottomInset: false,
       body: FutureBuilder(
         future: anime,
         builder: (context, snapshot) {
@@ -112,43 +109,54 @@ class _AnimeScreenState extends ConsumerState<AnimeScreen>
                 controller: scrollController,
                 headerSliverBuilder: (context, innerBoxIsScrolled) {
                   return [
-                    AnimeMain(anime: animeData),
-                    AnimeTabBar(
-                      tabController: tabController,
-                      innerBoxIsScrolled: innerBoxIsScrolled,
+                    const SliverAppBar(
+                      floating: true,
+                      leading: AppBarBackButton(),
+                      backgroundColor: Palette.background,
                     ),
+                    AnimeMain(anime: animeData),
                   ];
                 },
-                body: TabBarView(
-                  controller: tabController,
-                  physics: const NeverScrollableScrollPhysics(),
+                body: Column(
                   children: [
-                    ListView.builder(
-                      key: PageStorageKey(tabs[0]),
-                      itemCount: animeData.episodes,
-                      itemBuilder: (context, index) {
-                        return AnimeEpisodeButton(
-                          height: 50,
-                          width: 200,
-                          backgroundColor: Palette.boxColor,
-                          onTap: () {},
-                          episode: animeData.episodes - index,
-                        );
-                      },
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: AnimeTabBar(tabController: tabController),
                     ),
-                    ValueListenableBuilder(
-                      valueListenable: animeReviews,
-                      builder: (context, value, child) {
-                        return ListView.builder(
-                          key: PageStorageKey(tabs[1]),
-                          itemCount: value.length,
-                          itemBuilder: (context, index) {
-                            return AnimeReviewBox(
-                              animeReview: value[index],
-                            );
-                          },
-                        );
-                      },
+                    Expanded(
+                      child: TabBarView(
+                        controller: tabController,
+                        physics: const NeverScrollableScrollPhysics(),
+                        children: [
+                          ListView.builder(
+                            key: PageStorageKey(tabs[0]),
+                            itemCount: animeData.episodes,
+                            itemBuilder: (context, index) {
+                              return AnimeEpisodeButton(
+                                height: 50,
+                                width: 200,
+                                backgroundColor: Palette.boxColor,
+                                onTap: () {},
+                                episode: animeData.episodes - index,
+                              );
+                            },
+                          ),
+                          ValueListenableBuilder(
+                            valueListenable: animeReviews,
+                            builder: (context, value, child) {
+                              return ListView.builder(
+                                key: PageStorageKey(tabs[1]),
+                                itemCount: value.length,
+                                itemBuilder: (context, index) {
+                                  return AnimeReviewBox(
+                                    animeReview: value[index],
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
