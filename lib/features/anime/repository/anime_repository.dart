@@ -104,8 +104,12 @@ class AnimeRepository {
     }
   }
 
-  Future<String> setAnimeToList(String id, String animeName,
-      String animeImageURL, String listName) async {
+  Future<String> setAnimeToList(
+    String id,
+    String animeName,
+    String animeImageURL,
+    String listName,
+  ) async {
     try {
       // get user uid
       final userUid = _ref.read(userProvider)!.uid;
@@ -212,28 +216,20 @@ class AnimeRepository {
     }
   }
 
-  Future<AnimeList> getAnimeList(String listName) {
-    // get user uid
-    final userUid = _ref.read(userProvider)!.uid;
-
+  Future<AnimeList> getAnimeList(String listName, String uid) {
     // collection reference to lists
-    final animeListCollection = _usersCollection
-        .doc(userUid)
-        .collection(FirebaseConstants.animeListRef);
+    final animeListCollection =
+        _usersCollection.doc(uid).collection(FirebaseConstants.animeListRef);
 
     final animeListStream = _getAnimeList(listName, animeListCollection);
 
     return animeListStream;
   }
 
-  Future<List<AnimeList>> getAllAnimeList() {
-    // get user uid
-    final userUid = _ref.read(userProvider)!.uid;
-
+  Future<List<AnimeList>> getAllAnimeList(String uid) {
     // collection reference to lists
-    final animeListCollection = _usersCollection
-        .doc(userUid)
-        .collection(FirebaseConstants.animeListRef);
+    final animeListCollection =
+        _usersCollection.doc(uid).collection(FirebaseConstants.animeListRef);
 
     final animeListStream = _getAllAnimeList(animeListCollection);
 
@@ -241,7 +237,9 @@ class AnimeRepository {
   }
 
   Future<List<AnimeReview>> getAnimeReviewsFromAnime(
-      String id, bool isFirstFetch) async {
+    String id,
+    bool isFirstFetch,
+  ) async {
     final reviewCollection = _animesCollection.doc(id).collection("reviews");
 
     final reviews = await _getAnimeReviews(isFirstFetch, reviewCollection);
@@ -254,7 +252,10 @@ class AnimeRepository {
   }
 
   Future<String> setAnimeReview(
-      String content, String score, Anime anime) async {
+    String content,
+    String score,
+    Anime anime,
+  ) async {
     try {
       final now = DateTime.now();
       final userID = _ref.read(userProvider)!.uid;

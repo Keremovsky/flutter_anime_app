@@ -38,20 +38,25 @@ class AnimeController extends StateNotifier {
     return result;
   }
 
-  Future<AnimeList> getAnimeList(String listName) {
-    final result = _animeRepository.getAnimeList(listName);
+  Future<AnimeList> getAnimeList(String listName, String uid) {
+    final result = _animeRepository.getAnimeList(listName, uid);
 
     return result;
   }
 
-  Future<List<AnimeList>> getAllAnimeList() {
-    final result = _animeRepository.getAllAnimeList();
+  Future<List<AnimeList>> getAllAnimeList(String uid) {
+    final result = _animeRepository.getAllAnimeList(uid);
 
     return result;
   }
 
-  Future<void> setAnimeToList(BuildContext context, String id, String animeName,
-      String animeImageURL, String listName) async {
+  Future<void> setAnimeToList(
+    BuildContext context,
+    String id,
+    String animeName,
+    String animeImageURL,
+    String listName,
+  ) async {
     final control = await _animeRepository.setAnimeToList(
       id,
       animeName,

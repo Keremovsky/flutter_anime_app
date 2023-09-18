@@ -162,12 +162,12 @@ class _ProfileScreenState extends ConsumerState<UserScreen> {
               ),
             ];
           },
-          body: const TabBarView(
+          body: TabBarView(
             children: [
-              LastActionsTabView(),
-              FavoritesTabView(),
-              WatchingListTabView(),
-              ListsTabView(),
+              const LastActionsTabView(),
+              FavoritesTabView(userModel: widget.userData),
+              WatchingListTabView(userModel: widget.userData),
+              ListsTabView(userModel: widget.userData),
             ],
           ),
         ),

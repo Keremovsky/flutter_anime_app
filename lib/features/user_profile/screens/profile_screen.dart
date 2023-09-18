@@ -21,7 +21,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
 
-    final userData = ref.watch(userProvider);
+    final userData = ref.watch(userProvider)!;
 
     return DefaultTabController(
       length: 4,
@@ -39,7 +39,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         width: double.infinity,
                         decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: NetworkImage(userData!.backgroundPicURL),
+                            image: NetworkImage(userData.backgroundPicURL),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -166,12 +166,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             ),
           ];
         },
-        body: const TabBarView(
+        body: TabBarView(
           children: [
             LastActionsTabView(),
-            FavoritesTabView(),
-            WatchingListTabView(),
-            ListsTabView(),
+            FavoritesTabView(userModel: userData),
+            WatchingListTabView(userModel: userData),
+            ListsTabView(userModel: userData),
           ],
         ),
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter_anime_app/features/anime/controller/anime_controller.dart';
+import 'package:flutter_anime_app/features/auth/controller/auth_controller.dart';
 import 'package:flutter_anime_app/models/anime_list.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -16,8 +17,11 @@ class AnimeListsStateNotifier extends StateNotifier<List<AnimeList>> {
         super([]);
 
   Future<void> updateState() async {
-    final newState =
-        await _ref.read(animeControllerProvider.notifier).getAllAnimeList();
+    final userModel = _ref.read(userProvider)!;
+
+    final newState = await _ref
+        .read(animeControllerProvider.notifier)
+        .getAllAnimeList(userModel.uid);
 
     state = newState;
   }
