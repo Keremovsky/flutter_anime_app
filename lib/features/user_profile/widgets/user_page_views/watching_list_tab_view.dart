@@ -3,15 +3,15 @@ import 'package:flutter_anime_app/core/providers/state_notifier_providers/watchi
 import 'package:flutter_anime_app/features/anime/widgets/anime_list_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class WatchingListPageView extends ConsumerStatefulWidget {
-  const WatchingListPageView({super.key});
+class WatchingListTabView extends ConsumerStatefulWidget {
+  const WatchingListTabView({super.key});
 
   @override
-  ConsumerState<WatchingListPageView> createState() => _WatchingListPageView();
+  ConsumerState<WatchingListTabView> createState() => _WatchingListTabView();
 }
 
-class _WatchingListPageView extends ConsumerState<WatchingListPageView>
-    with AutomaticKeepAliveClientMixin<WatchingListPageView> {
+class _WatchingListTabView extends ConsumerState<WatchingListTabView>
+    with AutomaticKeepAliveClientMixin<WatchingListTabView> {
   // to save state
   @override
   bool get wantKeepAlive => true;

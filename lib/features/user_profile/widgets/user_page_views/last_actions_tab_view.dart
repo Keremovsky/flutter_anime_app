@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class LastActionsPageView extends StatelessWidget {
-  const LastActionsPageView({super.key});
+class LastActionsTabView extends StatelessWidget {
+  const LastActionsTabView({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -3,15 +3,15 @@ import 'package:flutter_anime_app/core/providers/state_notifier_providers/anime_
 import 'package:flutter_anime_app/features/anime/widgets/anime_list_screen_widgets/anime_list_tile.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ListsPageView extends ConsumerStatefulWidget {
-  const ListsPageView({super.key});
+class ListsTabView extends ConsumerStatefulWidget {
+  const ListsTabView({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _ListPageViewState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _ListTabViewState();
 }
 
-class _ListPageViewState extends ConsumerState<ListsPageView>
-    with AutomaticKeepAliveClientMixin<ListsPageView> {
+class _ListTabViewState extends ConsumerState<ListsTabView>
+    with AutomaticKeepAliveClientMixin<ListsTabView> {
   @override
   bool get wantKeepAlive => true;
 

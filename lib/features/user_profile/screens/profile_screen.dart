@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/core/constants/route_constants.dart';
 import 'package:flutter_anime_app/features/auth/controller/auth_controller.dart';
-import 'package:flutter_anime_app/features/user_profile/widgets/user_navigation_bar.dart';
-import 'package:flutter_anime_app/features/user_profile/widgets/user_page_view.dart';
+import 'package:flutter_anime_app/features/user_profile/widgets/user_page_views/favorites_tab_view.dart';
+import 'package:flutter_anime_app/features/user_profile/widgets/user_page_views/last_actions_tab_view.dart';
+import 'package:flutter_anime_app/features/user_profile/widgets/user_page_views/lists_tab_view.dart';
+import 'package:flutter_anime_app/features/user_profile/widgets/user_page_views/watching_list_tab_view.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -15,158 +17,161 @@ class ProfileScreen extends ConsumerStatefulWidget {
 }
 
 class _ProfileScreenState extends ConsumerState<ProfileScreen> {
-  // controllers
-  final PageController pageController = PageController();
-  final ScrollController scrollController = ScrollController();
-
-  // current index of page view
-  int currentIndex = 0;
-
-  // navigate to page
-  void _navigateToListIndex(int index) {
-    pageController.jumpToPage(
-      index,
-    );
-  }
-
-  // navigate to list item
-  void _navigateToPageIndex(int index) {
-    setState(() {
-      currentIndex = index;
-      scrollController.jumpTo(
-        index * 12,
-      );
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
 
     final userData = ref.watch(userProvider);
 
-    return Scaffold(
-      body: SizedBox(
-        height: height,
-        child: ListView(
-          children: [
-            Column(
-              children: [
-                Stack(
-                  children: [
-                    SizedBox(height: height * 0.15 + 50),
-                    Container(
-                      height: height * 0.15,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage(userData!.backgroundPicURL),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      left: 20,
-                      bottom: 0,
-                      child: Container(
-                        height: 100,
-                        width: 100,
+    return DefaultTabController(
+      length: 4,
+      child: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
+          return [
+            SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  Stack(
+                    children: [
+                      SizedBox(height: height * 0.15 + 50),
+                      Container(
+                        height: height * 0.15,
+                        width: double.infinity,
                         decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: NetworkImage(userData.profilePicURL),
+                            image: NetworkImage(userData!.backgroundPicURL),
                             fit: BoxFit.cover,
-                          ),
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: Palette.background,
-                            width: 6,
-                            strokeAlign: BorderSide.strokeAlignOutside,
                           ),
                         ),
                       ),
-                    ),
-                    Positioned(
-                      right: 14,
-                      bottom: 0,
-                      child: Material(
-                        color: Palette.mainColor,
-                        borderRadius: BorderRadius.circular(15),
-                        child: InkWell(
-                          onTap: () {
-                            context.pushNamed(RouteConstants.editUserScreenName,
-                                extra: [
-                                  userData.username,
-                                  userData.animeName,
-                                  userData.profilePicURL,
-                                  userData.backgroundPicURL,
-                                ]);
-                          },
+                      Positioned(
+                        left: 20,
+                        bottom: 0,
+                        child: Container(
+                          height: 100,
+                          width: 100,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: NetworkImage(userData.profilePicURL),
+                              fit: BoxFit.cover,
+                            ),
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Palette.background,
+                              width: 6,
+                              strokeAlign: BorderSide.strokeAlignOutside,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        right: 14,
+                        bottom: 0,
+                        child: Material(
+                          color: Palette.mainColor,
                           borderRadius: BorderRadius.circular(15),
-                          child: SizedBox(
-                            height: 40,
-                            width: 120,
-                            child: Center(
-                              child: Text(
-                                "Edit Profile",
-                                style: Theme.of(context).textTheme.displayLarge,
+                          child: InkWell(
+                            onTap: () {
+                              context.pushNamed(
+                                  RouteConstants.editUserScreenName,
+                                  extra: [
+                                    userData.username,
+                                    userData.animeName,
+                                    userData.profilePicURL,
+                                    userData.backgroundPicURL,
+                                  ]);
+                            },
+                            borderRadius: BorderRadius.circular(15),
+                            child: SizedBox(
+                              height: 40,
+                              width: 120,
+                              child: Center(
+                                child: Text(
+                                  "Edit Profile",
+                                  style:
+                                      Theme.of(context).textTheme.displayLarge,
+                                ),
                               ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 14),
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            userData.animeName == ""
-                                ? userData.username
-                                : "${userData.username} / ${userData.animeName}",
-                            style: Theme.of(context).textTheme.displayLarge,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 5),
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.calendar_month_outlined,
-                            color: Palette.grey,
-                            size: 15,
-                          ),
-                          const SizedBox(width: 5),
-                          Text(
-                            userData.joinDate,
-                            style: Theme.of(context)
-                                .textTheme
-                                .displayMedium!
-                                .copyWith(color: Palette.grey),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      UserNavigationBar(
-                        currentIndex: currentIndex,
-                        scrollController: scrollController,
-                        navigateToListIndex: _navigateToListIndex,
-                      ),
-                      const SizedBox(height: 10),
-                      UserPageView(
-                        pageController: pageController,
-                        navigateToPageIndex: _navigateToPageIndex,
-                      ),
                     ],
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              userData.animeName == ""
+                                  ? userData.username
+                                  : "${userData.username} / ${userData.animeName}",
+                              style: Theme.of(context).textTheme.displayLarge,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 5),
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.calendar_month_outlined,
+                              color: Palette.grey,
+                              size: 15,
+                            ),
+                            const SizedBox(width: 5),
+                            Text(
+                              userData.joinDate,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displayMedium!
+                                  .copyWith(color: Palette.grey),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        TabBar(
+                          isScrollable: true,
+                          unselectedLabelColor: Palette.white,
+                          labelColor: Palette.mainColor,
+                          labelStyle: Theme.of(context).textTheme.displayLarge,
+                          indicatorColor: Palette.mainColor,
+                          dividerColor: Colors.transparent,
+                          tabs: const [
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 5),
+                              child: Text("Last Actions"),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 5),
+                              child: Text("Favorites"),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 5),
+                              child: Text("Watching List"),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 5),
+                              child: Text("Lists"),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
+          ];
+        },
+        body: const TabBarView(
+          children: [
+            LastActionsTabView(),
+            FavoritesTabView(),
+            WatchingListTabView(),
+            ListsTabView(),
           ],
         ),
       ),

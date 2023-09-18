@@ -3,15 +3,15 @@ import 'package:flutter_anime_app/core/providers/state_notifier_providers/favori
 import 'package:flutter_anime_app/features/anime/widgets/anime_list_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class FavoritesPageView extends ConsumerStatefulWidget {
-  const FavoritesPageView({super.key});
+class FavoritesTabView extends ConsumerStatefulWidget {
+  const FavoritesTabView({super.key});
 
   @override
-  ConsumerState<FavoritesPageView> createState() => _FavoritesPageViewState();
+  ConsumerState<FavoritesTabView> createState() => _FavoritesTabViewState();
 }
 
-class _FavoritesPageViewState extends ConsumerState<FavoritesPageView>
-    with AutomaticKeepAliveClientMixin<FavoritesPageView> {
+class _FavoritesTabViewState extends ConsumerState<FavoritesTabView>
+    with AutomaticKeepAliveClientMixin<FavoritesTabView> {
   // to save state
   @override
   bool get wantKeepAlive => true;
