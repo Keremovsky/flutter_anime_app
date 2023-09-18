@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_anime_app/models/anime.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
 
@@ -51,6 +52,7 @@ class _ExpandableAnimeDetailsState extends State<ExpandableAnimeDetails> {
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 100),
             height: currentHeight,
+            width: double.infinity,
             child: Stack(
               children: [
                 RichText(
@@ -108,14 +110,16 @@ class _ExpandableAnimeDetailsState extends State<ExpandableAnimeDetails> {
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5),
-                child: InkWell(
-                  onTap: () {},
+                child: Material(
+                  color: Palette.boxColor,
                   borderRadius: BorderRadius.circular(5),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Palette.boxColor,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
+                  child: InkWell(
+                    onLongPress: () async {
+                      await Clipboard.setData(
+                        ClipboardData(text: widget.anime.genres[index]),
+                      );
+                    },
+                    borderRadius: BorderRadius.circular(5),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Center(
