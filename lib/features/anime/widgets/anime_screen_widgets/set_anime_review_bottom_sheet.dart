@@ -78,6 +78,7 @@ class _SetAnimeReviewBottomSheetState
                 ),
               ),
             ),
+            const Spacer(),
             ElevatedButton(
               onPressed: () async {
                 if (textController.text.isNotEmpty) {

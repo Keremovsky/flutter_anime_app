@@ -14,78 +14,82 @@ class AnimeListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
 
-    return InkWell(
-      onTap: () {
-        context.pushNamed(RouteConstants.animeListsScreenName, extra: [
-          animeList,
-        ]);
-      },
-      borderRadius: BorderRadius.circular(10),
-      splashColor: Colors.transparent,
-      child: Container(
-        height: 100,
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        child: Row(
-          children: [
-            Builder(builder: (context) {
-              return AnimeListTileLeading(imageURLs: animeList.animeImageURLs);
-            }),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: SizedBox(
-                height: 100,
-                width: width - 133,
-                child: Stack(
-                  children: [
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        animeList.name,
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: Text(
-                        "${animeList.animesIDs.length}",
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        animeList.createdDate,
-                        style: Theme.of(context)
-                            .textTheme
-                            .displayMedium!
-                            .copyWith(color: Palette.grey),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: SizedBox(
-                        height: 20,
-                        width: width - 125,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: animeList.animesIDs.length,
-                          itemBuilder: (context, index) {
-                            return Text(
-                              "${animeList.animeNames[index]}   ",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .displayMedium!
-                                  .copyWith(color: Palette.grey),
-                            );
-                          },
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: InkWell(
+        onTap: () {
+          context.pushNamed(RouteConstants.animeListsScreenName, extra: [
+            animeList,
+          ]);
+        },
+        borderRadius: BorderRadius.circular(10),
+        splashColor: Colors.transparent,
+        child: Container(
+          height: 100,
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          child: Row(
+            children: [
+              Builder(builder: (context) {
+                return AnimeListTileLeading(
+                    imageURLs: animeList.animeImageURLs);
+              }),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: SizedBox(
+                  height: 100,
+                  width: width - 133,
+                  child: Stack(
+                    children: [
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          animeList.name,
+                          style: Theme.of(context).textTheme.titleLarge,
                         ),
                       ),
-                    ),
-                  ],
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: Text(
+                          "${animeList.animesIDs.length}",
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          animeList.createdDate,
+                          style: Theme.of(context)
+                              .textTheme
+                              .displayMedium!
+                              .copyWith(color: Palette.grey),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: SizedBox(
+                          height: 20,
+                          width: width - 125,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: animeList.animesIDs.length,
+                            itemBuilder: (context, index) {
+                              return Text(
+                                "${animeList.animeNames[index]}   ",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .displayMedium!
+                                    .copyWith(color: Palette.grey),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

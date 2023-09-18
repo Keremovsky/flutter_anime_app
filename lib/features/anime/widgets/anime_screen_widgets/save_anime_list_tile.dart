@@ -36,7 +36,6 @@ class SaveAnimeListTile extends ConsumerWidget {
         await ref.read(animeListsStateNotifierProvider.notifier).updateState();
       },
       borderRadius: BorderRadius.circular(10),
-      splashColor: Colors.transparent,
       child: Container(
         height: 100,
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),

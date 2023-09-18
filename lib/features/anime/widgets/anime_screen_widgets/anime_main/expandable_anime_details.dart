@@ -28,7 +28,7 @@ class _ExpandableAnimeDetailsState extends State<ExpandableAnimeDetails> {
     super.initState();
   }
 
-  void _expand() {
+  void expand() {
     setState(() {
       if (currentHeight == widget.expandedHeight) {
         currentHeight = widget.normalHeight;
@@ -46,12 +46,11 @@ class _ExpandableAnimeDetailsState extends State<ExpandableAnimeDetails> {
       children: [
         GestureDetector(
           onTap: () {
-            _expand();
+            expand();
           },
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 100),
             height: currentHeight,
-            width: double.infinity,
             child: Stack(
               children: [
                 RichText(

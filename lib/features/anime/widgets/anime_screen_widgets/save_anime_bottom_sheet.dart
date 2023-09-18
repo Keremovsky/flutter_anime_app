@@ -59,11 +59,14 @@ class _SaveAnimeBottomSheetState extends ConsumerState<SaveAnimeBottomSheet> {
                   : ListView.builder(
                       itemCount: animeLists.length,
                       itemBuilder: (context, index) {
-                        return SaveAnimeListTile(
-                          currentAnimeID: widget.id,
-                          animeName: widget.animeName,
-                          animeImageURL: widget.animeImageURL,
-                          animeList: animeLists[index],
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: SaveAnimeListTile(
+                            currentAnimeID: widget.id,
+                            animeName: widget.animeName,
+                            animeImageURL: widget.animeImageURL,
+                            animeList: animeLists[index],
+                          ),
                         );
                       },
                     ),
