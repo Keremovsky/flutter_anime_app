@@ -6,6 +6,8 @@ class FirebaseConstants {
   static const animeListRef = "lists";
   static const popularAnimesRef = "popular_animes";
   static const seasonalAnimesRef = "seasonal_animes";
+  static const followingRef = "following";
+  static const followedRef = "followed";
 
   static const defaultPath = "users/default/";
 }

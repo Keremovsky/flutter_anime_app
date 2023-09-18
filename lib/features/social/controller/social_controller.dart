@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/features/social/repository/social_repository.dart';
 import 'package:flutter_anime_app/models/user_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,5 +19,13 @@ class SocialController extends StateNotifier {
     final result = await _socialRepository.getUserData(uid);
 
     return result;
+  }
+
+  Future<void> setFollow(UserModel userModel) async {
+    final control = await _socialRepository.setFollow(userModel);
+
+    if (mounted) {
+      debugPrint(control);
+    }
   }
 }

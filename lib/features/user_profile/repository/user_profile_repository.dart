@@ -70,7 +70,7 @@ class UserProfileRepository {
         );
 
         userModel = userModel.copyWith(
-          backgroundPicURl: backgroundPicURL,
+          backgroundPicURL: backgroundPicURL,
         );
       }
 

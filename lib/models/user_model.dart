@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+
 class UserModel {
   String uid;
   String username;
@@ -10,6 +12,9 @@ class UserModel {
   String profilePicURL;
   String backgroundPicURL;
   String joinDate;
+  List<dynamic> followingUsers;
+  int followingCount;
+  int followedCount;
 
   UserModel({
     required this.uid,
@@ -20,6 +25,9 @@ class UserModel {
     required this.profilePicURL,
     required this.backgroundPicURL,
     required this.joinDate,
+    required this.followingUsers,
+    required this.followingCount,
+    required this.followedCount,
   });
 
   UserModel copyWith({
@@ -29,8 +37,11 @@ class UserModel {
     String? email,
     String? registerType,
     String? profilePicURL,
-    String? backgroundPicURl,
+    String? backgroundPicURL,
     String? joinDate,
+    List<dynamic>? followingUsers,
+    int? followingCount,
+    int? followedCount,
   }) {
     return UserModel(
       uid: uid ?? this.uid,
@@ -39,8 +50,11 @@ class UserModel {
       email: email ?? this.email,
       registerType: registerType ?? this.registerType,
       profilePicURL: profilePicURL ?? this.profilePicURL,
-      backgroundPicURL: backgroundPicURl ?? this.backgroundPicURL,
+      backgroundPicURL: backgroundPicURL ?? this.backgroundPicURL,
       joinDate: joinDate ?? this.joinDate,
+      followingUsers: followingUsers ?? this.followingUsers,
+      followingCount: followingCount ?? this.followingCount,
+      followedCount: followedCount ?? this.followedCount,
     );
   }
 
@@ -52,8 +66,11 @@ class UserModel {
       'email': email,
       'registerType': registerType,
       'profilePicURL': profilePicURL,
-      'backgroundPicURl': backgroundPicURL,
+      'backgroundPicURL': backgroundPicURL,
       'joinDate': joinDate,
+      'followingUsers': followingUsers,
+      'followingCount': followingCount,
+      'followedCount': followedCount,
     };
   }
 
@@ -65,8 +82,12 @@ class UserModel {
       email: map['email'] as String,
       registerType: map['registerType'] as String,
       profilePicURL: map['profilePicURL'] as String,
-      backgroundPicURL: map['backgroundPicURl'] as String,
+      backgroundPicURL: map['backgroundPicURL'] as String,
       joinDate: map['joinDate'] as String,
+      followingUsers:
+          List<dynamic>.from((map['followingUsers'] as List<dynamic>)),
+      followingCount: map['followingCount'] as int,
+      followedCount: map['followedCount'] as int,
     );
   }
 
@@ -77,7 +98,7 @@ class UserModel {
 
   @override
   String toString() {
-    return 'UserModel(uid: $uid, username: $username, animeName: $animeName, email: $email, registerType: $registerType, profilePicURL: $profilePicURL, backgroundPicURl: $backgroundPicURL, joinDate: $joinDate)';
+    return 'UserModel(uid: $uid, username: $username, animeName: $animeName, email: $email, registerType: $registerType, profilePicURL: $profilePicURL, backgroundPicURL: $backgroundPicURL, joinDate: $joinDate, followingUsers: $followingUsers, followingCount: $followingCount, followedCount: $followedCount)';
   }
 
   @override
@@ -91,7 +112,10 @@ class UserModel {
         other.registerType == registerType &&
         other.profilePicURL == profilePicURL &&
         other.backgroundPicURL == backgroundPicURL &&
-        other.joinDate == joinDate;
+        other.joinDate == joinDate &&
+        listEquals(other.followingUsers, followingUsers) &&
+        other.followingCount == followingCount &&
+        other.followedCount == followedCount;
   }
 
   @override
@@ -103,6 +127,9 @@ class UserModel {
         registerType.hashCode ^
         profilePicURL.hashCode ^
         backgroundPicURL.hashCode ^
-        joinDate.hashCode;
+        joinDate.hashCode ^
+        followingUsers.hashCode ^
+        followingCount.hashCode ^
+        followedCount.hashCode;
   }
 }

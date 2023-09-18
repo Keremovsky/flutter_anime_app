@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/core/utils/app_bar_back_button.dart';
+import 'package:flutter_anime_app/features/auth/controller/auth_controller.dart';
+import 'package:flutter_anime_app/features/social/controller/social_controller.dart';
 import 'package:flutter_anime_app/features/user_profile/widgets/user_page_views/favorites_tab_view.dart';
 import 'package:flutter_anime_app/features/user_profile/widgets/user_page_views/last_actions_tab_view.dart';
 import 'package:flutter_anime_app/features/user_profile/widgets/user_page_views/lists_tab_view.dart';
@@ -18,9 +20,13 @@ class UserScreen extends ConsumerStatefulWidget {
 }
 
 class _ProfileScreenState extends ConsumerState<UserScreen> {
+  late UserModel currentUser;
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
+
+    currentUser = ref.watch(userProvider)!;
 
     return Scaffold(
       appBar: AppBar(leading: const AppBarBackButton()),
@@ -74,14 +80,21 @@ class _ProfileScreenState extends ConsumerState<UserScreen> {
                             color: Palette.mainColor,
                             borderRadius: BorderRadius.circular(15),
                             child: InkWell(
-                              onTap: () {},
+                              onTap: () async {
+                                await ref
+                                    .read(socialControllerProvider.notifier)
+                                    .setFollow(widget.userData);
+                              },
                               borderRadius: BorderRadius.circular(15),
                               child: SizedBox(
                                 height: 40,
                                 width: 120,
                                 child: Center(
                                   child: Text(
-                                    "Follow",
+                                    currentUser.followingUsers
+                                            .contains(widget.userData.uid)
+                                        ? "Followed"
+                                        : "Follow",
                                     style: Theme.of(context)
                                         .textTheme
                                         .displayLarge,

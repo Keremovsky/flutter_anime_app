@@ -92,10 +92,13 @@ class AuthRepository {
           profilePicURL: profilePic,
           backgroundPicURL: backgroundPick,
           joinDate: date,
+          followingUsers: [],
+          followingCount: 0,
+          followedCount: 0,
         );
 
         // save user model to database
-        await _setUserModel(userCredential.user!.uid, userModel);
+        await _setUserModel(userModel);
 
         // create default lists
         await _createDefaultLists(userModel.uid, date);
@@ -166,10 +169,13 @@ class AuthRepository {
             profilePicURL: profilePic,
             backgroundPicURL: backgroundPick,
             joinDate: date,
+            followingUsers: [],
+            followingCount: 0,
+            followedCount: 0,
           );
 
           // save user model to database
-          await _setUserModel(userCredential.user!.uid, userModel);
+          await _setUserModel(userModel);
 
           // create default lists
           await _createDefaultLists(userModel.uid, date);
@@ -204,8 +210,6 @@ class AuthRepository {
 
       // get user model
       final userModel = await _getUserModel(userCredential.user!.uid);
-
-      debugPrint(userModel.toString());
 
       return Right(userModel);
     } on FirebaseAuthException catch (e) {
@@ -249,12 +253,15 @@ class AuthRepository {
         profilePicURL: profilePic,
         backgroundPicURL: backgroundPick,
         joinDate: date,
+        followingUsers: [],
+        followingCount: 0,
+        followedCount: 0,
       );
 
       debugPrint(userModel.toString());
 
       // save user model to database
-      await _setUserModel(userCredential.user!.uid, userModel);
+      await _setUserModel(userModel);
 
       // create default lists
       await _createDefaultLists(userModel.uid, date);
@@ -312,8 +319,8 @@ class AuthRepository {
   }
 
   // save user model to database
-  Future<void> _setUserModel(String uid, UserModel userModel) async {
-    await _usersCollection.doc(uid).set(userModel.toMap());
+  Future<void> _setUserModel(UserModel userModel) async {
+    await _usersCollection.doc(userModel.uid).set(userModel.toMap());
   }
 
   // create default lists for user creation
