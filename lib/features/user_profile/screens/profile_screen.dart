@@ -132,32 +132,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           ],
                         ),
                         const SizedBox(height: 20),
-                        TabBar(
-                          isScrollable: true,
-                          unselectedLabelColor: Palette.white,
-                          labelColor: Palette.mainColor,
-                          labelStyle: Theme.of(context).textTheme.displayLarge,
-                          indicatorColor: Palette.mainColor,
-                          dividerColor: Colors.transparent,
-                          tabs: const [
-                            Padding(
-                              padding: EdgeInsets.only(bottom: 5),
-                              child: Text("Last Actions"),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(bottom: 5),
-                              child: Text("Favorites"),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(bottom: 5),
-                              child: Text("Watching List"),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(bottom: 5),
-                              child: Text("Lists"),
-                            ),
-                          ],
-                        ),
                       ],
                     ),
                   ),
@@ -166,12 +140,44 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             ),
           ];
         },
-        body: TabBarView(
+        body: Column(
           children: [
-            LastActionsTabView(),
-            FavoritesTabView(userModel: userData),
-            WatchingListTabView(userModel: userData),
-            ListsTabView(userModel: userData),
+            TabBar(
+              isScrollable: true,
+              unselectedLabelColor: Palette.white,
+              labelColor: Palette.mainColor,
+              labelStyle: Theme.of(context).textTheme.displayLarge,
+              indicatorColor: Palette.mainColor,
+              dividerColor: Colors.transparent,
+              tabs: const [
+                Padding(
+                  padding: EdgeInsets.only(bottom: 5),
+                  child: Text("Last Actions"),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 5),
+                  child: Text("Favorites"),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 5),
+                  child: Text("Watching List"),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 5),
+                  child: Text("Lists"),
+                ),
+              ],
+            ),
+            Expanded(
+              child: TabBarView(
+                children: [
+                  const LastActionsTabView(),
+                  FavoritesTabView(userModel: userData),
+                  WatchingListTabView(userModel: userData),
+                  ListsTabView(userModel: userData),
+                ],
+              ),
+            ),
           ],
         ),
       ),
