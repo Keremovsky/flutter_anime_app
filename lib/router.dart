@@ -5,7 +5,9 @@ import 'package:flutter_anime_app/features/anime/screens/anime_list_screen.dart'
 import 'package:flutter_anime_app/features/auth/screens/auth_screen.dart';
 import 'package:flutter_anime_app/features/home/screens/main_screen.dart';
 import 'package:flutter_anime_app/features/auth/screens/splash_screen.dart';
+import 'package:flutter_anime_app/features/social/screens/user_screen.dart';
 import 'package:flutter_anime_app/features/user_profile/screens/edit_user_screen.dart';
+import 'package:flutter_anime_app/models/user_model.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouter {
@@ -83,6 +85,15 @@ class AppRouter {
               profilePicURL: args[2],
               backgroundPicURL: args[3],
             ),
+          );
+        },
+      ),
+      GoRoute(
+        name: RouteConstants.userScreenName,
+        path: RouteConstants.userScreenPath,
+        pageBuilder: (context, state) {
+          return MaterialPage(
+            child: UserScreen(userData: state.extra as UserModel),
           );
         },
       )

@@ -15,5 +15,8 @@ class RouteConstants {
   static const animeListsScreenName = "animeListScreen";
 
   static const editUserScreenPath = "/editUserScreen";
-  static const editUserScreenName = "/editUserScreen";
+  static const editUserScreenName = "editUserScreen";
+
+  static const userScreenPath = "/userScreen";
+  static const userScreenName = "userScreen";
 }
