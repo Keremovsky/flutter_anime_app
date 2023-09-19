@@ -31,35 +31,69 @@ class SocialRepository {
     try {
       final currentUser = _ref.read(userProvider)!;
 
-      await _setFollow(
-        currentUser.uid,
-        userModel.uid,
-        FirebaseConstants.followingRef,
-      );
-      await _setFollow(
-        userModel.uid,
-        currentUser.uid,
-        FirebaseConstants.followedRef,
-      );
+      if (currentUser.followingUsers.contains(userModel.uid)) {
+        await _deleteFollow(
+          currentUser.uid,
+          userModel.uid,
+          FirebaseConstants.followingRef,
+        );
+        await _deleteFollow(
+          userModel.uid,
+          currentUser.uid,
+          FirebaseConstants.followedRef,
+        );
 
-      await _setUserModel(
-        userModel.copyWith(
-          followedCount: userModel.followingCount + 1,
-        ),
-      );
-      await _setUserModel(
-        currentUser.copyWith(
-          followedCount: userModel.followingCount + 1,
-          followingUsers: userModel.followingUsers + [userModel.uid],
-        ),
-      );
+        await _setUserModel(
+          userModel.copyWith(
+            followedCount: (userModel.followedCount - 1),
+          ),
+        );
+        List<dynamic> followList = currentUser.followingUsers;
+        followList.remove(userModel.uid);
+        await _setUserModel(
+          currentUser.copyWith(
+            followingCount: (currentUser.followingCount - 1),
+            followingUsers: followList,
+          ),
+        );
 
-      _ref.read(userProvider.notifier).update(
-            (state) => currentUser.copyWith(
-              followedCount: userModel.followedCount + 1,
-              followingUsers: userModel.followingUsers + [userModel.uid],
-            ),
-          );
+        _ref.read(userProvider.notifier).update(
+              (state) => currentUser.copyWith(
+                followingCount: (currentUser.followingCount - 1),
+                followingUsers: followList,
+              ),
+            );
+      } else {
+        await _addFollow(
+          currentUser.uid,
+          userModel.uid,
+          FirebaseConstants.followingRef,
+        );
+        await _addFollow(
+          userModel.uid,
+          currentUser.uid,
+          FirebaseConstants.followedRef,
+        );
+
+        await _setUserModel(
+          userModel.copyWith(
+            followedCount: (userModel.followingCount + 1),
+          ),
+        );
+        await _setUserModel(
+          currentUser.copyWith(
+            followingCount: (currentUser.followingCount + 1),
+            followingUsers: currentUser.followingUsers + [userModel.uid],
+          ),
+        );
+
+        _ref.read(userProvider.notifier).update(
+              (state) => currentUser.copyWith(
+                followingCount: (currentUser.followingCount + 1),
+                followingUsers: currentUser.followingUsers + [userModel.uid],
+              ),
+            );
+      }
 
       return "success";
     } catch (e) {
@@ -85,7 +119,11 @@ class SocialRepository {
     await _usersCollection.doc(userModel.uid).set(userModel.toMap());
   }
 
-  Future<void> _setFollow(String uid, String set, String type) async {
-    await _usersCollection.doc(uid).collection(type).doc(set).set({"id": set});
+  Future<void> _addFollow(String uid, String add, String type) async {
+    await _usersCollection.doc(uid).collection(type).doc(add).set({"id": add});
+  }
+
+  Future<void> _deleteFollow(String uid, String delete, String type) async {
+    await _usersCollection.doc(uid).collection(type).doc(delete).delete();
   }
 }
