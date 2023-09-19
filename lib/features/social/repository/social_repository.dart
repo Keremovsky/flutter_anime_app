@@ -27,6 +27,12 @@ class SocialRepository {
     return userModel;
   }
 
+  Stream<UserModel> getUserDataStream(String uid) {
+    final userModel = _getUserModelStream(uid);
+
+    return userModel;
+  }
+
   Future<String> setFollow(UserModel userModel) async {
     try {
       final currentUser = _ref.read(userProvider)!;
@@ -110,6 +116,13 @@ class SocialRepository {
         .snapshots()
         .map((event) => UserModel.fromMap(event.data() as Map<String, dynamic>))
         .first;
+
+    return result;
+  }
+
+  Stream<UserModel> _getUserModelStream(String uid) {
+    final result = _usersCollection.doc(uid).snapshots().map(
+        (event) => UserModel.fromMap(event.data() as Map<String, dynamic>));
 
     return result;
   }

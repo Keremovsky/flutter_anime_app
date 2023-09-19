@@ -21,6 +21,12 @@ class SocialController extends StateNotifier {
     return result;
   }
 
+  Stream<UserModel> getUserDataStream(String uid) {
+    final result = _socialRepository.getUserDataStream(uid);
+
+    return result;
+  }
+
   Future<void> setFollow(UserModel userModel) async {
     final control = await _socialRepository.setFollow(userModel);
 

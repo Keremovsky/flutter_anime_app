@@ -71,7 +71,7 @@ class _AnimeReviewBoxState extends ConsumerState<AnimeReviewBox> {
                         if (currentUserID != userModel.uid) {
                           context.pushNamed(
                             RouteConstants.userScreenName,
-                            extra: userModel,
+                            extra: userModel.uid,
                           );
                         }
                       },

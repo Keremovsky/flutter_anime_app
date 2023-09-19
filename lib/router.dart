@@ -7,7 +7,6 @@ import 'package:flutter_anime_app/features/home/screens/main_screen.dart';
 import 'package:flutter_anime_app/features/auth/screens/splash_screen.dart';
 import 'package:flutter_anime_app/features/social/screens/user_screen.dart';
 import 'package:flutter_anime_app/features/user_profile/screens/edit_user_screen.dart';
-import 'package:flutter_anime_app/models/user_model.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouter {
@@ -93,7 +92,7 @@ class AppRouter {
         path: RouteConstants.userScreenPath,
         pageBuilder: (context, state) {
           return MaterialPage(
-            child: UserScreen(userData: state.extra as UserModel),
+            child: UserScreen(uid: state.extra as String),
           );
         },
       )
