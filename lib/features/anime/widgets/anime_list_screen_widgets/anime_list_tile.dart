@@ -18,7 +18,7 @@ class AnimeListTile extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: InkWell(
         onTap: () {
-          context.pushNamed(RouteConstants.animeListsScreenName, extra: [
+          context.pushNamed(RouterConstants.animeListsScreenName, extra: [
             animeList,
           ]);
         },

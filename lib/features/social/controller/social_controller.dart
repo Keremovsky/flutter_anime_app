@@ -27,11 +27,17 @@ class SocialController extends StateNotifier {
     return result;
   }
 
-  Future<void> setFollow(UserModel userModel) async {
-    final control = await _socialRepository.setFollow(userModel);
+  Future<void> setFollow(String uid) async {
+    final control = await _socialRepository.setFollow(uid);
 
     if (mounted) {
       debugPrint(control);
     }
+  }
+
+  Future<List<UserModel>> getUserList(String type) async {
+    final result = await _socialRepository.getUserList(type);
+
+    return result;
   }
 }

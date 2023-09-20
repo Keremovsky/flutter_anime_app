@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_anime_app/core/constants/firebase_constants.dart';
 import 'package:flutter_anime_app/core/constants/route_constants.dart';
 import 'package:flutter_anime_app/features/auth/controller/auth_controller.dart';
 import 'package:flutter_anime_app/features/user_profile/widgets/user_page_views/favorites_tab_view.dart';
@@ -73,7 +74,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           child: InkWell(
                             onTap: () {
                               context.pushNamed(
-                                  RouteConstants.editUserScreenName,
+                                  RouterConstants.editUserScreenName,
                                   extra: [
                                     userData.username,
                                     userData.animeName,
@@ -99,7 +100,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     ],
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.only(
+                      left: 10,
+                      right: 10,
+                      top: 5,
+                    ),
                     child: Column(
                       children: [
                         Row(
@@ -131,7 +136,71 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 5),
+                        Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                context.pushNamed(
+                                  RouterConstants.userListScreenName,
+                                  extra: FirebaseConstants.followingRef,
+                                );
+                              },
+                              child: RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: "${userData.followingCount} ",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displayMedium!
+                                          .copyWith(
+                                              fontWeight: FontWeight.bold),
+                                    ),
+                                    TextSpan(
+                                      text: "Following",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displayMedium!
+                                          .copyWith(color: Palette.grey),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            GestureDetector(
+                              onTap: () {
+                                context.pushNamed(
+                                  RouterConstants.userListScreenName,
+                                  extra: FirebaseConstants.followedRef,
+                                );
+                              },
+                              child: RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: "${userData.followedCount} ",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displayMedium!
+                                          .copyWith(
+                                              fontWeight: FontWeight.bold),
+                                    ),
+                                    TextSpan(
+                                      text: "Follower",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displayMedium!
+                                          .copyWith(color: Palette.grey),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
                       ],
                     ),
                   ),

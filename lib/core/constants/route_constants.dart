@@ -1,4 +1,4 @@
-class RouteConstants {
+class RouterConstants {
   static const authScreenPath = "/";
   static const authScreenName = "authScreen";
 
@@ -19,4 +19,7 @@ class RouteConstants {
 
   static const userScreenPath = "/userScreen";
   static const userScreenName = "userScreen";
+
+  static const userListScreenPath = "/userListScreen";
+  static const userListScreenName = "userListScreen";
 }

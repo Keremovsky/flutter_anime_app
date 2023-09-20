@@ -16,7 +16,7 @@ class AnimeTile extends StatelessWidget {
       child: ListTile(
         onTap: () {
           context.pushNamed(
-            RouteConstants.animeScreenName,
+            RouterConstants.animeScreenName,
             pathParameters: {"id": anime.id},
             extra: anime.name,
           );

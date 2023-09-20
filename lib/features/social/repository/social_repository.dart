@@ -33,9 +33,10 @@ class SocialRepository {
     return userModel;
   }
 
-  Future<String> setFollow(UserModel userModel) async {
+  Future<String> setFollow(String uid) async {
     try {
       final currentUser = _ref.read(userProvider)!;
+      final userModel = await _getUserModel(uid);
 
       if (currentUser.followingUsers.contains(userModel.uid)) {
         await _deleteFollow(
@@ -83,7 +84,7 @@ class SocialRepository {
 
         await _setUserModel(
           userModel.copyWith(
-            followedCount: (userModel.followingCount + 1),
+            followedCount: (userModel.followedCount + 1),
           ),
         );
         await _setUserModel(
@@ -107,6 +108,16 @@ class SocialRepository {
     }
   }
 
+  Future<List<UserModel>> getUserList(String type) async {
+    final currentUser = _ref.read(userProvider)!;
+
+    final idList = await _getFollowIDs(type, currentUser.uid);
+
+    final result = await _getUserList(idList);
+
+    return result;
+  }
+
   // -------------------------------------------------------------------------------------------------------
 
   // get user model form database
@@ -125,6 +136,31 @@ class SocialRepository {
         (event) => UserModel.fromMap(event.data() as Map<String, dynamic>));
 
     return result;
+  }
+
+  Future<List<UserModel>> _getUserList(List<String> userIDs) async {
+    List<UserModel> userList = [];
+
+    for (final userID in userIDs) {
+      final result = await _getUserModel(userID);
+      userList.add(result);
+    }
+
+    return userList;
+  }
+
+  Future<List<String>> _getFollowIDs(String type, String uid) async {
+    final querySnapshot =
+        await _usersCollection.doc(uid).collection(type).get();
+
+    final idMapList = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+    final List<String> idList = [];
+    for (final element in idMapList) {
+      idList.add(element["id"]);
+    }
+
+    return idList;
   }
 
   // save user model to database

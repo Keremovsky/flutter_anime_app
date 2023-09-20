@@ -62,7 +62,7 @@ class AuthController extends StateNotifier<bool> {
       (right) {
         _ref.read(userProvider.notifier).update((state) => right);
 
-        context.pushReplacementNamed(RouteConstants.splashScreenName);
+        context.pushReplacementNamed(RouterConstants.splashScreenName);
       },
     );
   }
@@ -107,7 +107,7 @@ class AuthController extends StateNotifier<bool> {
       (right) {
         _ref.read(userProvider.notifier).update((state) => right);
 
-        context.pushReplacementNamed(RouteConstants.splashScreenName);
+        context.pushReplacementNamed(RouterConstants.splashScreenName);
       },
     );
   }
@@ -154,7 +154,7 @@ class AuthController extends StateNotifier<bool> {
         _ref.read(userProvider.notifier).update((state) => right);
 
         context.pop();
-        context.pushReplacementNamed(RouteConstants.splashScreenName);
+        context.pushReplacementNamed(RouterConstants.splashScreenName);
       },
     );
   }
@@ -236,7 +236,7 @@ class AuthController extends StateNotifier<bool> {
 
     if (mounted) {
       if (control == "success") {
-        context.pushReplacementNamed(RouteConstants.authScreenName);
+        context.pushReplacementNamed(RouterConstants.authScreenName);
       } else {
         giveFeedback(
           context,
