@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/features/social/repository/social_repository.dart';
+import 'package:flutter_anime_app/models/action_model.dart';
 import 'package:flutter_anime_app/models/user_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -37,6 +38,12 @@ class SocialController extends StateNotifier {
 
   Future<List<UserModel>> getUserList(String type) async {
     final result = await _socialRepository.getUserList(type);
+
+    return result;
+  }
+
+  Stream<List<ActionModel>> getLastActionStream(String uid) {
+    final result = _socialRepository.getLastActionStream(uid);
 
     return result;
   }

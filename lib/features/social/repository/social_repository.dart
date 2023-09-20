@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_anime_app/core/constants/firebase_constants.dart';
 import 'package:flutter_anime_app/core/providers/firebase_providers.dart';
 import 'package:flutter_anime_app/features/auth/controller/auth_controller.dart';
+import 'package:flutter_anime_app/models/action_model.dart';
 import 'package:flutter_anime_app/models/user_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -118,6 +119,12 @@ class SocialRepository {
     return result;
   }
 
+  Stream<List<ActionModel>> getLastActionStream(String uid) {
+    final result = _getLastActionStream(uid);
+
+    return result;
+  }
+
   // -------------------------------------------------------------------------------------------------------
 
   // get user model form database
@@ -174,5 +181,16 @@ class SocialRepository {
 
   Future<void> _deleteFollow(String uid, String delete, String type) async {
     await _usersCollection.doc(uid).collection(type).doc(delete).delete();
+  }
+
+  Stream<List<ActionModel>> _getLastActionStream(String uid) {
+    final result = _usersCollection
+        .doc(uid)
+        .collection(FirebaseConstants.lastActionsRef)
+        .snapshots()
+        .map((event) =>
+            event.docs.map((doc) => ActionModel.fromMap(doc.data())).toList());
+
+    return result;
   }
 }

@@ -290,7 +290,7 @@ class _ProfileScreenState extends ConsumerState<UserScreen> {
                       Expanded(
                         child: TabBarView(
                           children: [
-                            const LastActionsTabView(),
+                            LastActionsTabView(userModel: userData),
                             FavoritesTabView(userModel: userData),
                             WatchingListTabView(userModel: userData),
                             ListsTabView(userModel: userData),
