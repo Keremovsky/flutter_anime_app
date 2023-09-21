@@ -3,6 +3,7 @@ import 'package:flutter_anime_app/core/providers/state_notifier_providers/anime_
 import 'package:flutter_anime_app/core/providers/state_notifier_providers/favorites_state_notifier.dart';
 import 'package:flutter_anime_app/core/providers/state_notifier_providers/watching_state_notifier.dart';
 import 'package:flutter_anime_app/features/anime/widgets/anime_list_screen_widgets/anime_list_tile.dart';
+import 'package:flutter_anime_app/features/auth/controller/auth_controller.dart';
 import 'package:flutter_anime_app/models/anime_list.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -29,6 +30,8 @@ class _AnimeListScreenState extends ConsumerState<AnimeSavedListsScreen>
     final watching = ref.watch(watchingStateNotifierProvider);
     final animeLists = ref.watch(animeListsStateNotifierProvider);
 
+    final currentUser = ref.read(userProvider)!;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: ListView.builder(
@@ -37,15 +40,18 @@ class _AnimeListScreenState extends ConsumerState<AnimeSavedListsScreen>
           if (index == 0) {
             return AnimeListTile(
               animeList: fav,
+              userModel: currentUser,
             );
           }
           if (index == 1) {
             return AnimeListTile(
               animeList: watching,
+              userModel: currentUser,
             );
           }
           return AnimeListTile(
             animeList: animeLists[index - 2],
+            userModel: currentUser,
           );
         },
       ),

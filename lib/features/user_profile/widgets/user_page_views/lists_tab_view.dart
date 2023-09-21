@@ -43,6 +43,7 @@ class _ListTabViewState extends ConsumerState<ListsTabView>
         itemBuilder: (context, index) {
           return AnimeListTile(
             animeList: animeLists[index],
+            userModel: widget.userModel,
           );
         },
       );
@@ -65,6 +66,7 @@ class _ListTabViewState extends ConsumerState<ListsTabView>
             itemBuilder: (context, index) {
               return AnimeListTile(
                 animeList: data[index],
+                userModel: widget.userModel,
               );
             },
           );

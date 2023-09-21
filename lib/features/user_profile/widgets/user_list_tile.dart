@@ -18,7 +18,14 @@ class UserListTile extends ConsumerWidget {
 
     return GestureDetector(
       onTap: () {
-        context.pushNamed(RouterConstants.userScreenName, extra: userModel.uid);
+        final currentUser = ref.read(userProvider)!;
+
+        if (userModel.uid != currentUser.uid) {
+          context.pushNamed(
+            RouterConstants.userScreenName,
+            extra: userModel.uid,
+          );
+        }
       },
       child: ListTile(
         title: Text(
@@ -31,26 +38,28 @@ class UserListTile extends ConsumerWidget {
         trailing: Material(
           color: Palette.mainColor,
           borderRadius: BorderRadius.circular(10),
-          child: InkWell(
-            onTap: () async {
-              await ref
-                  .read(socialControllerProvider.notifier)
-                  .setFollow(userModel.uid);
-            },
-            borderRadius: BorderRadius.circular(10),
-            child: SizedBox(
-              height: 30,
-              width: 110,
-              child: Center(
-                child: Text(
-                  currentUser.followingUsers.contains(userModel.uid)
-                      ? "Following"
-                      : "Follow",
-                  style: Theme.of(context).textTheme.displayLarge,
-                ),
-              ),
-            ),
-          ),
+          child: userModel.uid != currentUser.uid
+              ? InkWell(
+                  onTap: () async {
+                    await ref
+                        .read(socialControllerProvider.notifier)
+                        .setFollow(userModel.uid);
+                  },
+                  borderRadius: BorderRadius.circular(10),
+                  child: SizedBox(
+                    height: 30,
+                    width: 110,
+                    child: Center(
+                      child: Text(
+                        currentUser.followingUsers.contains(userModel.uid)
+                            ? "Following"
+                            : "Follow",
+                        style: Theme.of(context).textTheme.displayLarge,
+                      ),
+                    ),
+                  ),
+                )
+              : const SizedBox(),
         ),
       ),
     );

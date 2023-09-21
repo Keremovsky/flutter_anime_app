@@ -109,10 +109,8 @@ class SocialRepository {
     }
   }
 
-  Future<List<UserModel>> getUserList(String type) async {
-    final currentUser = _ref.read(userProvider)!;
-
-    final idList = await _getFollowIDs(type, currentUser.uid);
+  Future<List<UserModel>> getUserList(String uid, String type) async {
+    final idList = await _getFollowIDs(type, uid);
 
     final result = await _getUserList(idList);
 

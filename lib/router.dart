@@ -65,6 +65,7 @@ class AppRouter {
           return MaterialPage(
             child: AnimeListScreen(
               animeList: args[0],
+              userModel: args[1],
             ),
           );
         },
@@ -98,8 +99,9 @@ class AppRouter {
         name: RouterConstants.userListScreenName,
         path: RouterConstants.userListScreenPath,
         pageBuilder: (context, state) {
+          final args = state.extra as List<String>;
           return MaterialPage(
-            child: UserListScreen(type: state.extra as String),
+            child: UserListScreen(uid: args[0], type: args[1]),
           );
         },
       )

@@ -2,13 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/core/constants/route_constants.dart';
 import 'package:flutter_anime_app/features/anime/widgets/anime_list_screen_widgets/anime_list_tile_leading.dart';
 import 'package:flutter_anime_app/models/anime_list.dart';
+import 'package:flutter_anime_app/models/user_model.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
 import 'package:go_router/go_router.dart';
 
 class AnimeListTile extends StatelessWidget {
   final AnimeList animeList;
+  final UserModel userModel;
 
-  const AnimeListTile({super.key, required this.animeList});
+  const AnimeListTile({
+    super.key,
+    required this.animeList,
+    required this.userModel,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +26,7 @@ class AnimeListTile extends StatelessWidget {
         onTap: () {
           context.pushNamed(RouterConstants.animeListsScreenName, extra: [
             animeList,
+            userModel,
           ]);
         },
         borderRadius: BorderRadius.circular(10),

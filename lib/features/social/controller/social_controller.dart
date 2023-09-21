@@ -36,8 +36,8 @@ class SocialController extends StateNotifier {
     }
   }
 
-  Future<List<UserModel>> getUserList(String type) async {
-    final result = await _socialRepository.getUserList(type);
+  Future<List<UserModel>> getUserList(String uid, String type) async {
+    final result = await _socialRepository.getUserList(uid, type);
 
     return result;
   }

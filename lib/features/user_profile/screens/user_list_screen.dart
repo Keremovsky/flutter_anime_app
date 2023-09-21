@@ -6,9 +6,10 @@ import 'package:flutter_anime_app/models/user_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class UserListScreen extends ConsumerStatefulWidget {
+  final String uid;
   final String type;
 
-  const UserListScreen({super.key, required this.type});
+  const UserListScreen({super.key, required this.uid, required this.type});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _UserListScreenState();
@@ -20,7 +21,7 @@ class _UserListScreenState extends ConsumerState<UserListScreen> {
   Future<List<UserModel>> getUserList() async {
     final result = await ref
         .read(socialControllerProvider.notifier)
-        .getUserList(widget.type);
+        .getUserList(widget.uid, widget.type);
 
     return result;
   }

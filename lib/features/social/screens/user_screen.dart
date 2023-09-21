@@ -185,8 +185,10 @@ class _ProfileScreenState extends ConsumerState<UserScreen> {
                                         onTap: () {
                                           context.pushNamed(
                                             RouterConstants.userListScreenName,
-                                            extra:
-                                                FirebaseConstants.followingRef,
+                                            extra: [
+                                              userData.uid,
+                                              FirebaseConstants.followingRef,
+                                            ],
                                           );
                                         },
                                         child: RichText(
@@ -219,8 +221,10 @@ class _ProfileScreenState extends ConsumerState<UserScreen> {
                                         onTap: () {
                                           context.pushNamed(
                                             RouterConstants.userListScreenName,
-                                            extra:
-                                                FirebaseConstants.followedRef,
+                                            extra: [
+                                              userData.uid,
+                                              FirebaseConstants.followedRef,
+                                            ],
                                           );
                                         },
                                         child: RichText(
