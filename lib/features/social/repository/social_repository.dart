@@ -119,6 +119,18 @@ class SocialRepository {
     return result;
   }
 
+  Future<void> saveLastAction(String uid, String type, String content) async {
+    final now = DateTime.now();
+
+    final actionModel = ActionModel(
+      type: type,
+      content: content,
+      date: Timestamp.fromDate(now),
+    );
+
+    _saveLastAction(uid, now.toString(), actionModel);
+  }
+
   Stream<List<ActionModel>> getLastActionStream(String uid) {
     final result = _getLastActionStream(uid);
 
@@ -183,10 +195,20 @@ class SocialRepository {
     await _usersCollection.doc(uid).collection(type).doc(delete).delete();
   }
 
+  Future<void> _saveLastAction(
+      String uid, String now, ActionModel actionModel) async {
+    await _usersCollection
+        .doc(uid)
+        .collection(FirebaseConstants.lastActionsRef)
+        .doc(now)
+        .set(actionModel.toMap());
+  }
+
   Stream<List<ActionModel>> _getLastActionStream(String uid) {
     final result = _usersCollection
         .doc(uid)
         .collection(FirebaseConstants.lastActionsRef)
+        .orderBy("date", descending: true)
         .snapshots()
         .map((event) =>
             event.docs.map((doc) => ActionModel.fromMap(doc.data())).toList());

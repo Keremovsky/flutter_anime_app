@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_anime_app/core/constants/action_type_constants.dart';
 import 'package:flutter_anime_app/core/constants/constants.dart';
 import 'package:flutter_anime_app/core/constants/firebase_constants.dart';
 import 'package:flutter_anime_app/core/providers/firebase_providers.dart';
 import 'package:flutter_anime_app/core/utils.dart';
 import 'package:flutter_anime_app/features/auth/controller/auth_controller.dart';
+import 'package:flutter_anime_app/features/social/controller/social_controller.dart';
 import 'package:flutter_anime_app/models/anime.dart';
 import 'package:flutter_anime_app/models/anime_list.dart';
 import 'package:flutter_anime_app/models/anime_review.dart';
@@ -13,11 +15,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final animeRepositoryProvider = Provider((ref) => AnimeRepository(
       firestore: ref.read(firestoreProvider),
       ref: ref,
+      socialController: ref.read(socialControllerProvider.notifier),
     ));
 
 class AnimeRepository {
   final FirebaseFirestore _firestore;
   final Ref _ref;
+  final SocialController _socialController;
 
   DocumentSnapshot? lastDocument;
 
@@ -33,9 +37,10 @@ class AnimeRepository {
   CollectionReference get _seasonalAnimesCollection =>
       _firestore.collection(FirebaseConstants.seasonalAnimesRef);
 
-  AnimeRepository({required firestore, required ref})
+  AnimeRepository({required firestore, required ref, required socialController})
       : _firestore = firestore,
-        _ref = ref;
+        _ref = ref,
+        _socialController = socialController;
 
   Future<Anime> getAnime(String id) async {
     try {
@@ -112,11 +117,11 @@ class AnimeRepository {
   ) async {
     try {
       // get user uid
-      final userUid = _ref.read(userProvider)!.uid;
+      final userModel = _ref.read(userProvider)!;
 
       // collection reference to lists
       final animeListCollection = _usersCollection
-          .doc(userUid)
+          .doc(userModel.uid)
           .collection(FirebaseConstants.animeListRef);
 
       // get document of given list
@@ -171,6 +176,26 @@ class AnimeRepository {
             await _setAnime(anime.copyWith(favorites: anime.favorites + 1));
           }
 
+          if (listName == Constants.favoriteListName) {
+            await _socialController.saveLastAction(
+              userModel.uid,
+              ActionTypeConstants.likeAnime,
+              animeName,
+            );
+          } else if (listName == Constants.watchingListName) {
+            await _socialController.saveLastAction(
+              userModel.uid,
+              ActionTypeConstants.watchAnime,
+              animeName,
+            );
+          } else {
+            await _socialController.saveLastAction(
+              userModel.uid,
+              ActionTypeConstants.saveAnime,
+              animeName,
+            );
+          }
+
           return "add";
         }
       } else {
@@ -185,6 +210,26 @@ class AnimeRepository {
         );
 
         await _setAnimeList(listName, animeList, animeListCollection);
+
+        if (listName == Constants.favoriteListName) {
+          await _socialController.saveLastAction(
+            userModel.uid,
+            ActionTypeConstants.likeAnime,
+            animeName,
+          );
+        } else if (listName == Constants.watchingListName) {
+          await _socialController.saveLastAction(
+            userModel.uid,
+            ActionTypeConstants.watchAnime,
+            animeName,
+          );
+        } else {
+          await _socialController.saveLastAction(
+            userModel.uid,
+            ActionTypeConstants.saveAnime,
+            animeName,
+          );
+        }
 
         return "create";
       }
@@ -279,6 +324,13 @@ class AnimeRepository {
 
       await animeReviewCollection.doc(animeReview.id).set(animeReview.toMap());
       await userReviewCollection.doc(animeReview.id).set(animeReview.toMap());
+
+      await _socialController.saveLastAction(
+        userID,
+        ActionTypeConstants.animeReview,
+        anime.name,
+      );
+
       return "success";
     } catch (e) {
       return "error";

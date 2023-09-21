@@ -48,7 +48,10 @@ class _LastActionsTabViewState extends ConsumerState<LastActionsTabView> {
         return ListView.builder(
           itemCount: data.length,
           itemBuilder: (context, index) {
-            return LastActionBox(actionModel: data[index]);
+            return LastActionBox(
+              actionModel: data[index],
+              userModel: widget.userModel,
+            );
           },
         );
       },
