@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_anime_app/features/home/home_screen/widgets/anime_list_view.dart';
+import 'package:flutter_anime_app/features/home/home_screen/widgets/anime_box_list_view.dart';
 import 'package:flutter_anime_app/models/pre_anime.dart';
 
 class HomeScreen extends StatefulWidget {

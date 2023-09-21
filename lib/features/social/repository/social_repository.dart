@@ -119,12 +119,18 @@ class SocialRepository {
     return result;
   }
 
-  Future<void> saveLastAction(String uid, String type, String content) async {
+  Future<void> saveLastAction(
+    String uid,
+    String type,
+    String content,
+    String animeID,
+  ) async {
     final now = DateTime.now();
 
     final actionModel = ActionModel(
       type: type,
       content: content,
+      animeID: animeID,
       date: Timestamp.fromDate(now),
     );
 

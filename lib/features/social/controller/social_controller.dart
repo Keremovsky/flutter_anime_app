@@ -42,8 +42,9 @@ class SocialController extends StateNotifier {
     return result;
   }
 
-  Future<void> saveLastAction(String uid, String type, String content) async {
-    await _socialRepository.saveLastAction(uid, type, content);
+  Future<void> saveLastAction(
+      String uid, String type, String content, String animeID) async {
+    await _socialRepository.saveLastAction(uid, type, content, animeID);
   }
 
   Stream<List<ActionModel>> getLastActionStream(String uid) {

@@ -49,12 +49,9 @@ class AppRouter {
         name: RouterConstants.animeScreenName,
         path: "${RouterConstants.animeScreenPath}/:id",
         pageBuilder: (context, state) {
-          final name = state.extra as String;
-
           return MaterialPage(
             child: AnimeScreen(
               id: state.pathParameters["id"]!,
-              name: name,
             ),
           );
         },

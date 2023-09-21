@@ -14,9 +14,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AnimeScreen extends ConsumerStatefulWidget {
   final String id;
-  final String name;
 
-  const AnimeScreen({super.key, required this.id, required this.name});
+  const AnimeScreen({super.key, required this.id});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _AnimeScreenState();

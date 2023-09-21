@@ -18,7 +18,6 @@ class AnimeTile extends StatelessWidget {
           context.pushNamed(
             RouterConstants.animeScreenName,
             pathParameters: {"id": anime.id},
-            extra: anime.name,
           );
         },
         splashColor: Colors.transparent,

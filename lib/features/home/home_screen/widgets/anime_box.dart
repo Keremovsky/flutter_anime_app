@@ -19,7 +19,6 @@ class AnimeBox extends ConsumerWidget {
           context.pushNamed(
             RouterConstants.animeScreenName,
             pathParameters: {"id": anime.id},
-            extra: anime.name,
           );
         },
         child: Column(

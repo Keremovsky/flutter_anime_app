@@ -181,18 +181,21 @@ class AnimeRepository {
               userModel.uid,
               ActionTypeConstants.likeAnime,
               animeName,
+              id,
             );
           } else if (listName == Constants.watchingListName) {
             await _socialController.saveLastAction(
               userModel.uid,
               ActionTypeConstants.watchAnime,
               animeName,
+              id,
             );
           } else {
             await _socialController.saveLastAction(
               userModel.uid,
               ActionTypeConstants.saveAnime,
               animeName,
+              id,
             );
           }
 
@@ -216,18 +219,21 @@ class AnimeRepository {
             userModel.uid,
             ActionTypeConstants.likeAnime,
             animeName,
+            id,
           );
         } else if (listName == Constants.watchingListName) {
           await _socialController.saveLastAction(
             userModel.uid,
             ActionTypeConstants.watchAnime,
             animeName,
+            id,
           );
         } else {
           await _socialController.saveLastAction(
             userModel.uid,
             ActionTypeConstants.saveAnime,
             animeName,
+            id,
           );
         }
 
@@ -329,6 +335,7 @@ class AnimeRepository {
         userID,
         ActionTypeConstants.animeReview,
         anime.name,
+        anime.id,
       );
 
       return "success";
