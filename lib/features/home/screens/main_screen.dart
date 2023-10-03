@@ -89,6 +89,7 @@ class _MainScreenState extends State<MainScreen> {
           color: Palette.white,
         ),
       ),
+      resizeToAvoidBottomInset: false,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(

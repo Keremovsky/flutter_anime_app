@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/core/constants/constants.dart';
-import 'package:flutter_anime_app/core/utils/icon_label_button.dart';
 import 'package:flutter_anime_app/features/home/search_screen/widgets/genre_box.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -13,6 +12,28 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen>
     with AutomaticKeepAliveClientMixin<SearchScreen> {
   ValueNotifier<bool> searchState = ValueNotifier<bool>(false);
+
+  FocusNode focusNode = FocusNode();
+  TextEditingController textController = TextEditingController();
+
+  void textFieldListener() {
+    if (textController.value.text.isNotEmpty) {
+    } else {
+      searchState.value = !searchState.value;
+    }
+  }
+
+  @override
+  void initState() {
+    focusNode.addListener(textFieldListener);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    focusNode.dispose();
+  }
 
   @override
   bool get wantKeepAlive => true;
@@ -28,14 +49,14 @@ class _SearchScreenState extends State<SearchScreen>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              IconLabelButton(
-                onTap: () {
-                  searchState.value = !searchState.value;
-                },
-                icon: const Icon(Icons.change_circle),
-                label: Text(
-                  "Change",
-                  style: Theme.of(context).textTheme.displayLarge,
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: SizedBox(
+                  height: 50,
+                  child: TextField(
+                    focusNode: focusNode,
+                    controller: textController,
+                  ),
                 ),
               ),
               ValueListenableBuilder(
