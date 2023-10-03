@@ -16,4 +16,23 @@ class Constants {
   // constant list names
   static const favoriteListName = "Favorites";
   static const watchingListName = "Watching";
+
+  // genres
+  static const List<String> genres = [
+    "Action",
+    "Adventure",
+    "Avant Garde",
+    "Award Winning",
+    "Comedy",
+    "Drama",
+    "Ecchi",
+    "Fantasy",
+    "Horror",
+    "Mystery",
+    "Romance",
+    "Sci-fi",
+    "Sports",
+    "Supernatural",
+    "Suspense",
+  ];
 }
