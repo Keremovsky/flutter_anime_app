@@ -5,6 +5,7 @@ import 'package:flutter_anime_app/features/anime/screens/anime_list_screen.dart'
 import 'package:flutter_anime_app/features/auth/screens/auth_screen.dart';
 import 'package:flutter_anime_app/features/home/screens/main_screen.dart';
 import 'package:flutter_anime_app/features/auth/screens/splash_screen.dart';
+import 'package:flutter_anime_app/features/home/search_screen/widgets/genre_list_screen.dart';
 import 'package:flutter_anime_app/features/social/screens/user_screen.dart';
 import 'package:flutter_anime_app/features/user_profile/screens/edit_user_screen.dart';
 import 'package:flutter_anime_app/features/user_profile/screens/user_list_screen.dart';
@@ -102,6 +103,15 @@ class AppRouter {
           final args = state.extra as List<String>;
           return MaterialPage(
             child: UserListScreen(uid: args[0], type: args[1]),
+          );
+        },
+      ),
+      GoRoute(
+        name: RouterConstants.genreListScreenName,
+        path: "${RouterConstants.genreListScreenPath}/:genre",
+        pageBuilder: (context, state) {
+          return MaterialPage(
+            child: GenreListScreen(genre: state.pathParameters["genre"]!),
           );
         },
       )

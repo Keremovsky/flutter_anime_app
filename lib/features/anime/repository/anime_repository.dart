@@ -37,6 +37,9 @@ class AnimeRepository {
   CollectionReference get _seasonalAnimesCollection =>
       _firestore.collection(FirebaseConstants.seasonalAnimesRef);
 
+  CollectionReference get _genreCollection =>
+      _firestore.collection(FirebaseConstants.genresRef);
+
   AnimeRepository({required firestore, required ref, required socialController})
       : _firestore = firestore,
         _ref = ref,
@@ -344,6 +347,18 @@ class AnimeRepository {
     }
   }
 
+  Future<List<PreAnime>> getGenreAnimes(String genre) async {
+    final animeIDs = await _getGenreAnimeIDs(genre);
+
+    List<PreAnime> animes = [];
+    for (final animeID in animeIDs) {
+      final anime = await _getPreAnimeByID(animeID);
+      animes.add(anime);
+    }
+
+    return animes;
+  }
+
   // -------------------------------------------------------------------------------------------------------
 
   Future<Anime> _getAnimeByID(String id) async {
@@ -452,12 +467,12 @@ class AnimeRepository {
 
     lastDocument = reviewSnapshot.docs.last;
 
-    List<AnimeReview> result = __getAnimeReviewList(reviewSnapshot);
+    List<AnimeReview> result = _getAnimeReviewList(reviewSnapshot);
 
     return result;
   }
 
-  List<AnimeReview> __getAnimeReviewList(QuerySnapshot<Object?> event) {
+  List<AnimeReview> _getAnimeReviewList(QuerySnapshot<Object?> event) {
     List<AnimeReview> animeReviewList = [];
 
     for (final doc in event.docs) {
@@ -467,5 +482,15 @@ class AnimeRepository {
     }
 
     return animeReviewList;
+  }
+
+  Future<List<String>> _getGenreAnimeIDs(String genre) async {
+    final animes = await _genreCollection
+        .doc(genre)
+        .snapshots()
+        .map((event) => event.data() as Map<String, dynamic>)
+        .first;
+
+    return animes.values.toList().cast<String>();
   }
 }

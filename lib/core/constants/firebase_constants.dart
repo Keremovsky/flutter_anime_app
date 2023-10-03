@@ -9,6 +9,7 @@ class FirebaseConstants {
   static const followingRef = "following";
   static const followedRef = "followed";
   static const lastActionsRef = "last_actions";
+  static const genresRef = "genres";
 
   static const defaultPath = "users/default/";
 }

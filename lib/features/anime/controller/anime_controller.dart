@@ -193,4 +193,10 @@ class AnimeController extends StateNotifier {
       }
     }
   }
+
+  Future<List<PreAnime>> getGenreAnimes(String genre) async {
+    final result = await _animeRepository.getGenreAnimes(genre);
+
+    return result;
+  }
 }

@@ -22,4 +22,7 @@ class RouterConstants {
 
   static const userListScreenPath = "/userListScreen";
   static const userListScreenName = "userListScreen";
+
+  static const genreListScreenPath = "/genreListScreen";
+  static const genreListScreenName = "genreListScreen";
 }

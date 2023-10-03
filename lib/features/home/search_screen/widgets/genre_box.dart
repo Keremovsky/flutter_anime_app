@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_anime_app/core/constants/route_constants.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
+import 'package:go_router/go_router.dart';
 
 class GenreBox extends StatelessWidget {
   final String genre;
@@ -14,7 +16,14 @@ class GenreBox extends StatelessWidget {
         color: Palette.boxColor,
         borderRadius: BorderRadius.circular(10),
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            context.pushNamed(
+              RouterConstants.genreListScreenName,
+              pathParameters: {
+                "genre": genre,
+              },
+            );
+          },
           borderRadius: BorderRadius.circular(10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
