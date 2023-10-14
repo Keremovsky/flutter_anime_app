@@ -224,6 +224,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               labelStyle: Theme.of(context).textTheme.displayLarge,
               indicatorColor: Palette.mainColor,
               dividerColor: Colors.transparent,
+              splashFactory: NoSplash.splashFactory,
               tabs: const [
                 Padding(
                   padding: EdgeInsets.only(bottom: 5),
