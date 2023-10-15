@@ -199,4 +199,10 @@ class AnimeController extends StateNotifier {
 
     return result;
   }
+
+  Future<List<PreAnime>> searchAnime(String searchText) async {
+    final result = _animeRepository.searchAnime(searchText);
+
+    return result;
+  }
 }

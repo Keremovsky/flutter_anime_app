@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/core/constants/action_type_constants.dart';
 import 'package:flutter_anime_app/core/constants/constants.dart';
 import 'package:flutter_anime_app/core/constants/firebase_constants.dart';
@@ -357,6 +358,35 @@ class AnimeRepository {
     }
 
     return animes;
+  }
+
+  Future<List<PreAnime>> searchAnime(String searchText) async {
+    try {
+      final text = searchText[0].toUpperCase() + searchText.substring(1);
+
+      final animeList = await _animesCollection
+          .orderBy("name", descending: false)
+          .startAt([text])
+          .endAt(['$text\uf8ff'])
+          .get()
+          .then((value) {
+            List<PreAnime> animeList = [];
+            for (int i = 0; i < value.docs.length; i++) {
+              final PreAnime preAnime = PreAnime.fromMap(
+                value.docs[i].data() as Map<String, dynamic>,
+              );
+
+              animeList.add(preAnime);
+            }
+
+            return animeList;
+          });
+
+      return animeList;
+    } catch (e) {
+      debugPrint(e.toString());
+      return [];
+    }
   }
 
   // -------------------------------------------------------------------------------------------------------
