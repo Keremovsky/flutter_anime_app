@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/core/constants/constants.dart';
 import 'package:flutter_anime_app/features/home/search_screen/widgets/genre_box.dart';
@@ -29,12 +31,26 @@ class _SearchScreenState extends State<SearchScreen>
     }
   }
 
+  Map<String, Timer> _timeouts = {};
+  void debounce(
+      Duration timeout, Function func, List<String> input, String key) {
+    if (_timeouts.containsKey(key)) {
+      _timeouts[key]!.cancel();
+    }
+
+    Timer timer = Timer(timeout, () {
+      Function.apply(func, input);
+    });
+
+    _timeouts[key] = timer;
+  }
+
   @override
   void initState() {
     textController = TextEditingController();
     tabController = TabController(length: 2, vsync: this);
-
     focusNode.addListener(textFieldListener);
+
     super.initState();
   }
 
@@ -69,11 +85,16 @@ class _SearchScreenState extends State<SearchScreen>
                     focusNode: focusNode,
                     controller: textController,
                     style: Theme.of(context).textTheme.displayLarge,
-                    onChanged: (value) {
-                      setState(() {
-                        searchText = value;
-                      });
-                    },
+                    onChanged: (value) => debounce(
+                      const Duration(milliseconds: 400),
+                      (value) {
+                        setState(() {
+                          searchText = value;
+                        });
+                      },
+                      [value],
+                      "search",
+                    ),
                   ),
                 ),
               ),
