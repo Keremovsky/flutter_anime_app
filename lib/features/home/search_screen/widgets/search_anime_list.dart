@@ -32,9 +32,15 @@ class SearchAnimeListState extends ConsumerState<SearchAnimeList> {
   }
 
   @override
+  void didUpdateWidget(covariant SearchAnimeList oldWidget) {
+    preAnimes = searchAnime(widget.searchText);
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return widget.searchText == ""
-        ? SizedBox()
+        ? const SizedBox()
         : FutureBuilder(
             future: preAnimes,
             builder: (context, snapshot) {
