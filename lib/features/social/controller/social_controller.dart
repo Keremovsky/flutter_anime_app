@@ -52,4 +52,10 @@ class SocialController extends StateNotifier {
 
     return result;
   }
+
+  Future<List<UserModel>> searchUser(String searchText) async {
+    final result = await _socialRepository.searchUser(searchText);
+
+    return result;
+  }
 }

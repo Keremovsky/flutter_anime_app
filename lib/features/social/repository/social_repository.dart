@@ -141,6 +141,32 @@ class SocialRepository {
     return result;
   }
 
+  Future<List<UserModel>> searchUser(String searchText) async {
+    try {
+      final userList = await _usersCollection
+          .orderBy("username", descending: false)
+          .startAt([searchText])
+          .endAt([searchText + '\uf8ff'])
+          .get()
+          .then((value) {
+            List<UserModel> userList = [];
+            for (int i = 0; i < value.docs.length; i++) {
+              final UserModel user = UserModel.fromMap(
+                value.docs[i].data() as Map<String, dynamic>,
+              );
+
+              userList.add(user);
+            }
+
+            return userList;
+          });
+
+      return userList;
+    } catch (e) {
+      return [];
+    }
+  }
+
   // -------------------------------------------------------------------------------------------------------
 
   // get user model form database

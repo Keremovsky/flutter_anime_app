@@ -86,7 +86,7 @@ class _SearchScreenState extends State<SearchScreen>
                     controller: textController,
                     style: Theme.of(context).textTheme.displayLarge,
                     onChanged: (value) => debounce(
-                      const Duration(milliseconds: 400),
+                      const Duration(milliseconds: 300),
                       (value) {
                         setState(() {
                           searchText = value;
