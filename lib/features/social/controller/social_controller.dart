@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_anime_app/core/utils.dart';
 import 'package:flutter_anime_app/features/social/repository/social_repository.dart';
 import 'package:flutter_anime_app/models/action_model.dart';
 import 'package:flutter_anime_app/models/user_model.dart';
@@ -57,5 +58,27 @@ class SocialController extends StateNotifier {
     final result = await _socialRepository.searchUser(searchText);
 
     return result;
+  }
+
+  Future<void> createPost(
+      BuildContext context, String postContent, String postImagePath) async {
+    final control =
+        await _socialRepository.createPost(postContent, postImagePath);
+
+    if (mounted) {
+      if (control) {
+        giveFeedback(
+          context,
+          "Post created.",
+          const Duration(seconds: 1),
+        );
+      } else {
+        giveFeedback(
+          context,
+          "Unknown error occurred while creating post.",
+          const Duration(seconds: 1),
+        );
+      }
+    }
   }
 }

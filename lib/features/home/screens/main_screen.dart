@@ -2,23 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/features/home/anime_saved_list_screen/anime_saved_lists_screen.dart';
 import 'package:flutter_anime_app/features/home/home_screen/home_screen.dart';
 import 'package:flutter_anime_app/features/home/widgets/home_drawer.dart';
+import 'package:flutter_anime_app/features/social/controller/social_controller.dart';
 import 'package:flutter_anime_app/features/user_profile/screens/profile_screen.dart';
 import 'package:flutter_anime_app/features/home/search_screen/search_screen.dart';
 import 'package:flutter_anime_app/features/home/widgets/navigation_button.dart';
 import 'package:flutter_anime_app/models/pre_anime.dart';
 import 'package:flutter_anime_app/themes/palette.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MainScreen extends StatefulWidget {
+class MainScreen extends ConsumerStatefulWidget {
   final List<PreAnime> popular;
   final List<PreAnime> seasonal;
 
   const MainScreen({super.key, required this.popular, required this.seasonal});
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  ConsumerState<MainScreen> createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _MainScreenState extends ConsumerState<MainScreen> {
   // scaffold key to open drawer
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -81,7 +83,26 @@ class _MainScreenState extends State<MainScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            builder: (context) {
+              return SizedBox(
+                height: 200,
+                child: ElevatedButton(
+                  onPressed: () {
+                    ref.read(socialControllerProvider.notifier).createPost(
+                          context,
+                          "Test Post",
+                          "",
+                        );
+                  },
+                  child: const Text("Add Post"),
+                ),
+              );
+            },
+          );
+        },
         shape: const CircleBorder(),
         child: const Icon(
           Icons.add,

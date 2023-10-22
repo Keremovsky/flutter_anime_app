@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_anime_app/core/constants/firebase_constants.dart';
 import 'package:flutter_anime_app/core/providers/firebase_providers.dart';
 import 'package:flutter_anime_app/features/auth/controller/auth_controller.dart';
 import 'package:flutter_anime_app/models/action_model.dart';
+import 'package:flutter_anime_app/models/post_model.dart';
 import 'package:flutter_anime_app/models/user_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -164,6 +166,37 @@ class SocialRepository {
       return userList;
     } catch (e) {
       return [];
+    }
+  }
+
+  Future<bool> createPost(String postContent, String postImagePath) async {
+    try {
+      final currentUser = _ref.read(userProvider)!;
+
+      final now = DateTime.now();
+      final postId = currentUser.uid + now.toString();
+
+      final PostModel postModel = PostModel(
+        postId: postId,
+        postContent: postContent,
+        postImage: postImagePath,
+        postOwnerUid: currentUser.uid,
+        postTime: Timestamp.fromDate(now),
+        postLikeCount: 0,
+        postCommentCount: 0,
+        postLikeList: [],
+      );
+
+      await _usersCollection
+          .doc(currentUser.uid)
+          .collection("posts")
+          .doc(postId)
+          .set(postModel.toMap());
+
+      return true;
+    } catch (e) {
+      debugPrint(e.toString());
+      return false;
     }
   }
 
