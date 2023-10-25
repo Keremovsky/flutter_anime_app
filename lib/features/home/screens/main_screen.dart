@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/features/home/anime_saved_list_screen/anime_saved_lists_screen.dart';
 import 'package:flutter_anime_app/features/home/home_screen/home_screen.dart';
+import 'package:flutter_anime_app/features/home/widgets/create_post_bottom_sheet.dart';
 import 'package:flutter_anime_app/features/home/widgets/home_drawer.dart';
-import 'package:flutter_anime_app/features/social/controller/social_controller.dart';
 import 'package:flutter_anime_app/features/user_profile/screens/profile_screen.dart';
 import 'package:flutter_anime_app/features/home/search_screen/search_screen.dart';
 import 'package:flutter_anime_app/features/home/widgets/navigation_button.dart';
@@ -86,20 +86,9 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         onPressed: () {
           showModalBottomSheet(
             context: context,
+            isScrollControlled: true,
             builder: (context) {
-              return SizedBox(
-                height: 200,
-                child: ElevatedButton(
-                  onPressed: () {
-                    ref.read(socialControllerProvider.notifier).createPost(
-                          context,
-                          "Test Post",
-                          "",
-                        );
-                  },
-                  child: const Text("Add Post"),
-                ),
-              );
+              return const CreatePostBottomSheet();
             },
           );
         },
