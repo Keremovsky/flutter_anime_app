@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_anime_app/core/constants/firebase_constants.dart';
 import 'package:flutter_anime_app/core/providers/firebase_providers.dart';
+import 'package:flutter_anime_app/core/providers/storage_provider.dart';
 import 'package:flutter_anime_app/features/auth/controller/auth_controller.dart';
 import 'package:flutter_anime_app/models/action_model.dart';
 import 'package:flutter_anime_app/models/post_model.dart';
@@ -11,18 +14,21 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final socialRepositoryProvider = Provider((ref) => SocialRepository(
       firestore: ref.read(firestoreProvider),
       ref: ref,
+      storage: ref.read(storageProvider),
     ));
 
 class SocialRepository {
   final FirebaseFirestore _firestore;
   final Ref _ref;
+  final Storage _storage;
 
   CollectionReference get _usersCollection =>
       _firestore.collection(FirebaseConstants.usersRef);
 
-  SocialRepository({required firestore, required ref})
+  SocialRepository({required firestore, required ref, required storage})
       : _firestore = firestore,
-        _ref = ref;
+        _ref = ref,
+        _storage = storage;
 
   Future<UserModel> getUserData(String uid) async {
     final userModel = await _getUserModel(uid);
@@ -175,6 +181,13 @@ class SocialRepository {
 
       final now = DateTime.now();
       final postId = currentUser.uid + now.toString();
+
+      // upload image to firebase storage
+      if (postImagePath != "") {
+        final path = "users/${currentUser.uid}/posts/";
+        await _storage.storeFile(path, postId, File(postImagePath));
+        postImagePath = await _storage.getFileURL(path, postId);
+      }
 
       final PostModel postModel = PostModel(
         postId: postId,

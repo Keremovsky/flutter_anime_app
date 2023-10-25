@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_anime_app/core/utils.dart';
 import 'package:flutter_anime_app/features/social/controller/social_controller.dart';
@@ -14,6 +15,20 @@ class CreatePostBottomSheet extends ConsumerStatefulWidget {
 
 class _CreatePostBottomSheetState extends ConsumerState<CreatePostBottomSheet> {
   String content = "";
+  String imageFilePath = "";
+
+  Future<String> getFilePath() async {
+    final filePicker = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'png', "jpeg"],
+    );
+
+    if (filePicker != null) {
+      return filePicker.files.single.path ?? "";
+    }
+
+    return "";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +66,12 @@ class _CreatePostBottomSheetState extends ConsumerState<CreatePostBottomSheet> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 ElevatedButton.icon(
-                  onPressed: () {},
+                  onPressed: () async {
+                    final imagePath = await getFilePath();
+                    setState(() {
+                      imageFilePath = imagePath;
+                    });
+                  },
                   icon: const Icon(
                     Icons.file_upload,
                     color: Palette.white,
@@ -77,7 +97,7 @@ class _CreatePostBottomSheetState extends ConsumerState<CreatePostBottomSheet> {
                         .createPost(
                           context,
                           content,
-                          "",
+                          imageFilePath,
                         );
 
                     if (mounted) {
